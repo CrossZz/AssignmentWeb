@@ -247,8 +247,70 @@ function BrandList() {
   };
 }
 
+function ImageList() {
+  this.imageArray = [];
+
+  this.addImage = function (p) {
+    this.imageArray.push(p);
+  };
+
+  this.searchIndex = function (ma) {
+    var imageIndex = -1;
+    this.imageArray.map(function (item, index) {
+      if (item.iId == ma) {
+        imageIndex = index;
+      }
+    });
+
+    return imageIndex;
+  };
+
+  this.deleteImage = function (ma) {
+    var imageIndex = this.searchIndex(ma);
+    console.log(imageIndex);
+    if (imageIndex != -1) {
+      this.imageArray.splice(imageIndex, 1);
+    }
+  };
+
+  this.getDetail = function (ma) {
+    var imageIndex = this.searchIndex(ma);
+    var image = "";
+    if (imageIndex != -1) {
+      image = dsa.imageArray[imageIndex];
+    }
+
+    return image;
+  };
+
+  this.editImage = function (n) {
+    var imageIndex = this.searchIndex(n.iId);
+    if (imageIndex != -1) {
+      dsa.imageArray[imageIndex] = n;
+    }
+  };
+
+  this.searchImage = function (chuoiTK) {
+    var mangTimKiem = [];
+
+    this.imageArray.map(function (item) {
+      var tenThuong = item.iName.toLowerCase();
+      var chuoiTKThuong = chuoiTK.trim().toLowerCase();
+      // Nguyen Van (tên)=> nguyen van
+      // NGUYEN  (chuỗi tìm) => nguyen
+      //indexOf: nếu tìm thấy ký tự chữ trùng với tên nguoi dung thi trả về vị trí chữ tìm thấy
+      if (tenThuong.indexOf(chuoiTKThuong) > -1) {
+        //Tìm thấy
+        mangTimKiem.push(item);
+      }
+    });
+
+    return mangTimKiem;
+  };
+}
+
 //prototype
-// tim kiem nguoi dung
+// Các hàm dùng để tìm kiếm
 UserList.prototype.searchUser = function (chuoiTK) {
   var mangTimKiem = [];
 

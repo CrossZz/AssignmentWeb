@@ -62,3 +62,9 @@ function Brand(_bId, _bName, _bContent, _bImage) {
   this.bContent = _bContent;
   this.bImage = _bImage;
 }
+
+function Images(_iId, _iName, _iImage) {
+  this.iId = _iId;
+  this.iName = _iName;
+  this.iImage = _iImage;
+}
