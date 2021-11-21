@@ -68,3 +68,11 @@ function Images(_iId, _iName, _iImage) {
   this.iName = _iName;
   this.iImage = _iImage;
 }
+
+function Service(_sId, _sName, _sDescription, _sContent, _sImage) {
+  this.sId = _sId;
+  this.sName = _sName;
+  this.sDescription = _sDescription;
+  this.sContent = _sContent;
+  this.sImage = _sImage;
+}

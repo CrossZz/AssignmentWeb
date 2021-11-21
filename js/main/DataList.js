@@ -309,6 +309,68 @@ function ImageList() {
   };
 }
 
+function ServiceList() {
+  this.serviceArray = [];
+
+  this.addService = function (p) {
+    this.serviceArray.push(p);
+  };
+
+  this.searchIndex = function (ma) {
+    var serviceIndex = -1;
+    this.serviceArray.map(function (item, index) {
+      if (item.sId == ma) {
+        serviceIndex = index;
+      }
+    });
+
+    return serviceIndex;
+  };
+
+  this.deleteService = function (ma) {
+    var serviceIndex = this.searchIndex(ma);
+    console.log(serviceIndex);
+    if (serviceIndex != -1) {
+      this.serviceArray.splice(serviceIndex, 1);
+    }
+  };
+
+  this.getDetail = function (ma) {
+    var serviceIndex = this.searchIndex(ma);
+    var service = "";
+    if (serviceIndex != -1) {
+      service = dsdv.serviceArray[serviceIndex];
+    }
+
+    return service;
+  };
+
+  this.editService = function (n) {
+    var serviceIndex = this.searchIndex(n.sId);
+    if (serviceIndex != -1) {
+      dsdv.serviceArray[serviceIndex] = n;
+    }
+  };
+
+  this.searchService = function (chuoiTK) {
+    var mangTimKiem = [];
+
+    this.serviceArray.map(function (item) {
+      var tenThuong = item.sName.toLowerCase();
+      var chuoiTKThuong = chuoiTK.trim().toLowerCase();
+      // Nguyen Van (tên)=> nguyen van
+      // NGUYEN  (chuỗi tìm) => nguyen
+      //indexOf: nếu tìm thấy ký tự chữ trùng với tên nguoi dung thi trả về vị trí chữ tìm thấy
+      if (tenThuong.indexOf(chuoiTKThuong) > -1) {
+        //Tìm thấy
+        mangTimKiem.push(item);
+      }
+    });
+
+    return mangTimKiem;
+  };
+}
+
 //prototype
 // Các hàm dùng để tìm kiếm
 UserList.prototype.searchUser = function (chuoiTK) {
