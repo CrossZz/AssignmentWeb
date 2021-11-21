@@ -30,6 +30,12 @@ getELE("btnThem").addEventListener("click", function () {
 //Khi gán hàm cho onclick không để dấu tròn (), để tránh hàm chạy khi trang vừa load
 getELE("btnThemND").onclick = themNhanVien;
 
+function type(obj) {
+  var text = Function.prototype.toString.call(obj.constructor);
+
+  return text.match(/function (.*)\(/)[1];
+}
+
 //Hàm lấy thông tin nhân viên, thêm nhân viên
 //Khai báo hàm
 function themNhanVien() {
@@ -93,7 +99,7 @@ function themNhanVien() {
     validation.kiemTraRong(
       _userPassword,
       "tbUserPassword",
-      "Mật khẩu không để trống"
+      "Mật khẩu không được để trống"
     ) &&
     validation.kiemTraDoDai(
       _userPassword,
@@ -102,6 +108,20 @@ function themNhanVien() {
       6,
       8
     );
+
+  //Kiểm tra điện thoại
+  isValid &= validation.kiemTraRong(
+    _userPhone,
+    "tbUserPhone",
+    "Điện thoại không được để trống"
+  );
+
+  //Kiểm tra địa chỉ
+  isValid &= validation.kiemTraRong(
+    _userAddress,
+    "tbUserAddress",
+    "Địa chỉ không được để trống"
+  );
 
   //Kiểm tra ngày làm
   // isValid &= validation.kiemTraRong(
@@ -154,16 +174,16 @@ function taoBang(mang) {
     // content = `tr mới` + content(chứa các tr trước đó)
     content += `
             <tr>
-                <td>${item.userId}</td>
+                <td>${item.Id}</td>
                 <td>${item.userName}</td>
                 <td>${item.userEmail}</td>
                 <td>${item.userPhone}</td>
                 <td>${item.userAddress}</td>
                 <td>${item.userRole}</td>
                 <td>
-                    <button class="btn btn-danger" onclick="xoaNguoiDung('${item.userId}')" >Xóa</button>
+                    <button class="btn btn-danger" onclick="xoaNguoiDung('${item.Id}')" >Xóa</button>
                     <button data-toggle="modal"
-                    data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet('${item.userId}')" >Sửa</button>
+                    data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet('${item.Id}')" >Sửa</button>
                 </td>
             </tr>
         `;
@@ -188,7 +208,7 @@ function hienThiChiTiet(ma) {
   getELE("btnCapNhat").style.display = "block";
 
   //Điền thông tin nhân viên lên form
-  getELE("userId").value = nd.userId;
+  getELE("userId").value = nd.Id;
   getELE("userId").disabled = "true";
 
   getELE("userName").value = nd.userName;

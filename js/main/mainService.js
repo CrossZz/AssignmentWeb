@@ -34,7 +34,7 @@ function themDichVu() {
 
   console.log(_sId, _sName, _sDescription, _sContent, _sImage);
 
-  // var isValid = true;
+  var isValid = true;
 
   //& : cộng chuỗi bit
   // true: 1
@@ -43,73 +43,49 @@ function themDichVu() {
   // 1 & 1 => 1 (true)
   //kiểm tra mã số (mã không được để trống, mã không được trùng)
   // isValid(mới) = isValid(cũ) & validation.kiemTraRong(_userId,"tbUserId","Mã dịch vụ không được để trống");
-  // isValid &=
-  //   validation.kiemTraRong(_userId, "tbUserId", "Mã số không được để trống") &&
-  //   validation.kiemTraMaTrung(
-  //     dsnd.userArray,
-  //     _userId,
-  //     "tbUserId",
-  //     "Mã số bị trùng"
-  //   );
+  isValid &=
+    validation.kiemTraRong(_sId, "tbServiceId", "Mã số không được để trống") &&
+    validation.kiemTraMaTrung(
+      dsdv.serviceArray,
+      _sId,
+      "tbServiceId",
+      "Mã số bị trùng"
+    );
 
   //kiểm tra tên dịch vụ
-  // isValid &=
-  //   validation.kiemTraRong(
-  //     _userName,
-  //     "tbUserName",
-  //     "Tên không được để trống"
-  //   ) &&
-  //   validation.kiemTraTen(_userName, "tbUserName", "Tên phải là ký tự chữ");
+  isValid &=
+    validation.kiemTraRong(
+      _sName,
+      "tbServiceName",
+      "Tên không được để trống"
+    ) &&
+    validation.kiemTraTen(_sName, "tbServiceName", "Tên phải là ký tự chữ");
 
-  //Kiểm tra email
-  // isValid &=
-  //   validation.kiemTraRong(_userEmail, "tbUserEmail", "Email không để trống") &&
-  //   validation.kiemTraEmail(
-  //     _userEmail,
-  //     "tbUserEmail",
-  //     "Email không đúng format"
-  //   );
+  //kiểm tra mô tả
+  isValid &= validation.kiemTraRong(
+    _sDescription,
+    "tbServiceDescription",
+    "Mô tả không được để trống"
+  );
 
-  //Kiểm tra password
-  // isValid &=
-  //   validation.kiemTraRong(
-  //     _userPassword,
-  //     "tnUserPassword",
-  //     "Mật khẩu không để trống"
-  //   ) &&
-  //   validation.kiemTraDoDai(
-  //     _userPassword,
-  //     "tnUserPassword",
-  //     "Mật khẩu có độ dài từ 6 - 8",
-  //     6,
-  //     8
-  //   );
-
-  //Kiểm tra ngày làm
-  // isValid &= validation.kiemTraRong(
-  //   _userAddress,
-  //   "tbNgay",
-  //   "Ngày làm không được để trống"
-  // );
-
-  //Kiểm tra chức vụ
-  // isValid &= validation.kiemTraChucVu(
-  //   "chucvu",
-  //   "tbChucVu",
-  //   "Chức vụ phải được chọn"
-  // );
+  //kiểm tra nội dung
+  isValid &= validation.kiemTraRong(
+    _sContent,
+    "tbServiceContent",
+    "Nội dung không được để trống"
+  );
 
   // isValid == true
-  // if (isValid) {
-  //Tạo instance(thể hiện)
-  var dv = new Service(_sId, _sName, _sDescription, _sContent, _sImage);
-  console.log(dv);
-  dsdv.addService(dv);
-  console.log(dsdv.serviceArray);
-  //Gọi hàm
-  taoBang(dsdv.serviceArray);
-  setLocalStorage();
-  // }
+  if (isValid) {
+    //Tạo instance(thể hiện)
+    var dv = new Service(_sId, _sName, _sDescription, _sContent, _sImage);
+    console.log(dv);
+    dsdv.addService(dv);
+    console.log(dsdv.serviceArray);
+    //Gọi hàm
+    taoBang(dsdv.serviceArray);
+    setLocalStorage();
+  }
 }
 
 //Khai báo hàm
@@ -128,15 +104,15 @@ function taoBang(mang) {
     // content = `tr mới` + content(chứa các tr trước đó)
     content += `
             <tr>
-                <td>${item.sId}</td>
+                <td>${item.Id}</td>
                 <td>${item.sName}</td>
                 <td>${item.sDescription}</td>
                 <td>${item.sContent}</td>
                 <td>${item.sImage}</td>
                 <td>
-                    <button class="btn btn-danger" onclick="xoaDichVu('${item.sId}')" >Xóa</button>
+                    <button class="btn btn-danger" onclick="xoaDichVu('${item.Id}')" >Xóa</button>
                     <button data-toggle="modal"
-                    data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet('${item.sId}')" >Sửa</button>
+                    data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet('${item.Id}')" >Sửa</button>
                 </td>
             </tr>
         `;
@@ -161,7 +137,7 @@ function hienThiChiTiet(ma) {
   getELE("btnCapNhat").style.display = "block";
 
   //Điền thông tin tin tuc lên form
-  getELE("serviceId").value = dv.sId;
+  getELE("serviceId").value = dv.Id;
   getELE("serviceId").disabled = "true";
 
   getELE("serviceName").value = dv.sName;

@@ -33,7 +33,7 @@ function themHang() {
 
   console.log(_bId, _bName, _bContent, _bImage);
 
-  // var isValid = true;
+  var isValid = true;
 
   //& : cộng chuỗi bit
   // true: 1
@@ -42,73 +42,38 @@ function themHang() {
   // 1 & 1 => 1 (true)
   //kiểm tra mã số (mã không được để trống, mã không được trùng)
   // isValid(mới) = isValid(cũ) & validation.kiemTraRong(_userId,"tbUserId","Mã nhân viên không được để trống");
-  // isValid &=
-  //   validation.kiemTraRong(_userId, "tbUserId", "Mã số không được để trống") &&
-  //   validation.kiemTraMaTrung(
-  //     dsnd.userArray,
-  //     _userId,
-  //     "tbUserId",
-  //     "Mã số bị trùng"
-  //   );
+  isValid &=
+    validation.kiemTraRong(_bId, "tbBrandId", "Mã số không được để trống") &&
+    validation.kiemTraMaTrung(
+      dsh.brandArray,
+      _bId,
+      "tbBrandId",
+      "Mã số bị trùng"
+    );
 
-  //kiểm tra tên nhân viên
-  // isValid &=
-  //   validation.kiemTraRong(
-  //     _userName,
-  //     "tbUserName",
-  //     "Tên không được để trống"
-  //   ) &&
-  //   validation.kiemTraTen(_userName, "tbUserName", "Tên phải là ký tự chữ");
+  //kiểm tra tên hãng
+  isValid &=
+    validation.kiemTraRong(_bName, "tbBrandName", "Tên không được để trống") &&
+    validation.kiemTraTen(_bName, "tbBrandName", "Tên phải là ký tự chữ");
 
-  //Kiểm tra email
-  // isValid &=
-  //   validation.kiemTraRong(_userEmail, "tbUserEmail", "Email không để trống") &&
-  //   validation.kiemTraEmail(
-  //     _userEmail,
-  //     "tbUserEmail",
-  //     "Email không đúng format"
-  //   );
-
-  //Kiểm tra password
-  // isValid &=
-  //   validation.kiemTraRong(
-  //     _userPassword,
-  //     "tnUserPassword",
-  //     "Mật khẩu không để trống"
-  //   ) &&
-  //   validation.kiemTraDoDai(
-  //     _userPassword,
-  //     "tnUserPassword",
-  //     "Mật khẩu có độ dài từ 6 - 8",
-  //     6,
-  //     8
-  //   );
-
-  //Kiểm tra ngày làm
-  // isValid &= validation.kiemTraRong(
-  //   _userAddress,
-  //   "tbNgay",
-  //   "Ngày làm không được để trống"
-  // );
-
-  //Kiểm tra chức vụ
-  // isValid &= validation.kiemTraChucVu(
-  //   "chucvu",
-  //   "tbChucVu",
-  //   "Chức vụ phải được chọn"
-  // );
+  //Kiểm tra nội dung
+  isValid &= validation.kiemTraRong(
+    _bContent,
+    "tbBrandContent",
+    "Nội dung không được để trống"
+  );
 
   // isValid == true
-  // if (isValid) {
-  //Tạo instance(thể hiện)
-  var h = new Brand(_bId, _bName, _bContent, _bImage);
-  console.log(h);
-  dsh.addBrand(h);
-  console.log(dsh.brandArray);
-  //Gọi hàm
-  taoBang(dsh.brandArray);
-  setLocalStorage();
-  // }
+  if (isValid) {
+    //Tạo instance(thể hiện)
+    var h = new Brand(_bId, _bName, _bContent, _bImage);
+    console.log(h);
+    dsh.addBrand(h);
+    console.log(dsh.brandArray);
+    //Gọi hàm
+    taoBang(dsh.brandArray);
+    setLocalStorage();
+  }
 }
 
 //Khai báo hàm
@@ -127,14 +92,14 @@ function taoBang(mang) {
     // content = `tr mới` + content(chứa các tr trước đó)
     content += `
             <tr>
-                <td>${item.bId}</td>
+                <td>${item.Id}</td>
                 <td>${item.bName}</td>
                 <td>${item.bContent}</td>
                 <td>${item.bImage}</td>
                 <td>
-                    <button class="btn btn-danger" onclick="xoaHang('${item.bId}')" >Xóa</button>
+                    <button class="btn btn-danger" onclick="xoaHang('${item.Id}')" >Xóa</button>
                     <button data-toggle="modal"
-                    data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet('${item.bId}')" >Sửa</button>
+                    data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet('${item.Id}')" >Sửa</button>
                 </td>
             </tr>
         `;
@@ -159,7 +124,7 @@ function hienThiChiTiet(ma) {
   getELE("btnCapNhat").style.display = "block";
 
   //Điền thông tin tin tuc lên form
-  getELE("brandId").value = h.bId;
+  getELE("brandId").value = h.Id;
   getELE("brandId").disabled = "true";
 
   getELE("brandName").value = h.bName;

@@ -33,7 +33,7 @@ function themLichHen() {
 
   console.log(_aId, _uId, _aState, _aDate);
 
-  // var isValid = true;
+  var isValid = true;
 
   //& : cộng chuỗi bit
   // true: 1
@@ -42,73 +42,51 @@ function themLichHen() {
   // 1 & 1 => 1 (true)
   //kiểm tra mã số (mã không được để trống, mã không được trùng)
   // isValid(mới) = isValid(cũ) & validation.kiemTraRong(_userId,"tbUserId","Mã nhân viên không được để trống");
-  // isValid &=
-  //   validation.kiemTraRong(_userId, "tbUserId", "Mã số không được để trống") &&
-  //   validation.kiemTraMaTrung(
-  //     dsnd.userArray,
-  //     _userId,
-  //     "tbUserId",
-  //     "Mã số bị trùng"
-  //   );
+  isValid &=
+    validation.kiemTraRong(
+      _aId,
+      "tbAppointmentId",
+      "Mã số không được để trống"
+    ) &&
+    validation.kiemTraMaTrung(
+      dslh.appointmentArray,
+      _aId,
+      "tbAppointmentId",
+      "Mã số bị trùng"
+    );
 
-  //kiểm tra tên nhân viên
-  // isValid &=
-  //   validation.kiemTraRong(
-  //     _userName,
-  //     "tbUserName",
-  //     "Tên không được để trống"
-  //   ) &&
-  //   validation.kiemTraTen(_userName, "tbUserName", "Tên phải là ký tự chữ");
+  //kiểm tra mã khách hàng
+  isValid &= validation.kiemTraRong(
+    _uId,
+    "tbUserId",
+    "Mã khách hàng không được để trống"
+  );
 
-  //Kiểm tra email
-  // isValid &=
-  //   validation.kiemTraRong(_userEmail, "tbUserEmail", "Email không để trống") &&
-  //   validation.kiemTraEmail(
-  //     _userEmail,
-  //     "tbUserEmail",
-  //     "Email không đúng format"
-  //   );
+  //kiểm tra trạng thái
+  isValid &= validation.kiemTraRong(
+    _aState,
+    "tbAppointmentState",
+    "Trạng thái không được để trống"
+  );
 
-  //Kiểm tra password
-  // isValid &=
-  //   validation.kiemTraRong(
-  //     _userPassword,
-  //     "tnUserPassword",
-  //     "Mật khẩu không để trống"
-  //   ) &&
-  //   validation.kiemTraDoDai(
-  //     _userPassword,
-  //     "tnUserPassword",
-  //     "Mật khẩu có độ dài từ 6 - 8",
-  //     6,
-  //     8
-  //   );
-
-  //Kiểm tra ngày làm
-  // isValid &= validation.kiemTraRong(
-  //   _userAddress,
-  //   "tbNgay",
-  //   "Ngày làm không được để trống"
-  // );
-
-  //Kiểm tra chức vụ
-  // isValid &= validation.kiemTraChucVu(
-  //   "chucvu",
-  //   "tbChucVu",
-  //   "Chức vụ phải được chọn"
-  // );
+  //Kiểm tra ngày hẹn
+  isValid &= validation.kiemTraRong(
+    _aDate,
+    "tbAppointmentDate",
+    "Ngày hẹn không được để trống"
+  );
 
   // isValid == true
-  // if (isValid) {
-  //Tạo instance(thể hiện)
-  var lh = new Appointment(_aId, _uId, _aState, _aDate);
-  console.log(lh);
-  dslh.addAppointment(lh);
-  console.log(dslh.appointmentArray);
-  //Gọi hàm
-  taoBang(dslh.appointmentArray);
-  setLocalStorage();
-  // }
+  if (isValid) {
+    //Tạo instance(thể hiện)
+    var lh = new Appointment(_aId, _uId, _aState, _aDate);
+    console.log(lh);
+    dslh.addAppointment(lh);
+    console.log(dslh.appointmentArray);
+    //Gọi hàm
+    taoBang(dslh.appointmentArray);
+    setLocalStorage();
+  }
 }
 
 //Khai báo hàm
@@ -127,14 +105,14 @@ function taoBang(mang) {
     // content = `tr mới` + content(chứa các tr trước đó)
     content += `
             <tr>
-                <td>${item.aId}</td>
+                <td>${item.Id}</td>
                 <td>${item.aDate}</td>
                 <td>${item.uId}</td>
                 <td>${item.aState}</td>
                 <td>
-                    <button class="btn btn-danger" onclick="xoaLichHen('${item.aId}')" >Xóa</button>
+                    <button class="btn btn-danger" onclick="xoaLichHen('${item.Id}')" >Xóa</button>
                     <button data-toggle="modal"
-                    data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet('${item.aId}')" >Sửa</button>
+                    data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet('${item.Id}')" >Sửa</button>
                 </td>
             </tr>
         `;
@@ -159,7 +137,7 @@ function hienThiChiTiet(ma) {
   getELE("btnCapNhat").style.display = "block";
 
   //Điền thông tin tin tuc lên form
-  getELE("appointmentId").value = lh.aId;
+  getELE("appointmentId").value = lh.Id;
   getELE("appointmentId").disabled = "true";
 
   getELE("userId").value = lh.uId;

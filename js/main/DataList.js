@@ -33,7 +33,7 @@ function UserList() {
   this.searchIndex = function (ma) {
     var userIndex = -1;
     this.userArray.map(function (item, index) {
-      if (item.userId == ma) {
+      if (item.Id == ma) {
         //tìm thấy nhân viên trong mảng
         userIndex = index;
       }
@@ -64,7 +64,7 @@ function UserList() {
 
   // Phuong thuc chinh sua nguoi dung
   this.editUser = function (us) {
-    var userIndex = this.searchIndex(us.userId);
+    var userIndex = this.searchIndex(us.Id);
     if (userIndex != -1) {
       dsnd.userArray[userIndex] = us;
     }
@@ -81,7 +81,7 @@ function ProductList() {
   this.searchIndex = function (ma) {
     var productIndex = -1;
     this.productArray.map(function (item, index) {
-      if (item.pId == ma) {
+      if (item.Id == ma) {
         productIndex = index;
       }
     });
@@ -108,7 +108,7 @@ function ProductList() {
   };
 
   this.editProduct = function (p) {
-    var productIndex = this.searchIndex(p.pId);
+    var productIndex = this.searchIndex(p.Id);
     if (productIndex != -1) {
       dssp.productArray[productIndex] = p;
     }
@@ -125,7 +125,7 @@ function NewsList() {
   this.searchIndex = function (ma) {
     var newsIndex = -1;
     this.newsArray.map(function (item, index) {
-      if (item.nId == ma) {
+      if (item.Id == ma) {
         newsIndex = index;
       }
     });
@@ -152,7 +152,7 @@ function NewsList() {
   };
 
   this.editNews = function (n) {
-    var newsIndex = this.searchIndex(n.nId);
+    var newsIndex = this.searchIndex(n.Id);
     if (newsIndex != -1) {
       dstt.newsArray[newsIndex] = n;
     }
@@ -169,7 +169,7 @@ function AppointmentList() {
   this.searchIndex = function (ma) {
     var appointmentIndex = -1;
     this.appointmentArray.map(function (item, index) {
-      if (item.aId == ma) {
+      if (item.Id == ma) {
         appointmentIndex = index;
       }
     });
@@ -196,7 +196,7 @@ function AppointmentList() {
   };
 
   this.editAppointment = function (n) {
-    var appointmentIndex = this.searchIndex(n.aId);
+    var appointmentIndex = this.searchIndex(n.Id);
     if (appointmentIndex != -1) {
       dslh.appointmentArray[appointmentIndex] = n;
     }
@@ -213,7 +213,7 @@ function BrandList() {
   this.searchIndex = function (ma) {
     var brandIndex = -1;
     this.brandArray.map(function (item, index) {
-      if (item.bId == ma) {
+      if (item.Id == ma) {
         brandIndex = index;
       }
     });
@@ -240,7 +240,7 @@ function BrandList() {
   };
 
   this.editBrand = function (n) {
-    var brandIndex = this.searchIndex(n.bId);
+    var brandIndex = this.searchIndex(n.Id);
     if (brandIndex != -1) {
       dsh.brandArray[brandIndex] = n;
     }
@@ -257,7 +257,7 @@ function ImageList() {
   this.searchIndex = function (ma) {
     var imageIndex = -1;
     this.imageArray.map(function (item, index) {
-      if (item.iId == ma) {
+      if (item.Id == ma) {
         imageIndex = index;
       }
     });
@@ -284,7 +284,7 @@ function ImageList() {
   };
 
   this.editImage = function (n) {
-    var imageIndex = this.searchIndex(n.iId);
+    var imageIndex = this.searchIndex(n.Id);
     if (imageIndex != -1) {
       dsa.imageArray[imageIndex] = n;
     }
@@ -319,7 +319,7 @@ function ServiceList() {
   this.searchIndex = function (ma) {
     var serviceIndex = -1;
     this.serviceArray.map(function (item, index) {
-      if (item.sId == ma) {
+      if (item.Id == ma) {
         serviceIndex = index;
       }
     });
@@ -346,7 +346,7 @@ function ServiceList() {
   };
 
   this.editService = function (n) {
-    var serviceIndex = this.searchIndex(n.sId);
+    var serviceIndex = this.searchIndex(n.Id);
     if (serviceIndex != -1) {
       dsdv.serviceArray[serviceIndex] = n;
     }

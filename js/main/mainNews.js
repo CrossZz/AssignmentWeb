@@ -34,7 +34,7 @@ function themTinTuc() {
 
   console.log(_nId, _nName, _nDescription, _nDetail, _nImage);
 
-  // var isValid = true;
+  var isValid = true;
 
   //& : cộng chuỗi bit
   // true: 1
@@ -43,73 +43,47 @@ function themTinTuc() {
   // 1 & 1 => 1 (true)
   //kiểm tra mã số (mã không được để trống, mã không được trùng)
   // isValid(mới) = isValid(cũ) & validation.kiemTraRong(_userId,"tbUserId","Mã nhân viên không được để trống");
-  // isValid &=
-  //   validation.kiemTraRong(_userId, "tbUserId", "Mã số không được để trống") &&
-  //   validation.kiemTraMaTrung(
-  //     dsnd.userArray,
-  //     _userId,
-  //     "tbUserId",
-  //     "Mã số bị trùng"
-  //   );
+  isValid &=
+    validation.kiemTraRong(_nId, "tbNewsId", "Mã số không được để trống") &&
+    validation.kiemTraMaTrung(
+      dstt.newsArray,
+      _nId,
+      "tbNewsId",
+      "Mã số bị trùng"
+    );
 
-  //kiểm tra tên nhân viên
-  // isValid &=
-  //   validation.kiemTraRong(
-  //     _userName,
-  //     "tbUserName",
-  //     "Tên không được để trống"
-  //   ) &&
-  //   validation.kiemTraTen(_userName, "tbUserName", "Tên phải là ký tự chữ");
+  //kiểm tra tên tin tức
+  isValid &= validation.kiemTraRong(
+    _nName,
+    "tbNewsName",
+    "Tên không được để trống"
+  );
 
-  //Kiểm tra email
-  // isValid &=
-  //   validation.kiemTraRong(_userEmail, "tbUserEmail", "Email không để trống") &&
-  //   validation.kiemTraEmail(
-  //     _userEmail,
-  //     "tbUserEmail",
-  //     "Email không đúng format"
-  //   );
+  //Kiểm tra mô tả tin tức
+  isValid &= validation.kiemTraRong(
+    _nDescription,
+    "tbNewsDescription",
+    "Mô tả không được để trống"
+  );
 
-  //Kiểm tra password
-  // isValid &=
-  //   validation.kiemTraRong(
-  //     _userPassword,
-  //     "tnUserPassword",
-  //     "Mật khẩu không để trống"
-  //   ) &&
-  //   validation.kiemTraDoDai(
-  //     _userPassword,
-  //     "tnUserPassword",
-  //     "Mật khẩu có độ dài từ 6 - 8",
-  //     6,
-  //     8
-  //   );
-
-  //Kiểm tra ngày làm
-  // isValid &= validation.kiemTraRong(
-  //   _userAddress,
-  //   "tbNgay",
-  //   "Ngày làm không được để trống"
-  // );
-
-  //Kiểm tra chức vụ
-  // isValid &= validation.kiemTraChucVu(
-  //   "chucvu",
-  //   "tbChucVu",
-  //   "Chức vụ phải được chọn"
-  // );
+  //Kiểm tra nội dung tin tức
+  isValid &= validation.kiemTraRong(
+    _nDetail,
+    "tbNewsDetail",
+    "Nội dung không được để trống"
+  );
 
   // isValid == true
-  // if (isValid) {
-  //Tạo instance(thể hiện)
-  var tt = new News(_nId, _nName, _nDescription, _nDetail, _nImage);
-  console.log(tt);
-  dstt.addNews(tt);
-  console.log(dstt.newsArray);
-  //Gọi hàm
-  taoBang(dstt.newsArray);
-  setLocalStorage();
-  // }
+  if (isValid) {
+    //Tạo instance(thể hiện)
+    var tt = new News(_nId, _nName, _nDescription, _nDetail, _nImage);
+    console.log(tt);
+    dstt.addNews(tt);
+    console.log(dstt.newsArray);
+    //Gọi hàm
+    taoBang(dstt.newsArray);
+    setLocalStorage();
+  }
 }
 
 //Khai báo hàm
@@ -128,15 +102,15 @@ function taoBang(mang) {
     // content = `tr mới` + content(chứa các tr trước đó)
     content += `
             <tr>
-                <td>${item.nId}</td>
+                <td>${item.Id}</td>
                 <td>${item.nName}</td>
                 <td>${item.nDescription}</td>
                 <td>${item.nDetail}</td>
                 <td>${item.nImage}</td>
                 <td>
-                    <button class="btn btn-danger" onclick="xoaTinTuc('${item.nId}')" >Xóa</button>
+                    <button class="btn btn-danger" onclick="xoaTinTuc('${item.Id}')" >Xóa</button>
                     <button data-toggle="modal"
-                    data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet('${item.nId}')" >Sửa</button>
+                    data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet('${item.Id}')" >Sửa</button>
                 </td>
             </tr>
         `;
@@ -161,7 +135,7 @@ function hienThiChiTiet(ma) {
   getELE("btnCapNhat").style.display = "block";
 
   //Điền thông tin tin tuc lên form
-  getELE("newsId").value = tt.nId;
+  getELE("newsId").value = tt.Id;
   getELE("newsId").disabled = "true";
 
   getELE("newsName").value = tt.nName;

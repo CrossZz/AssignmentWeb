@@ -32,7 +32,7 @@ function themAnh() {
 
   console.log(_iId, _iName, _iImage);
 
-  // var isValid = true;
+  var isValid = true;
 
   //& : cộng chuỗi bit
   // true: 1
@@ -41,73 +41,33 @@ function themAnh() {
   // 1 & 1 => 1 (true)
   //kiểm tra mã số (mã không được để trống, mã không được trùng)
   // isValid(mới) = isValid(cũ) & validation.kiemTraRong(_userId,"tbUserId","Mã ảnh không được để trống");
-  // isValid &=
-  //   validation.kiemTraRong(_userId, "tbUserId", "Mã số không được để trống") &&
-  //   validation.kiemTraMaTrung(
-  //     dsnd.userArray,
-  //     _userId,
-  //     "tbUserId",
-  //     "Mã số bị trùng"
-  //   );
+  isValid &=
+    validation.kiemTraRong(_iId, "tbImageId", "Mã số không được để trống") &&
+    validation.kiemTraMaTrung(
+      dsa.imageArray,
+      _iId,
+      "tbImageId",
+      "Mã số bị trùng"
+    );
 
-  //kiểm tra tên ảnh
-  // isValid &=
-  //   validation.kiemTraRong(
-  //     _userName,
-  //     "tbUserName",
-  //     "Tên không được để trống"
-  //   ) &&
-  //   validation.kiemTraTen(_userName, "tbUserName", "Tên phải là ký tự chữ");
-
-  //Kiểm tra email
-  // isValid &=
-  //   validation.kiemTraRong(_userEmail, "tbUserEmail", "Email không để trống") &&
-  //   validation.kiemTraEmail(
-  //     _userEmail,
-  //     "tbUserEmail",
-  //     "Email không đúng format"
-  //   );
-
-  //Kiểm tra password
-  // isValid &=
-  //   validation.kiemTraRong(
-  //     _userPassword,
-  //     "tnUserPassword",
-  //     "Mật khẩu không để trống"
-  //   ) &&
-  //   validation.kiemTraDoDai(
-  //     _userPassword,
-  //     "tnUserPassword",
-  //     "Mật khẩu có độ dài từ 6 - 8",
-  //     6,
-  //     8
-  //   );
-
-  //Kiểm tra ngày làm
-  // isValid &= validation.kiemTraRong(
-  //   _userAddress,
-  //   "tbNgay",
-  //   "Ngày làm không được để trống"
-  // );
-
-  //Kiểm tra chức vụ
-  // isValid &= validation.kiemTraChucVu(
-  //   "chucvu",
-  //   "tbChucVu",
-  //   "Chức vụ phải được chọn"
-  // );
+  //Kiểm tra tên ảnh
+  isValid &= validation.kiemTraRong(
+    _iName,
+    "tbImageName",
+    "Tên ảnh không được để trống"
+  );
 
   // isValid == true
-  // if (isValid) {
-  //Tạo instance(thể hiện)
-  var a = new Images(_iId, _iName, _iImage);
-  console.log(a);
-  dsa.addImage(a);
-  console.log(dsa.imageArray);
-  //Gọi hàm
-  taoBang(dsa.imageArray);
-  setLocalStorage();
-  // }
+  if (isValid) {
+    //Tạo instance(thể hiện)
+    var a = new Images(_iId, _iName, _iImage);
+    console.log(a);
+    dsa.addImage(a);
+    console.log(dsa.imageArray);
+    //Gọi hàm
+    taoBang(dsa.imageArray);
+    setLocalStorage();
+  }
 }
 
 //Khai báo hàm
@@ -126,13 +86,13 @@ function taoBang(mang) {
     // content = `tr mới` + content(chứa các tr trước đó)
     content += `
             <tr>
-                <td>${item.iId}</td>
+                <td>${item.Id}</td>
                 <td>${item.iName}</td>
                 <td>${item.iImage}</td>
                 <td>
-                    <button class="btn btn-danger" onclick="xoaAnh('${item.iId}')" >Xóa</button>
+                    <button class="btn btn-danger" onclick="xoaAnh('${item.Id}')" >Xóa</button>
                     <button data-toggle="modal"
-                    data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet('${item.iId}')" >Sửa</button>
+                    data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet('${item.Id}')" >Sửa</button>
                 </td>
             </tr>
         `;
@@ -157,7 +117,7 @@ function hienThiChiTiet(ma) {
   getELE("btnCapNhat").style.display = "block";
 
   //Điền thông tin tin tuc lên form
-  getELE("imageId").value = a.iId;
+  getELE("imageId").value = a.Id;
   getELE("imageId").disabled = "true";
 
   getELE("imageName").value = a.iName;

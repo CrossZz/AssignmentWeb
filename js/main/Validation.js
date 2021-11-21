@@ -28,7 +28,7 @@ function Validation() {
     var isExist = false;
     isExist = mangND.some(function (item) {
       //Tìm kiếm value(giá trị người dùng nhập) có tồn tại trong mangND chưa
-      return value === item.userId;
+      return value === item.Id;
     });
 
     if (isExist) {

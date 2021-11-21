@@ -1,6 +1,6 @@
 /*
  * Mục Đích:
- * Chứa thông tin cua nguoi dung
+ * Chứa thông tin du lieu
  */
 
 function User(
@@ -14,7 +14,7 @@ function User(
 ) {
   //Thuộc tính
   //Key= value
-  this.userId = _userId;
+  this.Id = _userId;
   this.userName = _userName;
   this.userPhone = _userPhone;
   this.userEmail = _userEmail;
@@ -32,7 +32,7 @@ function Product(
   _pDetail,
   _pImage
 ) {
-  this.pId = _pId;
+  this.Id = _pId;
   this.bId = _bId;
   this.pName = _pName;
   this.pPrice = _pPrice;
@@ -42,7 +42,7 @@ function Product(
 }
 
 function News(_nId, _nName, _nDescription, _nDetail, _nImage) {
-  this.nId = _nId;
+  this.Id = _nId;
   this.nName = _nName;
   this.nDescription = _nDescription;
   this.nDetail = _nDetail;
@@ -50,27 +50,27 @@ function News(_nId, _nName, _nDescription, _nDetail, _nImage) {
 }
 
 function Appointment(_aId, _uId, _aState, _aDate) {
-  this.aId = _aId;
+  this.Id = _aId;
   this.uId = _uId;
   this.aState = _aState;
   this.aDate = _aDate;
 }
 
 function Brand(_bId, _bName, _bContent, _bImage) {
-  this.bId = _bId;
+  this.Id = _bId;
   this.bName = _bName;
   this.bContent = _bContent;
   this.bImage = _bImage;
 }
 
 function Images(_iId, _iName, _iImage) {
-  this.iId = _iId;
+  this.Id = _iId;
   this.iName = _iName;
   this.iImage = _iImage;
 }
 
 function Service(_sId, _sName, _sDescription, _sContent, _sImage) {
-  this.sId = _sId;
+  this.Id = _sId;
   this.sName = _sName;
   this.sDescription = _sDescription;
   this.sContent = _sContent;

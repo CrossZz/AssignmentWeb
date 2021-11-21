@@ -37,7 +37,7 @@ function themSanPham() {
 
   console.log(_pId, _bId, _pName, _pPrice, _pDescription, _pDetail, _pImage);
 
-  // var isValid = true;
+  var isValid = true;
 
   //& : cộng chuỗi bit
   // true: 1
@@ -45,82 +45,68 @@ function themSanPham() {
   // 1 & 0 => 0 (false)
   // 1 & 1 => 1 (true)
   //kiểm tra mã số (mã không được để trống, mã không được trùng)
-  // isValid(mới) = isValid(cũ) & validation.kiemTraRong(_userId,"tbUserId","Mã nhân viên không được để trống");
-  // isValid &=
-  //   validation.kiemTraRong(_userId, "tbUserId", "Mã số không được để trống") &&
-  //   validation.kiemTraMaTrung(
-  //     dsnd.userArray,
-  //     _userId,
-  //     "tbUserId",
-  //     "Mã số bị trùng"
-  //   );
+  // isValid(mới) = isValid(cũ) & validation.kiemTraRong(_pId,"tbUserId","Mã số không được để trống");
+  isValid &=
+    validation.kiemTraRong(_pId, "tbProductId", "Mã số không được để trống") &&
+    validation.kiemTraMaTrung(
+      dssp.productArray,
+      _pId,
+      "tbProductId",
+      "Mã số bị trùng"
+    );
 
-  //kiểm tra tên nhân viên
-  // isValid &=
-  //   validation.kiemTraRong(
-  //     _userName,
-  //     "tbUserName",
-  //     "Tên không được để trống"
-  //   ) &&
-  //   validation.kiemTraTen(_userName, "tbUserName", "Tên phải là ký tự chữ");
+  //kiểm tra mã hãng
+  isValid &= validation.kiemTraRong(
+    _bId,
+    "tbBrandId",
+    "Mã Hãng không được để trống"
+  );
 
-  //Kiểm tra email
-  // isValid &=
-  //   validation.kiemTraRong(_userEmail, "tbUserEmail", "Email không để trống") &&
-  //   validation.kiemTraEmail(
-  //     _userEmail,
-  //     "tbUserEmail",
-  //     "Email không đúng format"
-  //   );
+  //Kiểm tra tên sản phẩm
+  isValid &=
+    validation.kiemTraRong(_pName, "tbProductName", "Tên không để trống") &&
+    validation.kiemTraTen(_pName, "tbProductName", "Tên phải là ký tự chữ");
 
-  //Kiểm tra password
-  // isValid &=
-  //   validation.kiemTraRong(
-  //     _userPassword,
-  //     "tnUserPassword",
-  //     "Mật khẩu không để trống"
-  //   ) &&
-  //   validation.kiemTraDoDai(
-  //     _userPassword,
-  //     "tnUserPassword",
-  //     "Mật khẩu có độ dài từ 6 - 8",
-  //     6,
-  //     8
-  //   );
+  //Kiểm tra giá sản phẩm
+  isValid &= validation.kiemTraRong(
+    _pPrice,
+    "tbProductPrice",
+    "Giá sản phẩm không được để trống"
+  );
 
-  //Kiểm tra ngày làm
-  // isValid &= validation.kiemTraRong(
-  //   _userAddress,
-  //   "tbNgay",
-  //   "Ngày làm không được để trống"
-  // );
+  //Kiểm tra mô tả sản phẩm
+  isValid &= validation.kiemTraRong(
+    _pDescription,
+    "tbProductDescription",
+    "Mô tả không được để trống"
+  );
 
-  //Kiểm tra chức vụ
-  // isValid &= validation.kiemTraChucVu(
-  //   "chucvu",
-  //   "tbChucVu",
-  //   "Chức vụ phải được chọn"
-  // );
+  //Kiểm tra nội dung sản phẩm
+  isValid &= validation.kiemTraRong(
+    _pDetail,
+    "tbProductDetail",
+    "Nội dung không được để trống"
+  );
 
   // isValid == true
-  // if (isValid) {
-  //Tạo instance(thể hiện)
-  var sp = new Product(
-    _pId,
-    _bId,
-    _pName,
-    _pPrice,
-    _pDescription,
-    _pDetail,
-    _pImage
-  );
-  console.log(sp);
-  dssp.addProduct(sp);
-  console.log(dssp.productArray);
-  //Gọi hàm
-  taoBang(dssp.productArray);
-  setLocalStorage();
-  // }
+  if (isValid) {
+    //Tạo instance(thể hiện)
+    var sp = new Product(
+      _pId,
+      _bId,
+      _pName,
+      _pPrice,
+      _pDescription,
+      _pDetail,
+      _pImage
+    );
+    console.log(sp);
+    dssp.addProduct(sp);
+    console.log(dssp.productArray);
+    //Gọi hàm
+    taoBang(dssp.productArray);
+    setLocalStorage();
+  }
 }
 
 //Khai báo hàm
@@ -139,7 +125,7 @@ function taoBang(mang) {
     // content = `tr mới` + content(chứa các tr trước đó)
     content += `
             <tr>
-                <td>${item.pId}</td>
+                <td>${item.Id}</td>
                 <td>${item.bId}</td>
                 <td>${item.pName}</td>
                 <td>${item.pPrice}</td>
@@ -147,9 +133,9 @@ function taoBang(mang) {
                 <td>${item.pDetail}</td>
                 <td>${item.pImage}</td>
                 <td>
-                    <button class="btn btn-danger" onclick="xoaSanPham('${item.pId}')" >Xóa</button>
+                    <button class="btn btn-danger" onclick="xoaSanPham('${item.Id}')" >Xóa</button>
                     <button data-toggle="modal"
-                    data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet('${item.pId}')" >Sửa</button>
+                    data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet('${item.Id}')" >Sửa</button>
                 </td>
             </tr>
         `;
@@ -174,7 +160,7 @@ function hienThiChiTiet(ma) {
   getELE("btnCapNhat").style.display = "block";
 
   //Điền thông tin nhân viên lên form
-  getELE("productId").value = sp.pId;
+  getELE("productId").value = sp.Id;
   getELE("productId").disabled = "true";
 
   getELE("brandId").value = sp.bId;
