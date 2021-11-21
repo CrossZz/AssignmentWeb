@@ -52,7 +52,7 @@ function themNhanVien() {
     _userRole
   );
 
-  // var isValid = true;
+  var isValid = true;
 
   //& : cộng chuỗi bit
   // true: 1
@@ -61,47 +61,47 @@ function themNhanVien() {
   // 1 & 1 => 1 (true)
   //kiểm tra mã số (mã không được để trống, mã không được trùng)
   // isValid(mới) = isValid(cũ) & validation.kiemTraRong(_userId,"tbUserId","Mã nhân viên không được để trống");
-  // isValid &=
-  //   validation.kiemTraRong(_userId, "tbUserId", "Mã số không được để trống") &&
-  //   validation.kiemTraMaTrung(
-  //     dsnd.userArray,
-  //     _userId,
-  //     "tbUserId",
-  //     "Mã số bị trùng"
-  //   );
+  isValid &=
+    validation.kiemTraRong(_userId, "tbUserId", "Mã số không được để trống") &&
+    validation.kiemTraMaTrung(
+      dsnd.userArray,
+      _userId,
+      "tbUserId",
+      "Mã số bị trùng"
+    );
 
   //kiểm tra tên nhân viên
-  // isValid &=
-  //   validation.kiemTraRong(
-  //     _userName,
-  //     "tbUserName",
-  //     "Tên không được để trống"
-  //   ) &&
-  //   validation.kiemTraTen(_userName, "tbUserName", "Tên phải là ký tự chữ");
+  isValid &=
+    validation.kiemTraRong(
+      _userName,
+      "tbUserName",
+      "Tên không được để trống"
+    ) &&
+    validation.kiemTraTen(_userName, "tbUserName", "Tên phải là ký tự chữ");
 
   //Kiểm tra email
-  // isValid &=
-  //   validation.kiemTraRong(_userEmail, "tbUserEmail", "Email không để trống") &&
-  //   validation.kiemTraEmail(
-  //     _userEmail,
-  //     "tbUserEmail",
-  //     "Email không đúng format"
-  //   );
+  isValid &=
+    validation.kiemTraRong(_userEmail, "tbUserEmail", "Email không để trống") &&
+    validation.kiemTraEmail(
+      _userEmail,
+      "tbUserEmail",
+      "Email không đúng format"
+    );
 
   //Kiểm tra password
-  // isValid &=
-  //   validation.kiemTraRong(
-  //     _userPassword,
-  //     "tnUserPassword",
-  //     "Mật khẩu không để trống"
-  //   ) &&
-  //   validation.kiemTraDoDai(
-  //     _userPassword,
-  //     "tnUserPassword",
-  //     "Mật khẩu có độ dài từ 6 - 8",
-  //     6,
-  //     8
-  //   );
+  isValid &=
+    validation.kiemTraRong(
+      _userPassword,
+      "tbUserPassword",
+      "Mật khẩu không để trống"
+    ) &&
+    validation.kiemTraDoDai(
+      _userPassword,
+      "tbUserPassword",
+      "Mật khẩu có độ dài từ 6 - 8",
+      6,
+      8
+    );
 
   //Kiểm tra ngày làm
   // isValid &= validation.kiemTraRong(
@@ -111,31 +111,31 @@ function themNhanVien() {
   // );
 
   //Kiểm tra chức vụ
-  // isValid &= validation.kiemTraChucVu(
-  //   "chucvu",
-  //   "tbChucVu",
-  //   "Chức vụ phải được chọn"
-  // );
+  isValid &= validation.kiemTraChucVu(
+    "userRole",
+    "tbUserRole",
+    "Chức vụ phải được chọn"
+  );
 
   // isValid == true
-  // if (isValid) {
-  //Tạo instance(thể hiện)
-  var nd = new User(
-    _userId,
-    _userName,
-    _userPhone,
-    _userEmail,
-    _userPassword,
-    _userAddress,
-    _userRole
-  );
-  console.log(nd);
-  dsnd.addUser(nd);
-  console.log(dsnd.userArray);
-  //Gọi hàm
-  taoBang(dsnd.userArray);
-  setLocalStorage();
-  // }
+  if (isValid) {
+    //Tạo instance(thể hiện)
+    var nd = new User(
+      _userId,
+      _userName,
+      _userPhone,
+      _userEmail,
+      _userPassword,
+      _userAddress,
+      _userRole
+    );
+    console.log(nd);
+    dsnd.addUser(nd);
+    console.log(dsnd.userArray);
+    //Gọi hàm
+    taoBang(dsnd.userArray);
+    setLocalStorage();
+  }
 }
 
 //Khai báo hàm
