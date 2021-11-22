@@ -25,7 +25,7 @@
         <!-- <i class="bi bi-telephone-fill text-white"></i> -->
         <!-- mx trái phải -->
         <!-- <span class="border-right mx-2 pr-2 text-white">0991879222</span> -->
-        <button type="button" class="btn btn-signIn mx-3"><a href="./signin.html#signin">Sign In</a></button>
+        <button type="button" class="btn btn-signIn mx-3"><a href="./signin.php#signin">Sign In</a></button>
         <i class="bi bi-search text-white"></i>
       </p>
     </div>
@@ -44,13 +44,13 @@
       <div class="collapse navbar-collapse" id="navbarMovie">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="./index.html">Home </a>
+            <a class="nav-link" href="./index.php">Home </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="./brand.html">Brand</a>
+            <a class="nav-link" href="./brand.php">Brand</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="./service.html">
+            <a class="nav-link" href="./service.php">
               Service
             </a>
             

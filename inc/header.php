@@ -11,7 +11,10 @@
    $db = new Database();
    $fm = new Format();
    $user= new user();
+   $store = new store();
    $contact = new contact();
+   $model = new model();
+   $car = new car();
    // $product = new product();
    // $category = new category();
    // $bankaccount = new bankaccount();

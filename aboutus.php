@@ -16,6 +16,10 @@
    }
      
 ?>
+<?php 
+   $carcity = $store->get_store_by_ID(1)->fetch_assoc();
+
+?>
 <section id="carousel">
   <!-- data-ride="carousel" -->
   <div id="carouselMovie" class="carousel slide carousel-fade" data-ride="">
@@ -108,13 +112,20 @@
      <p>Your request will be answered as fast as possible</p>
   </div>
 
-</section>
+</section> 
 <!-- CONTACT  -->
 <section id="contact">
   <div class="container">
     <div class="contact_content">
       <p class="text-center">Need help? Contact our support team on</p>
-      <p class="contact_number text-center">0330 123 4567</p>
+      
+      <p class="contact_number text-center">
+         <?php 
+            echo $carcity["storePhone"];
+         ?>
+      </p>
+      
+      </p>
     </div>
   </div>
   <div class="map">

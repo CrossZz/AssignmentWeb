@@ -1,6 +1,12 @@
 <!doctype html>
 <html lang="en">
 
+<?php
+  include 'inc/header.php';
+?>
+<?php
+  $brand_list = $model->show_model();
+?>
 <head>
   <title>Car City</title>
   <!-- Required meta tags -->
@@ -25,7 +31,7 @@
         <!-- <i class="bi bi-telephone-fill text-white"></i> -->
         <!-- mx trái phải -->
         <!-- <span class="border-right mx-2 pr-2 text-white">0991879222</span> -->
-        <button type="button" class="btn btn-signIn mx-3"><a href="./signin.html#signin">Sign In</a></button>
+        <button type="button" class="btn btn-signIn mx-3"><a href="./signin.php#signin">Sign In</a></button>
         <i class="bi bi-search text-white"></i>
       </p>
     </div>
@@ -44,13 +50,13 @@
       <div class="collapse navbar-collapse" id="navbarMovie">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="./index.html">Home </a>
+            <a class="nav-link" href="./index.php">Home </a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="./brand.html">Brand</a>
+            <a class="nav-link" href="./brand.php">Brand</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="./service.html">
+            <a class="nav-link" href="./service.php">
               Service
             </a>
             <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -154,45 +160,23 @@
     <div class="newin_content">
       <!-- row:display flex -->
       <div class="row">
-        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="newin_img text-white">
-            <img class="img-fluid" style="width: 100%;" src="./img/logo-hyundai.png" alt="Hinh anh">
-            
-          </div>
-          <div class="newin_name mt-5 text-center">
-            <p>Huyndai</p>
-            
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 text-center">
-          <div class="newin_img text-white">
-            <img class="img-fluid" style="width: 100%;" src="./img/logo-audi.png" alt="Hinh anh">
-            
-          </div>
-          <div class="newin_name mt-5 text-center">
-            <p>Audi</p>
-            
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="newin_img text-white">
-            <img class="img-fluid" style="width: 100%;" src="./img/logo-honda.png" alt="Hinh anh">
-            
-          </div>
-          <div class="newin_name mt-5 text-center">
-            <p>Honda</p>
-            
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="newin_img text-white">
-            <img class="img-fluid" style="width: 100%" src="./img/logo-porsche.png" alt="Hinh anh">
-          </div>
-          <div class="newin_name mt-5 text-center">
-            <p>Porsche</p>
-            
-          </div>
-        </div>
+        <?php 
+          while($each_brand = mysqli_fetch_array($brand_list)){
+            $imgsrc = './img/logo-'.strtolower($each_brand["modelName"]).'.png';
+            echo "
+            <div class='col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3'>
+            <div class='newin_img text-white'>
+              <img class='img-fluid' style='width: 100%;' src='{$imgsrc}' alt='Hinh anh'>
+              
+            </div>
+            <div class='newin_name mt-5 text-center'>
+              <p>{$each_brand["modelName"]}</p>
+              
+            </div>
+          </div>";
+          }
+        ?>
+        
       </div>
     </div>
   </section>
