@@ -583,3 +583,72 @@ nav > a span{
    border-radius: 10px;
    overflow: hidden;
 }
+
+
+.formbook {
+   margin: 0 auto;
+   width: 100%;
+   padding: 20px 50px;
+   background-color: #ffffff;
+   border-radius: 5px;
+   box-shadow: 10px 10px 40px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h3 {
+   padding: 15px 0;
+   color: #ec7532;
+   font-weight: 700;
+   text-align: center;
+}
+
+.formbook-item {
+   position: relative;
+}
+
+.formbook label {
+   display: inline-block;
+   font-size: 15px;
+   padding: 0;
+   font-weight: 600;
+   color: #4d5258;
+}
+
+.formbook input {
+   margin: 20px 0;
+   padding: 15px 10px;
+   font-size: 15px;
+   width: 100%;
+   border-radius: 5px;
+   border: 1px solid #e4e4e4;
+}
+
+#btnBook,#btnFormBook {
+   margin-top: 15px;
+   margin-bottom: 20px;
+   /* padding: 10px ; */
+   /* width: 100%; */
+   font-size: 15px;
+   background-color:#fbbd61;
+   border: 1px solid #fbbd61;
+   border-radius: 5px;
+   font-weight: 700;
+   cursor: pointer;
+   overflow: hidden;
+   font-size: 20px;
+   transition: all .3s;
+   color: #ffffff;
+}
+#btnFormBook{
+   width: 100%;
+   padding: 10px;
+}
+#btnFormBook:hover{
+   color: #000000;
+   background-color: #ec7532;
+   border: 1px solid #ec7532;
+}
+#btnBook:hover{
+   color: #000000;
+   background-color: #ec7532;
+   border: 1px solid #ec7532;
+}
