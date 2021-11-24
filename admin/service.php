@@ -38,50 +38,50 @@
         </div>
 
         <ul class="list-unstyled components">
-          <li>
-            <a href="./user.html">
+          <li class="active">
+            <a href="./user.php">
               <i class="fa fa-user"></i>
               Người dùng
             </a>
           </li>
           <li>
-            <a href="./product.html">
+            <a href="./product.php">
               <i class="fa fa-product-hunt"></i>
               Sản phẩm
             </a>
           </li>
-          <li class="active">
-            <a href="./news.html">
+          <li>
+            <a href="./news.php">
               <i class="fa fa-newspaper-o"></i>
               Tin tức
             </a>
           </li>
           <li>
-            <a href="./appointment.html">
+            <a href="./appointment.php">
               <i class="fa fa-calendar"></i>
               Lịch hẹn
             </a>
           </li>
           <li>
-            <a href="./comment.html">
+            <a href="./comment.php">
               <i class="fa fa-comment"></i>
               Bình luận
             </a>
           </li>
           <li>
-            <a href="./brand.html">
+            <a href="./brand.php">
               <i class="fa fa-car"></i>
               Hãng
             </a>
           </li>
           <li>
-            <a href="./service.html">
+            <a href="./service.php">
               <i class="fa fa-server"></i>
               Dịch vụ
             </a>
           </li>
           <li>
-            <a href="./image.html">
+            <a href="./image.php">
               <i class="fa fa-image"></i>
               Ảnh
             </a>
@@ -122,17 +122,17 @@
               <div class="row">
                 <div class="col-md-6">
                   <h3 class="text-left text-primary font-weight-bold">
-                    Danh sách tin tức
+                    Danh sách dịch vụ
                   </h3>
                 </div>
                 <div class="col-md-6 text-right">
                   <button
                     class="btn btn-primary"
-                    id="btnAddNews"
+                    id="btnAddService"
                     data-toggle="modal"
                     data-target="#myModal"
                   >
-                    Thêm tin
+                    Thêm dịch vụ
                   </button>
                 </div>
               </div>
@@ -147,11 +147,11 @@
                     <input
                       type="text"
                       class="form-control"
-                      placeholder="Tên tin tức"
+                      placeholder="Tên dịch vụ"
                       id="searchName"
                     />
                     <div class="input-group-prepend">
-                      <span class="input-group-text" id="btnTimTt"
+                      <span class="input-group-text" id="btnTimDv"
                         ><i class="fa fa-search"></i
                       ></span>
                     </div>
@@ -163,8 +163,6 @@
                   <tr>
                     <th class="nowrap">
                       <span class="mr-1">Mã Số</span>
-                      <!-- <i class="fa fa-arrow-up" id="SapXepTang"></i>
-                      <i class="fa fa-arrow-down" id="SapXepGiam"></i> -->
                     </th>
                     <th>Tên</th>
                     <th>Mô tả</th>
@@ -203,7 +201,7 @@
 
           <!-- Modal body -->
           <div class="modal-body">
-            <form role="form" id="formTt">
+            <form role="form" id="formDv">
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -213,14 +211,14 @@
                   </div>
                   <input
                     type="text"
-                    name="newsId"
-                    id="newsId"
+                    name="serviceId"
+                    id="serviceId"
                     class="form-control input-sm"
                     placeholder="Mã số"
                   />
                 </div>
 
-                <span class="sp-thongbao" id="tbNewsId"></span>
+                <span class="sp-thongbao" id="tbServiceId"></span>
               </div>
 
               <div class="form-group">
@@ -232,13 +230,13 @@
                   </div>
                   <input
                     type="text"
-                    name="newsName"
-                    id="newsName"
+                    name="serviceName"
+                    id="serviceName"
                     class="form-control input-sm"
-                    placeholder="Tên"
+                    placeholder="Tên sản phẩm"
                   />
                 </div>
-                <span class="sp-thongbao" id="tbNewsName"></span>
+                <span class="sp-thongbao" id="tbServiceName"></span>
               </div>
 
               <div class="form-group">
@@ -250,13 +248,13 @@
                   </div>
                   <input
                     type="text"
-                    name="newsDescription"
-                    id="newsDescription"
+                    name="serviceDescription"
+                    id="serviceDescription"
                     class="form-control input-sm"
                     placeholder="Mô tả"
                   />
                 </div>
-                <span class="sp-thongbao" id="tbNewsDescription"></span>
+                <span class="sp-thongbao" id="tbServiceDescription"></span>
               </div>
 
               <div class="form-group">
@@ -268,13 +266,13 @@
                   </div>
                   <input
                     type="text"
-                    name="newsDetail"
-                    id="newsDetail"
+                    name="serviceContent"
+                    id="serviceContent"
                     class="form-control input-sm"
                     placeholder="Nội dung"
                   />
                 </div>
-                <span class="sp-thongbao" id="tbNewsDetail"></span>
+                <span class="sp-thongbao" id="tbServiceContent"></span>
               </div>
 
               <div class="form-group">
@@ -286,20 +284,20 @@
                   </div>
                   <input
                     type="file"
-                    name="newsImage"
-                    id="newsImage"
+                    name="serviceImage"
+                    id="serviceImage"
                     class="form-control input-sm"
                     placeholder="Ảnh"
                   />
                 </div>
-                <span class="sp-thongbao" id="tbNewsImage"></span>
+                <span class="sp-thongbao" id="tbServiceImage"></span>
               </div>
             </form>
           </div>
 
           <!-- Modal footer -->
           <div class="modal-footer" id="modal-footer">
-            <button id="btnThemTt" type="button" class="btn btn-success">
+            <button id="btnThemDv" type="button" class="btn btn-success">
               Thêm
             </button>
             <button id="btnCapNhat" type="button" class="btn btn-success">
@@ -343,6 +341,6 @@
     <script src="./js/main/DataList.js"></script>
     <script src="./js/main/Validation.js"></script>
 
-    <script src="./js/main/mainNews.js"></script>
+    <script src="./js/main/mainService.js"></script>
   </body>
 </html>

@@ -169,7 +169,6 @@ function taoBang(mang) {
   //reduce: ES6
   // for: cú pháp dài, tốc độ duyệt mảng nhanh (ES5)
   //forEach (ES5)
-
   mang.map(function (item, index) {
     //item đại diện cho 1 phần tử trong mảng
     //item chính là 1 nd
@@ -183,9 +182,9 @@ function taoBang(mang) {
                 <td>${item["userAddress"]}</td>
                 <td>${item["userRole"]}</td>
                 <td>
-                    <button class="btn btn-danger" onclick="xoaNguoiDung('${item.Id}')" >Xóa</button>
+                    <button class="btn btn-danger" onclick="xoaNguoiDung('${item["userID"]}')" >Xóa</button>
                     <button data-toggle="modal"
-                    data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet('${item.Id}')" >Sửa</button>
+                    data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet('${item["userID"]}')" >Sửa</button>
                 </td>
             </tr>
         `;
@@ -195,12 +194,7 @@ function taoBang(mang) {
 
 //Hàm xóa nhân viên
 //Khai báo hàm
-function xoaNguoiDung(ma) {
-  dsnd.deleteUser(ma);
-  console.log("ok");
-  taoBang(dsnd.userArray);
-  setLocalStorage();
-}
+
 function hienThiChiTiet(ma) {
   //Lấy đối tượng nhân viên từ mảng
   var nd = dsnd.getDetail(ma);

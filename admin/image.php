@@ -38,50 +38,50 @@
         </div>
 
         <ul class="list-unstyled components">
-          <li>
-            <a href="./user.html">
+          <li class="active">
+            <a href="./user.php">
               <i class="fa fa-user"></i>
               Người dùng
             </a>
           </li>
           <li>
-            <a href="./product.html">
+            <a href="./product.php">
               <i class="fa fa-product-hunt"></i>
               Sản phẩm
             </a>
           </li>
           <li>
-            <a href="./news.html">
+            <a href="./news.php">
               <i class="fa fa-newspaper-o"></i>
               Tin tức
             </a>
           </li>
           <li>
-            <a href="./appointment.html">
+            <a href="./appointment.php">
               <i class="fa fa-calendar"></i>
               Lịch hẹn
             </a>
           </li>
           <li>
-            <a href="./comment.html">
+            <a href="./comment.php">
               <i class="fa fa-comment"></i>
               Bình luận
             </a>
           </li>
           <li>
-            <a href="./brand.html">
+            <a href="./brand.php">
               <i class="fa fa-car"></i>
               Hãng
             </a>
           </li>
-          <li class="active">
-            <a href="./service.html">
+          <li>
+            <a href="./service.php">
               <i class="fa fa-server"></i>
               Dịch vụ
             </a>
           </li>
           <li>
-            <a href="./image.html">
+            <a href="./image.php">
               <i class="fa fa-image"></i>
               Ảnh
             </a>
@@ -122,17 +122,17 @@
               <div class="row">
                 <div class="col-md-6">
                   <h3 class="text-left text-primary font-weight-bold">
-                    Danh sách dịch vụ
+                    Danh sách ảnh
                   </h3>
                 </div>
                 <div class="col-md-6 text-right">
                   <button
                     class="btn btn-primary"
-                    id="btnAddService"
+                    id="btnAddImage"
                     data-toggle="modal"
                     data-target="#myModal"
                   >
-                    Thêm dịch vụ
+                    Thêm ảnh
                   </button>
                 </div>
               </div>
@@ -147,11 +147,11 @@
                     <input
                       type="text"
                       class="form-control"
-                      placeholder="Tên dịch vụ"
+                      placeholder="Tên ảnh"
                       id="searchName"
                     />
                     <div class="input-group-prepend">
-                      <span class="input-group-text" id="btnTimDv"
+                      <span class="input-group-text" id="btnTimA"
                         ><i class="fa fa-search"></i
                       ></span>
                     </div>
@@ -165,8 +165,6 @@
                       <span class="mr-1">Mã Số</span>
                     </th>
                     <th>Tên</th>
-                    <th>Mô tả</th>
-                    <th>Nội dung</th>
                     <th>Ảnh</th>
                     <th><em class="fa fa-cog"></em></th>
                   </tr>
@@ -201,7 +199,7 @@
 
           <!-- Modal body -->
           <div class="modal-body">
-            <form role="form" id="formDv">
+            <form role="form" id="formA">
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -211,93 +209,57 @@
                   </div>
                   <input
                     type="text"
-                    name="serviceId"
-                    id="serviceId"
+                    name="imageId"
+                    id="imageId"
                     class="form-control input-sm"
                     placeholder="Mã số"
                   />
                 </div>
 
-                <span class="sp-thongbao" id="tbServiceId"></span>
+                <span class="sp-thongbao" id="tbImageId"></span>
               </div>
 
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"
-                      ><i class="fa fa-address-book"></i
+                      ><i class="fa fa-user"></i
                     ></span>
                   </div>
                   <input
                     type="text"
-                    name="serviceName"
-                    id="serviceName"
+                    name="imageName"
+                    id="imageName"
                     class="form-control input-sm"
-                    placeholder="Tên sản phẩm"
+                    placeholder="Tên ảnh"
                   />
                 </div>
-                <span class="sp-thongbao" id="tbServiceName"></span>
-              </div>
 
+                <span class="sp-thongbao" id="tbImageName"></span>
+              </div>
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"
-                      ><i class="fa fa-address-book"></i
-                    ></span>
-                  </div>
-                  <input
-                    type="text"
-                    name="serviceDescription"
-                    id="serviceDescription"
-                    class="form-control input-sm"
-                    placeholder="Mô tả"
-                  />
-                </div>
-                <span class="sp-thongbao" id="tbServiceDescription"></span>
-              </div>
-
-              <div class="form-group">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><i class="fa fa-address-book"></i
-                    ></span>
-                  </div>
-                  <input
-                    type="text"
-                    name="serviceContent"
-                    id="serviceContent"
-                    class="form-control input-sm"
-                    placeholder="Nội dung"
-                  />
-                </div>
-                <span class="sp-thongbao" id="tbServiceContent"></span>
-              </div>
-
-              <div class="form-group">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><i class="fa fa-address-book"></i
+                      ><i class="fa fa-user"></i
                     ></span>
                   </div>
                   <input
                     type="file"
-                    name="serviceImage"
-                    id="serviceImage"
+                    name="imageImage"
+                    id="imageImage"
                     class="form-control input-sm"
-                    placeholder="Ảnh"
                   />
                 </div>
-                <span class="sp-thongbao" id="tbServiceImage"></span>
+
+                <span class="sp-thongbao" id="tbImageImage"></span>
               </div>
             </form>
           </div>
 
           <!-- Modal footer -->
           <div class="modal-footer" id="modal-footer">
-            <button id="btnThemDv" type="button" class="btn btn-success">
+            <button id="btnThemA" type="button" class="btn btn-success">
               Thêm
             </button>
             <button id="btnCapNhat" type="button" class="btn btn-success">
@@ -341,6 +303,6 @@
     <script src="./js/main/DataList.js"></script>
     <script src="./js/main/Validation.js"></script>
 
-    <script src="./js/main/mainService.js"></script>
+    <script src="./js/main/mainImage.js"></script>
   </body>
 </html>

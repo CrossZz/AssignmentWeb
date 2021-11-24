@@ -3,23 +3,38 @@
   include 'header.php';
 ?>
 <?php
+//   if (isset($_POST['id'])) {
+
+//     delete_user($_POST['id']);
+
+//     function delete_user($id) {
+//       $user = new user();
+//       $user->delete_user();
+//       return get_all_users();
+//     }
+
+// }
+  function delete_user(){
+    $user = new user();
+    $user->delete_user(4);
+    return get_all_users();
+  }
+  function get_all_users(){
+    $user = new user();
+    $user_list = $user->show_all_user();
+    $users = [];
+    $c = 0;
+    while ($each_brand = mysqli_fetch_array($user_list)){
+      array_push($users,$each_brand);
+    }
+    return $users;
+  }
   $user_list = $user->show_all_user();
   $users = [];
   $c = 0;
-  
-  echo count(($user_list));
   while ($each_brand = mysqli_fetch_array($user_list)){
-    
-    echo " ";
-    echo $each_brand["userName"]."<br>";
-    echo " ";
-    $users = $users+[$each_brand];
-    $c+=1;
+    array_push($users,$each_brand);
   }
-  echo "  ";
-  echo count($users);
-  echo "  ";
-  
 ?>
 <html lang="en">
   <head>
@@ -61,49 +76,49 @@
 
         <ul class="list-unstyled components">
           <li class="active">
-            <a href="./user.html">
+            <a href="./user.php">
               <i class="fa fa-user"></i>
               Người dùng
             </a>
           </li>
           <li>
-            <a href="./product.html">
+            <a href="./product.php">
               <i class="fa fa-product-hunt"></i>
               Sản phẩm
             </a>
           </li>
           <li>
-            <a href="./news.html">
+            <a href="./news.php">
               <i class="fa fa-newspaper-o"></i>
               Tin tức
             </a>
           </li>
           <li>
-            <a href="./appointment.html">
+            <a href="./appointment.php">
               <i class="fa fa-calendar"></i>
               Lịch hẹn
             </a>
           </li>
           <li>
-            <a href="./comment.html">
+            <a href="./comment.php">
               <i class="fa fa-comment"></i>
               Bình luận
             </a>
           </li>
           <li>
-            <a href="./brand.html">
+            <a href="./brand.php">
               <i class="fa fa-car"></i>
               Hãng
             </a>
           </li>
           <li>
-            <a href="./service.html">
+            <a href="./service.php">
               <i class="fa fa-server"></i>
               Dịch vụ
             </a>
           </li>
           <li>
-            <a href="./image.html">
+            <a href="./image.php">
               <i class="fa fa-image"></i>
               Ảnh
             </a>
@@ -392,18 +407,31 @@
           $("#sidebar").toggleClass("active");
         });
       });
-    </script> --> 
-    
-    <script>
-      var users=<?php echo json_encode($users); ?>;
-      var count=<?php echo json_encode($c); ?>;
-      console.log("count users",count);
-      
-      console.log(users);
-      console.log(users.length);
+    </script> -->
 
+    <script type="text/javascript">
+      function get_all_users(){
+        var users=<?php echo json_encode(get_all_users());?>;
+        taoBang(users);
+      }
       function getELE(id) {
         return document.getElementById(id);
+      }
+
+      // var xoaNguoiDung=function(id) {
+      //   $.ajax({
+      //     url: 'AssignmentWeb/admin/user',
+      //     type: 'POST',
+      //     data: {id:id},
+      //     success: function(data) {
+      //         taoBang(data);
+      //     }
+      //   });
+      // }
+      
+      function xoaNguoiDung(){
+        var users=<?php echo json_encode(delete_user());?>;
+        taoBang(users);
       }
 
       function taoBang(mang) {
@@ -427,27 +455,21 @@
                       <td>${item["userAddress"]}</td>
                       <td>${item["userRole"]}</td>
                       <td>
-                          <button class="btn btn-danger" onclick="xoaNguoiDung('${item.Id}')" >Xóa</button>
+                          <button class="btn btn-danger" onclick="xoaNguoiDung(${item["userID"]})" >Xóa</button>
                           <button data-toggle="modal"
-                          data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet('${item.Id}')" >Sửa</button>
+                          data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet(${item["userID"]})" >Sửa</button>
                       </td>
                   </tr>
               `;
         });
-        mang.map(function (item, index) {
-          //item đại diện cho 1 phần tử trong mảng
-          //item chính là 1 nd
-          // content = `tr mới` + content(chứa các tr trước đó)
-          
-        });
         tbody.innerHTML = content;
       }
-      taoBang(users);
+      get_all_users();
     </script>
     <script src="./js/main/Data.js"></script>
     <script src="./js/main/DataList.js"></script>
     <script src="./js/main/Validation.js"></script>
 
-    <script src="./js/main/mainUser.js"></script>
+    <!-- <script src="./js/main/mainUser.js"></script> -->
   </body>
 </html>

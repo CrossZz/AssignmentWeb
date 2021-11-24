@@ -38,50 +38,50 @@
         </div>
 
         <ul class="list-unstyled components">
-          <li>
-            <a href="./user.html">
+          <li class="active">
+            <a href="./user.php">
               <i class="fa fa-user"></i>
               Người dùng
             </a>
           </li>
-          <li class="active">
-            <a href="./product.html">
+          <li>
+            <a href="./product.php">
               <i class="fa fa-product-hunt"></i>
               Sản phẩm
             </a>
           </li>
           <li>
-            <a href="./news.html">
+            <a href="./news.php">
               <i class="fa fa-newspaper-o"></i>
               Tin tức
             </a>
           </li>
           <li>
-            <a href="./appointment.html">
+            <a href="./appointment.php">
               <i class="fa fa-calendar"></i>
               Lịch hẹn
             </a>
           </li>
           <li>
-            <a href="./comment.html">
+            <a href="./comment.php">
               <i class="fa fa-comment"></i>
               Bình luận
             </a>
           </li>
           <li>
-            <a href="./brand.html">
+            <a href="./brand.php">
               <i class="fa fa-car"></i>
               Hãng
             </a>
           </li>
           <li>
-            <a href="./service.html">
+            <a href="./service.php">
               <i class="fa fa-server"></i>
               Dịch vụ
             </a>
           </li>
           <li>
-            <a href="./image.html">
+            <a href="./image.php">
               <i class="fa fa-image"></i>
               Ảnh
             </a>
@@ -122,17 +122,17 @@
               <div class="row">
                 <div class="col-md-6">
                   <h3 class="text-left text-primary font-weight-bold">
-                    Danh sách sản phẩm
+                    Danh sách tin tức
                   </h3>
                 </div>
                 <div class="col-md-6 text-right">
                   <button
                     class="btn btn-primary"
-                    id="btnAddProduct"
+                    id="btnAddNews"
                     data-toggle="modal"
                     data-target="#myModal"
                   >
-                    Thêm sản phẩm
+                    Thêm tin
                   </button>
                 </div>
               </div>
@@ -147,11 +147,11 @@
                     <input
                       type="text"
                       class="form-control"
-                      placeholder="Tên sản phẩm"
+                      placeholder="Tên tin tức"
                       id="searchName"
                     />
                     <div class="input-group-prepend">
-                      <span class="input-group-text" id="btnTimSp"
+                      <span class="input-group-text" id="btnTimTt"
                         ><i class="fa fa-search"></i
                       ></span>
                     </div>
@@ -166,9 +166,7 @@
                       <!-- <i class="fa fa-arrow-up" id="SapXepTang"></i>
                       <i class="fa fa-arrow-down" id="SapXepGiam"></i> -->
                     </th>
-                    <th>Mã Hãng</th>
                     <th>Tên</th>
-                    <th>Giá</th>
                     <th>Mô tả</th>
                     <th>Nội dung</th>
                     <th>Ảnh</th>
@@ -203,15 +201,9 @@
             <h2 id="header-title">Edit</h2>
           </header>
 
-          <!-- Modal Header -->
-          <!-- 	<div class="modal-header">
-					<h4 class="modal-title" id="modal-title">Modal Heading</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div> -->
-
           <!-- Modal body -->
           <div class="modal-body">
-            <form role="form" id="formSp">
+            <form role="form" id="formTt">
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -221,33 +213,14 @@
                   </div>
                   <input
                     type="text"
-                    name="productId"
-                    id="productId"
+                    name="newsId"
+                    id="newsId"
                     class="form-control input-sm"
                     placeholder="Mã số"
                   />
                 </div>
 
-                <span class="sp-thongbao" id="tbProductId"></span>
-              </div>
-
-              <div class="form-group">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><i class="fa fa-user"></i
-                    ></span>
-                  </div>
-                  <input
-                    type="text"
-                    name="brandId"
-                    id="brandId"
-                    class="form-control input-sm"
-                    placeholder="Mã Hãng"
-                  />
-                </div>
-
-                <span class="sp-thongbao" id="tbBrandId"></span>
+                <span class="sp-thongbao" id="tbNewsId"></span>
               </div>
 
               <div class="form-group">
@@ -259,13 +232,13 @@
                   </div>
                   <input
                     type="text"
-                    name="productName"
-                    id="productName"
+                    name="newsName"
+                    id="newsName"
                     class="form-control input-sm"
-                    placeholder="Tên sản phẩm"
+                    placeholder="Tên"
                   />
                 </div>
-                <span class="sp-thongbao" id="tbProductName"></span>
+                <span class="sp-thongbao" id="tbNewsName"></span>
               </div>
 
               <div class="form-group">
@@ -277,31 +250,13 @@
                   </div>
                   <input
                     type="text"
-                    name="productPrice"
-                    id="productPrice"
-                    class="form-control input-sm"
-                    placeholder="Giá"
-                  />
-                </div>
-                <span class="sp-thongbao" id="tbProductPrice"></span>
-              </div>
-
-              <div class="form-group">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><i class="fa fa-address-book"></i
-                    ></span>
-                  </div>
-                  <input
-                    type="text"
-                    name="productDescription"
-                    id="productDescription"
+                    name="newsDescription"
+                    id="newsDescription"
                     class="form-control input-sm"
                     placeholder="Mô tả"
                   />
                 </div>
-                <span class="sp-thongbao" id="tbProductDescription"></span>
+                <span class="sp-thongbao" id="tbNewsDescription"></span>
               </div>
 
               <div class="form-group">
@@ -313,13 +268,13 @@
                   </div>
                   <input
                     type="text"
-                    name="productDetail"
-                    id="productDetail"
+                    name="newsDetail"
+                    id="newsDetail"
                     class="form-control input-sm"
                     placeholder="Nội dung"
                   />
                 </div>
-                <span class="sp-thongbao" id="tbProductDetail"></span>
+                <span class="sp-thongbao" id="tbNewsDetail"></span>
               </div>
 
               <div class="form-group">
@@ -331,20 +286,20 @@
                   </div>
                   <input
                     type="file"
-                    name="productImage"
-                    id="productImage"
+                    name="newsImage"
+                    id="newsImage"
                     class="form-control input-sm"
                     placeholder="Ảnh"
                   />
                 </div>
-                <span class="sp-thongbao" id="tbProductImage"></span>
+                <span class="sp-thongbao" id="tbNewsImage"></span>
               </div>
             </form>
           </div>
 
           <!-- Modal footer -->
           <div class="modal-footer" id="modal-footer">
-            <button id="btnThemSp" type="button" class="btn btn-success">
+            <button id="btnThemTt" type="button" class="btn btn-success">
               Thêm
             </button>
             <button id="btnCapNhat" type="button" class="btn btn-success">
@@ -388,6 +343,6 @@
     <script src="./js/main/DataList.js"></script>
     <script src="./js/main/Validation.js"></script>
 
-    <script src="./js/main/mainProduct.js"></script>
+    <script src="./js/main/mainNews.js"></script>
   </body>
 </html>

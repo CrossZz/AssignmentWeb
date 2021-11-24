@@ -38,50 +38,50 @@
         </div>
 
         <ul class="list-unstyled components">
-          <li>
-            <a href="./user.html">
+          <li class="active">
+            <a href="./user.php">
               <i class="fa fa-user"></i>
               Người dùng
             </a>
           </li>
           <li>
-            <a href="./product.html">
+            <a href="./product.php">
               <i class="fa fa-product-hunt"></i>
               Sản phẩm
             </a>
           </li>
           <li>
-            <a href="./news.html">
+            <a href="./news.php">
               <i class="fa fa-newspaper-o"></i>
               Tin tức
             </a>
           </li>
-          <li class="active">
-            <a href="./appointment.html">
+          <li>
+            <a href="./appointment.php">
               <i class="fa fa-calendar"></i>
               Lịch hẹn
             </a>
           </li>
           <li>
-            <a href="./comment.html">
+            <a href="./comment.php">
               <i class="fa fa-comment"></i>
               Bình luận
             </a>
           </li>
           <li>
-            <a href="./brand.html">
+            <a href="./brand.php">
               <i class="fa fa-car"></i>
               Hãng
             </a>
           </li>
           <li>
-            <a href="./service.html">
+            <a href="./service.php">
               <i class="fa fa-server"></i>
               Dịch vụ
             </a>
           </li>
           <li>
-            <a href="./image.html">
+            <a href="./image.php">
               <i class="fa fa-image"></i>
               Ảnh
             </a>

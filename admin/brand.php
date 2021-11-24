@@ -38,50 +38,50 @@
         </div>
 
         <ul class="list-unstyled components">
-          <li>
-            <a href="./user.html">
+          <li class="active">
+            <a href="./user.php">
               <i class="fa fa-user"></i>
               Người dùng
             </a>
           </li>
           <li>
-            <a href="./product.html">
+            <a href="./product.php">
               <i class="fa fa-product-hunt"></i>
               Sản phẩm
             </a>
           </li>
           <li>
-            <a href="./news.html">
+            <a href="./news.php">
               <i class="fa fa-newspaper-o"></i>
               Tin tức
             </a>
           </li>
           <li>
-            <a href="./appointment.html">
+            <a href="./appointment.php">
               <i class="fa fa-calendar"></i>
               Lịch hẹn
             </a>
           </li>
-          <li class="active">
-            <a href="./comment.html">
+          <li>
+            <a href="./comment.php">
               <i class="fa fa-comment"></i>
               Bình luận
             </a>
           </li>
           <li>
-            <a href="./brand.html">
+            <a href="./brand.php">
               <i class="fa fa-car"></i>
               Hãng
             </a>
           </li>
           <li>
-            <a href="./service.html">
+            <a href="./service.php">
               <i class="fa fa-server"></i>
               Dịch vụ
             </a>
           </li>
           <li>
-            <a href="./image.html">
+            <a href="./image.php">
               <i class="fa fa-image"></i>
               Ảnh
             </a>
@@ -122,19 +122,19 @@
               <div class="row">
                 <div class="col-md-6">
                   <h3 class="text-left text-primary font-weight-bold">
-                    Danh sách bình luận
+                    Danh sách hãng
                   </h3>
                 </div>
-                <!-- <div class="col-md-6 text-right">
+                <div class="col-md-6 text-right">
                   <button
                     class="btn btn-primary"
-                    id="btnThem"
+                    id="btnAddBrand"
                     data-toggle="modal"
                     data-target="#myModal"
                   >
-                    
+                    Thêm hãng
                   </button>
-                </div> -->
+                </div>
               </div>
             </div>
             <!-- End Header -->
@@ -144,17 +144,17 @@
               <div class="row mb-3">
                 <div class="col">
                   <div class="input-group">
-                    <!-- <input
+                    <input
                       type="text"
                       class="form-control"
-                      placeholder="Tên nhân viên"
+                      placeholder="Tên hãng"
                       id="searchName"
                     />
                     <div class="input-group-prepend">
-                      <span class="input-group-text" id="btnTimNV"
+                      <span class="input-group-text" id="btnTimH"
                         ><i class="fa fa-search"></i
                       ></span>
-                    </div> -->
+                    </div>
                   </div>
                 </div>
               </div>
@@ -166,10 +166,10 @@
                       <!-- <i class="fa fa-arrow-up" id="SapXepTang"></i>
                       <i class="fa fa-arrow-down" id="SapXepGiam"></i> -->
                     </th>
-                    <th>Mã khách hàng</th>
+                    <th>Tên</th>
                     <th>Nội dung</th>
-                    <th>Mã sản phẩm</th>
-                    <!-- <th><em class="fa fa-cog"></em></th> -->
+                    <th>Ảnh</th>
+                    <th><em class="fa fa-cog"></em></th>
                   </tr>
                 </thead>
                 <tbody id="tableDanhSach"></tbody>
@@ -187,6 +187,119 @@
               </nav>
             </div>
             <!-- End Footer -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <header class="head-form mb-0">
+            <h2 id="header-title">Edit</h2>
+          </header>
+
+          <!-- Modal Header -->
+          <!-- 	<div class="modal-header">
+					<h4 class="modal-title" id="modal-title">Modal Heading</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div> -->
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form role="form" id="formH">
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fa fa-user"></i
+                    ></span>
+                  </div>
+                  <input
+                    type="text"
+                    name="brandId"
+                    id="brandId"
+                    class="form-control input-sm"
+                    placeholder="Mã số"
+                  />
+                </div>
+
+                <span class="sp-thongbao" id="tbBrandId"></span>
+              </div>
+
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fa fa-address-book"></i
+                    ></span>
+                  </div>
+                  <input
+                    type="text"
+                    name="brandName"
+                    id="brandName"
+                    class="form-control input-sm"
+                    placeholder="Tên"
+                  />
+                </div>
+                <span class="sp-thongbao" id="tbBrandName"></span>
+              </div>
+
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fa fa-address-book"></i
+                    ></span>
+                  </div>
+                  <input
+                    type="text"
+                    name="brandContent"
+                    id="brandContent"
+                    class="form-control input-sm"
+                    placeholder="Nội dung"
+                  />
+                </div>
+                <span class="sp-thongbao" id="tbBrandContent"></span>
+              </div>
+
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fa fa-address-book"></i
+                    ></span>
+                  </div>
+                  <input
+                    type="file"
+                    name="brandImage"
+                    id="brandImage"
+                    class="form-control input-sm"
+                    placeholder="Ảnh"
+                  />
+                </div>
+                <span class="sp-thongbao" id="tbBrandImage"></span>
+              </div>
+            </form>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer" id="modal-footer">
+            <button id="btnThemH" type="button" class="btn btn-success">
+              Thêm
+            </button>
+            <button id="btnCapNhat" type="button" class="btn btn-success">
+              Cập nhật
+            </button>
+            <button
+              id="btnDong"
+              type="button"
+              class="btn btn-danger"
+              data-dismiss="modal"
+            >
+              Đóng
+            </button>
           </div>
         </div>
       </div>
@@ -217,6 +330,6 @@
     <script src="./js/main/DataList.js"></script>
     <script src="./js/main/Validation.js"></script>
 
-    <script src="./js/main/main.js"></script>
+    <script src="./js/main/mainBrand.js"></script>
   </body>
 </html>
