@@ -3,22 +3,21 @@
   include 'header.php';
 ?>
 <?php
-//   if (isset($_POST['id'])) {
+  if (isset($_POST['iden'])) {
 
-//     delete_user($_POST['id']);
+    return delete_user($_POST['iden']);
 
-//     function delete_user($id) {
-//       $user = new user();
-//       $user->delete_user();
-//       return get_all_users();
-//     }
-
-// }
-  function delete_user(){
+  }
+  function delete_user($id) {
     $user = new user();
-    $user->delete_user(4);
+    $user->delete_user($id);
     return get_all_users();
   }
+  // function delete_user(){
+  //   $user = new user();
+  //   $a = $user->delete_user(4);
+  //   return get_all_users();
+  // }
   function get_all_users(){
     $user = new user();
     $user_list = $user->show_all_user();
@@ -418,21 +417,21 @@
         return document.getElementById(id);
       }
 
-      // var xoaNguoiDung=function(id) {
-      //   $.ajax({
-      //     url: 'AssignmentWeb/admin/user',
-      //     type: 'POST',
-      //     data: {id:id},
-      //     success: function(data) {
-      //         taoBang(data);
-      //     }
-      //   });
-      // }
-      
-      function xoaNguoiDung(){
-        var users=<?php echo json_encode(delete_user());?>;
-        taoBang(users);
+      function xoaNguoiDung(id) {
+        $.ajax({
+          url: 'AssignmentWeb/admin/user.php',
+          type: 'POST',
+          data: {iden:id},
+          success:function(users) {
+            taoBang(users);
+           }
+        });
       }
+      
+      // function xoaNguoiDung(){
+      //   var users=<?php echo json_encode(delete_user());?>;
+      //   taoBang(users);
+      // }
 
       function taoBang(mang) {
         var tbody = getELE("tableDanhSach");

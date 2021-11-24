@@ -73,8 +73,9 @@
             }
         }
         public function delete_user($id){
-            $query = "DELETE * FROM user WHERE userID = $id";
+            $query = "DELETE FROM user WHERE userID = $id";
             $result = $this->db->delete($query);
+            return $result;
         }
         public function get_info(){
             $userid=Session::get('user_id');
