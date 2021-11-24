@@ -3,36 +3,14 @@
   include 'header.php';
 ?>
 <?php
-  if (isset($_POST['iden'])) {
-
-    return delete_user($_POST['iden']);
-
-  }
-  function delete_user($id) {
-    $user = new user();
-    $user->delete_user($id);
-    return get_all_users();
-  }
-  // function delete_user(){
-  //   $user = new user();
-  //   $a = $user->delete_user(4);
-  //   return get_all_users();
-  // }
   function get_all_users(){
     $user = new user();
     $user_list = $user->show_all_user();
     $users = [];
-    $c = 0;
     while ($each_brand = mysqli_fetch_array($user_list)){
       array_push($users,$each_brand);
     }
     return $users;
-  }
-  $user_list = $user->show_all_user();
-  $users = [];
-  $c = 0;
-  while ($each_brand = mysqli_fetch_array($user_list)){
-    array_push($users,$each_brand);
   }
 ?>
 <html lang="en">
@@ -408,7 +386,7 @@
       });
     </script> -->
 
-    <script type="text/javascript">
+    <script>
       function get_all_users(){
         var users=<?php echo json_encode(get_all_users());?>;
         taoBang(users);
@@ -416,23 +394,7 @@
       function getELE(id) {
         return document.getElementById(id);
       }
-
-      function xoaNguoiDung(id) {
-        $.ajax({
-          url: 'AssignmentWeb/admin/user.php',
-          type: 'POST',
-          data: {iden:id},
-          success:function(users) {
-            taoBang(users);
-           }
-        });
-      }
       
-      // function xoaNguoiDung(){
-      //   var users=<?php echo json_encode(delete_user());?>;
-      //   taoBang(users);
-      // }
-
       function taoBang(mang) {
         var tbody = getELE("tableDanhSach");
         // content chứa các thẻ tr(mỗi tr chứa thông tin 1 nd)
@@ -454,21 +416,23 @@
                       <td>${item["userAddress"]}</td>
                       <td>${item["userRole"]}</td>
                       <td>
-                          <button class="btn btn-danger" onclick="xoaNguoiDung(${item["userID"]})" >Xóa</button>
+                          <button class="btn btn-danger"   >Xóa</button>
                           <button data-toggle="modal"
-                          data-target="#myModal" class="btn btn-info" onclick="hienThiChiTiet(${item["userID"]})" >Sửa</button>
+                          data-target="#myModal" class="btn btn-info"   >Sửa</button>
                       </td>
                   </tr>
               `;
         });
         tbody.innerHTML = content;
       }
+      console.log("abc");
+
       get_all_users();
     </script>
     <script src="./js/main/Data.js"></script>
     <script src="./js/main/DataList.js"></script>
     <script src="./js/main/Validation.js"></script>
 
-    <!-- <script src="./js/main/mainUser.js"></script> -->
+    <script src="./js/main/mainUser.js"></script>
   </body>
 </html>
