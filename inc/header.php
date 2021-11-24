@@ -97,7 +97,7 @@
                   </a>
                </li>
                <li class="nav-item">
-                  <a class="nav-link" href="#">News</a>
+                  <a class="nav-link" href="./news.php">News</a>
                </li>
                <li class="nav-item">
                   <a class="nav-link" href="aboutus.php">About Us</a>

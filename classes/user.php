@@ -13,6 +13,12 @@
     		$this->db = new Database();
     		$this->fm = new Format();
     	}
+        public function show_all_user(){
+            $query = "SELECT * FROM user order by userID desc";
+            //lấy các phần tử trong bảng rồi sắp xếp theo userID
+            $result = $this->db->select($query);
+            return $result;
+        }
         public function create_user($data){
             $userName = mysqli_real_escape_string($this->db->link, $data['userName']);
             $userEmail = mysqli_real_escape_string($this->db->link, $data['userEmail']);
