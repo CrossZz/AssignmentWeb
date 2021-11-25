@@ -1,4 +1,22 @@
 <!DOCTYPE html>
+<?php
+  include 'header.php';
+?>
+
+
+
+<?php
+  
+  function get_all_products(){
+    $comment = new comment();
+    $comment_list = $comment->get_all_comment();
+    $comments = [];
+    while ($each_brand = mysqli_fetch_array($comment_list)){
+      array_push($comments,$each_brand);
+    }
+    return $comments;
+  }
+?>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -78,12 +96,6 @@
             <a href="./service.php">
               <i class="fa fa-server"></i>
               Dịch vụ
-            </a>
-          </li>
-          <li>
-            <a href="./image.php">
-              <i class="fa fa-image"></i>
-              Ảnh
             </a>
           </li>
         </ul>
@@ -198,11 +210,54 @@
     <script type="text/javascript" src="js/popper.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
+
+    <script>
+      
+
+      function get_all_comments(){
+        var comment=<?php echo json_encode(get_all_products());?>;
+        taoBang(comment);
+      }
+      function getELE(id) {
+        return document.getElementById(id);
+      }
+      
+      function taoBang(mang) {
+        var tbody = getELE("tableDanhSach");
+        // content chứa các thẻ tr(mỗi tr chứa thông tin 1 nd)
+        var content = "";
+        // map: giúp duyệt mảng (ES6)
+        //reduce: ES6
+        // for: cú pháp dài, tốc độ duyệt mảng nhanh (ES5)
+        //forEach (ES5)
+        mang.map(function (item, index) {
+          //item đại diện cho 1 phần tử trong mảng
+          //item chính là 1 nd
+          // content = `tr mới` + content(chứa các tr trước đó)
+          content += `
+                  <tr>
+                      <td>${item["commentID"]}</td>
+                      <td>${item["commentUserID"]}</td>
+                      <td>${item["commentContent"]}</td>
+                      <td>${item["commentCarID"]}</td>
+                  </tr>
+              `;
+          }
+          );
+        tbody.innerHTML = content;
+        // console.log(content);
+      }
+
+      get_all_comments();
+    </script>
+
+
+
     <!-- Date Picker -->
     <!-- <script src="js/jquery-ui.min.js"></script> -->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="js/datepicker.js"></script>
-
+    
     <!-- <script src="js/modal.js"></script> -->
 
     <!-- <script type="text/javascript">

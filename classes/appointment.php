@@ -1,11 +1,9 @@
 
 <?php 
-   $filepath= realpath(dirname(__FILE__)); 
+   $filepath= realpath(dirname(__FILE__));
    include_once ($filepath.'/../config/database.php');
    include_once ($filepath.'/../helpers/format.php');
-
  ?>
-
  <?php 
     /**
      * 
@@ -58,7 +56,12 @@
             $result = $this->db->select($query);
             return $result;
         }
-        
+        public function update_appointment_admin($data){
+            $id = $data['id'];
+            $state = mysqli_real_escape_string($this->db->link, $data['state']);
+            $query ="UPDATE appointment SET state = '$state' WHERE ID = '$id'"; 
+            $result = $this->db->update($query);
+        }
         public function update_appointment ($data, $id){
            
             $content = mysqli_real_escape_string($this->db->link, $data['content']);
@@ -84,7 +87,7 @@
                 }
             }
         }
-        public function del_appointment ($id){
+        public function del_appointment($id){
             $query = "DELETE FROM appointment  WHERE ID='$id' ";
             //chọn phần tử trong bảng với đk appointment ID= id 
             $result = $this->db->delete($query);

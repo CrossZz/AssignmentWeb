@@ -1,4 +1,39 @@
 <!DOCTYPE html>
+<?php
+  include 'header.php';
+?>
+
+
+
+<?php
+  if(isset($_POST["iden"])) {
+    delete_appointment($_POST["iden"]);
+  }
+
+  if(isset($_POST["u_appointment"])) {
+    update_appointment($_POST);
+  }
+
+  
+  function update_appointment($data){
+    $appointment = new appointment();
+    $appointment->update_appointment_admin($data);
+  }
+  
+  function delete_appointment($id){
+    $appointment = new appointment();
+    $appointment->del_appointment($id);
+  }
+  function get_all_products(){
+    $appointment = new appointment();
+    $appointment_list = $appointment->show_all_appointment();
+    $appointments = [];
+    while ($each_brand = mysqli_fetch_array($appointment_list)){
+      array_push($appointments,$each_brand);
+    }
+    return $appointments;
+  }
+?>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -80,12 +115,6 @@
               Dịch vụ
             </a>
           </li>
-          <li>
-            <a href="./image.php">
-              <i class="fa fa-image"></i>
-              Ảnh
-            </a>
-          </li>
         </ul>
       </nav>
 
@@ -122,17 +151,17 @@
               <div class="row">
                 <div class="col-md-6">
                   <h3 class="text-left text-primary font-weight-bold">
-                    Danh sách lịch hẹn
+                    Danh sách lịch hẹn
                   </h3>
                 </div>
                 <div class="col-md-6 text-right">
                   <button
                     class="btn btn-primary"
-                    id="btnAddAppointment"
+                    id="btnAddNews"
                     data-toggle="modal"
                     data-target="#myModal"
                   >
-                    Thêm lịch
+                    Chỉnh sửa lịch hẹn
                   </button>
                 </div>
               </div>
@@ -144,31 +173,29 @@
               <div class="row mb-3">
                 <div class="col">
                   <div class="input-group">
-                    <!-- <input
+                    <input
                       type="text"
                       class="form-control"
-                      placeholder="trạng thái"
+                      placeholder="Mã khách hàng"
                       id="searchName"
-                    /> -->
-                    <!-- <div class="input-group-prepend">
-                      <span class="input-group-text" id="btnTimNV"
-                        ><i class="fa fa-search"></i
+                    />
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="btnTimTt"
+                        ><i class="fa fa-search" onclick="search()"></i
                       ></span>
-                    </div> -->
+                    </div>
                   </div>
                 </div>
               </div>
               <table class="table table-bordered table-hover myTable">
                 <thead class="text-primary">
                   <tr>
+                    <th>ID</th>
                     <th class="nowrap">
-                      <span class="mr-1">Mã Số</span>
-                      <!-- <i class="fa fa-arrow-up" id="SapXepTang"></i>
-                      <i class="fa fa-arrow-down" id="SapXepGiam"></i> -->
+                      <span class="mr-1">Ngày</span>
                     </th>
-                    <th>Ngày hẹn</th>
-                    <th>Mã khách hàng</th>
-                    <th>Trạng thái</th>
+                    <th>Mã khách hàng</th>
+                    <th>Trạng thái</th>
                     <th><em class="fa fa-cog"></em></th>
                   </tr>
                 </thead>
@@ -200,16 +227,11 @@
             <h2 id="header-title">Edit</h2>
           </header>
 
-          <!-- Modal Header -->
-          <!-- 	<div class="modal-header">
-					<h4 class="modal-title" id="modal-title">Modal Heading</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div> -->
-
           <!-- Modal body -->
           <div class="modal-body">
-            <form role="form" id="formLh">
-              <div class="form-group">
+            <form role="form" id="formTt">
+              
+            <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"
@@ -218,80 +240,44 @@
                   </div>
                   <input
                     type="text"
-                    name="appointmentId"
-                    id="appointmentId"
+                    name="ID"
+                    id="ID"
                     class="form-control input-sm"
                     placeholder="Mã số"
                   />
                 </div>
-
-                <span class="sp-thongbao" id="tbAppointmentId"></span>
+                <span class="sp-thongbao" id="tbpostID"></span>
               </div>
+              
+
+              
 
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"
-                      ><i class="fa fa-user"></i
+                      ><i class="fa fa-address-book"></i
                     ></span>
                   </div>
                   <input
                     type="text"
-                    name="userId"
-                    id="userId"
+                    name="state"
+                    id="state"
                     class="form-control input-sm"
-                    placeholder="Mã khách hàng"
+                    placeholder="Trạng thái"
                   />
                 </div>
-
-                <span class="sp-thongbao" id="tbUserId"></span>
-              </div>
-              <div class="form-group">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><i class="fa fa-user"></i
-                    ></span>
-                  </div>
-                  <input
-                    type="text"
-                    name="appointmentState"
-                    id="appointmentState"
-                    class="form-control input-sm"
-                    placeholder="Trạng thái"
-                  />
-                </div>
-
-                <span class="sp-thongbao" id="tbAppointmentState"></span>
+                <span class="sp-thongbao" id="tbpostContent"></span>
               </div>
 
-              <div class="form-group">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><i class="fa fa-calendar"></i
-                    ></span>
-                  </div>
-                  <input
-                    type="text"
-                    name="appointmentDate"
-                    id="datepicker"
-                    class="form-control"
-                    placeholder="Ngày hẹn"
-                  />
-                </div>
-
-                <span class="sp-thongbao" id="tbAppointmentDate"></span>
-              </div>
+               
             </form>
           </div>
 
           <!-- Modal footer -->
           <div class="modal-footer" id="modal-footer">
-            <button id="btnThemLh" type="button" class="btn btn-success">
-              Thêm
-            </button>
-            <button id="btnCapNhat" type="button" class="btn btn-success">
+            
+            <button id="btnCapNhat" type="button" onclick="update()" class="btn btn-success" >
               Cập nhật
             </button>
             <button
@@ -307,11 +293,97 @@
       </div>
     </div>
 
+
+
+
+
+    
     <!-- Bootstrap -->
     <script src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/jquery.easing.min.js"></script>
     <script type="text/javascript" src="js/popper.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    
+
+    <script>
+      
+
+      function get_all_appointments(){
+        var appointments=<?php echo json_encode(get_all_products());?>;
+        taoBang(appointments);
+      }
+      function getELE(id) {
+        return document.getElementById(id);
+      }
+      
+      function del(id) {
+        $.ajax({
+            type: "POST",
+            url: 'appointment.php',
+            data:{"iden":id},
+            success:function(result) {
+              // get_all_cars();
+              location.reload();
+            }
+
+        });
+        
+      }
+      function search(){
+        get_all_appointments();
+      }
+      function update(){
+        var id = parseInt(getELE("ID").value);
+        var state = getELE("state").value;
+
+        var data = [];
+        $.ajax({
+            type: "POST",
+            url: 'news.php',
+            data:{"u_appointment": 1,"id":id,"state":state},
+            success:function(result) {
+              location.reload();
+            }
+
+        });
+      }
+      function taoBang(mang) {
+        var search = getELE("searchName").value;
+        var tbody = getELE("tableDanhSach");
+        // content chứa các thẻ tr(mỗi tr chứa thông tin 1 nd)
+        var content = "";
+        // map: giúp duyệt mảng (ES6)
+        //reduce: ES6
+        // for: cú pháp dài, tốc độ duyệt mảng nhanh (ES5)
+        //forEach (ES5)
+        mang.map(function (item, index) {
+          //item đại diện cho 1 phần tử trong mảng
+          //item chính là 1 nd
+          // content = `tr mới` + content(chứa các tr trước đó)
+          if(item["userID"].includes(search)){
+            content += `
+                  <tr>
+                      <td>${item["ID"]}</td>
+                      <td>${item["date"]}</td>
+                      <td>${item["userID"]}</td>
+                      <td>${item["state"]}</td>
+                      <td>
+                          <button class="btn btn-danger"  onclick="del(${item["ID"]})" >Xóa</button>
+                          <button data-toggle="modal"
+                          data-target="#myModal" class="btn btn-info">Sửa</button>
+                      </td>
+                  </tr>
+              `;
+        }
+          }
+          );
+        tbody.innerHTML = content;
+        // console.log(content);
+      }
+
+      get_all_appointments();
+    </script>
+
 
     <!-- Date Picker -->
     <!-- <script src="js/jquery-ui.min.js"></script> -->
@@ -327,11 +399,13 @@
         });
       });
     </script> -->
-
+      
     <script src="./js/main/Data.js"></script>
     <script src="./js/main/DataList.js"></script>
     <script src="./js/main/Validation.js"></script>
 
-    <script src="./js/main/mainAppointment.js"></script>
+    <!-- <script src="./js/main/mainNews.js"></script> -->
+    
   </body>
+  
 </html>

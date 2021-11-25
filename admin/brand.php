@@ -1,4 +1,47 @@
 <!DOCTYPE html>
+<?php
+  include 'header.php';
+?>
+
+
+
+<?php
+  if(isset($_POST["iden"])) {
+    delete_model($_POST["iden"]);
+  }
+
+  if(isset($_POST["u_model"])) {
+    update_model($_POST);
+  }
+
+  if(isset($_POST["c_model"])) {
+    create_model($_POST);
+  }
+  
+  function update_model($data){
+    $model = new model();
+    $model->update_model_admin($data);
+  } 
+  
+  function create_model($data){
+    $model = new model();
+    $model->create_model($data);
+  }
+  
+  function delete_model($id){
+    $model = new model();
+    $model->del_model($id);
+  }
+  function get_all_products(){
+    $model = new model();
+    $model_list = $model->show_model();
+    $models = [];
+    while ($each_brand = mysqli_fetch_array($model_list)){
+      array_push($models,$each_brand);
+    }
+    return $models;
+  }
+?>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -80,12 +123,6 @@
               Dịch vụ
             </a>
           </li>
-          <li>
-            <a href="./image.php">
-              <i class="fa fa-image"></i>
-              Ảnh
-            </a>
-          </li>
         </ul>
       </nav>
 
@@ -152,7 +189,7 @@
                     />
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="btnTimH"
-                        ><i class="fa fa-search"></i
+                        ><i class="fa fa-search" onclick = "search()"></i
                       ></span>
                     </div>
                   </div>
@@ -167,6 +204,7 @@
                       <i class="fa fa-arrow-down" id="SapXepGiam"></i> -->
                     </th>
                     <th>Tên</th>
+                    <th>Mô tả</th>
                     <th>Nội dung</th>
                     <th>Ảnh</th>
                     <th><em class="fa fa-cog"></em></th>
@@ -218,8 +256,8 @@
                   </div>
                   <input
                     type="text"
-                    name="brandId"
-                    id="brandId"
+                    name="modelID"
+                    id="modelID"
                     class="form-control input-sm"
                     placeholder="Mã số"
                   />
@@ -237,14 +275,16 @@
                   </div>
                   <input
                     type="text"
-                    name="brandName"
-                    id="brandName"
+                    name="modelName"
+                    id="modelName"
                     class="form-control input-sm"
                     placeholder="Tên"
                   />
                 </div>
                 <span class="sp-thongbao" id="tbBrandName"></span>
               </div>
+
+
 
               <div class="form-group">
                 <div class="input-group">
@@ -255,8 +295,28 @@
                   </div>
                   <input
                     type="text"
-                    name="brandContent"
-                    id="brandContent"
+                    name="modelDesc"
+                    id="modelDesc"
+                    class="form-control input-sm"
+                    placeholder="Miêu tả"
+                  />
+                </div>
+                <span class="sp-thongbao" id="tbBrandContent"></span>
+              </div>
+
+
+
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fa fa-address-book"></i
+                    ></span>
+                  </div>
+                  <input
+                    type="text"
+                    name="modelContent"
+                    id="modelContent"
                     class="form-control input-sm"
                     placeholder="Nội dung"
                   />
@@ -273,10 +333,11 @@
                   </div>
                   <input
                     type="file"
-                    name="brandImage"
-                    id="brandImage"
+                    name="image"
+                    id="image"
                     class="form-control input-sm"
                     placeholder="Ảnh"
+                    multiple=""
                   />
                 </div>
                 <span class="sp-thongbao" id="tbBrandImage"></span>
@@ -286,10 +347,10 @@
 
           <!-- Modal footer -->
           <div class="modal-footer" id="modal-footer">
-            <button id="btnThemH" type="button" class="btn btn-success">
+            <button id="btnThemH" type="button" onclick = "add()" class="btn btn-success">
               Thêm
             </button>
-            <button id="btnCapNhat" type="button" class="btn btn-success">
+            <button id="btnCapNhat" type="button" onclick = "update()" class="btn btn-success">
               Cập nhật
             </button>
             <button
@@ -310,7 +371,99 @@
     <script type="text/javascript" src="js/jquery.easing.min.js"></script>
     <script type="text/javascript" src="js/popper.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script>
+      
 
+      function get_all_models(){
+        var models=<?php echo json_encode(get_all_products());?>;
+        taoBang(models);
+      }
+      function getELE(id) {
+        return document.getElementById(id);
+      }
+      
+      function del(id) {
+        $.ajax({
+            type: "POST",
+            url: 'brand.php',
+            data:{"iden":id},
+            success:function(result) {
+              // get_all_cars();
+              location.reload();
+            }
+
+        });
+        
+      }
+      function search(){
+        get_all_models();
+      }
+      function update(){
+        var modelID = parseInt(getELE("modelID").value);
+        var modelName = getELE("modelName").value;
+        var modelDesc = getELE("modelDesc").value;
+        var modelContent = getELE("modelContent").value;
+
+        var data = [];
+        $.ajax({
+            type: "POST",
+            url: 'brand.php',
+            data:{"u_model": 1,"modelID":modelID,"modelName":modelName,"modelDesc":modelDesc,"modelContent":modelContent},
+            success:function(result) {
+              location.reload();
+            }
+
+        });
+      }
+
+      function add(){
+        var modelID = parseInt(getELE("modelID").value);
+        var modelName = getELE("modelName").value;
+        var modelDesc = getELE("modelDesc").value;
+        var modelContent = getELE("modelContent").value;
+
+        var data = [];
+        $.ajax({
+            type: "POST",
+            url: 'brand.php',
+            data:{"c_model": 1,"modelID":modelID,"modelName":modelName,"modelDesc":modelDesc,"modelContent":modelContent},
+            success:function(result) {
+              location.reload();
+            }
+
+        });
+      }
+
+
+      function taoBang(mang) {
+        var search = getELE("searchName").value;
+        var tbody = getELE("tableDanhSach");
+        var content = "";
+        mang.map(function (item, index) {
+          if(item["modelName"].toLowerCase().includes(search.toLowerCase())){
+            content += `
+                  <tr>
+                      <td>${item["modelID"]}</td>
+                      <td>${item["modelName"]}</td>
+                      <td>${item["modelDesc"]}</td>
+                      <td>${item["modelContent"]}</td>
+                      <td></td>
+                      <td>
+                          <button class="btn btn-danger"  onclick="del(${item["modelID"]})">Xóa</button>
+                          <button data-toggle="modal"
+                          data-target="#myModal" class="btn btn-info">Sửa</button>
+                      </td>
+                  </tr>
+              `;
+        }
+          }
+          );
+        tbody.innerHTML = content;
+        // console.log(content);
+      }
+
+      get_all_models();
+    </script>
     <!-- Date Picker -->
     <!-- <script src="js/jquery-ui.min.js"></script> -->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -330,6 +483,6 @@
     <script src="./js/main/DataList.js"></script>
     <script src="./js/main/Validation.js"></script>
 
-    <script src="./js/main/mainBrand.js"></script>
+    <!-- <script src="./js/main/mainBrand.js"></script> -->
   </body>
 </html>

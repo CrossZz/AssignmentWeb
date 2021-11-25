@@ -1,4 +1,44 @@
 <!DOCTYPE html>
+<?php
+  include 'header.php';
+?>
+<?php
+  if(isset($_POST["iden"])) {
+    delete_service($_POST["iden"]);
+  }
+
+  if(isset($_POST["u_service"])) {
+    update_service($_POST);
+  }
+
+  if(isset($_POST["c_service"])) {
+    create_service($_POST);
+  }
+  
+  function update_service($data){
+    $service = new service();
+    $service->update_service_admin($data);
+  } 
+  
+  function create_service($data){
+    $service = new service();
+    $service->create_service($data);
+  }
+  
+  function delete_service($id){
+    $service = new service();
+    $service->del_service($id);
+  }
+  function get_all_products(){
+    $service = new service();
+    $service_list = $service->show_service();
+    $services = [];
+    while ($each_brand = mysqli_fetch_array($service_list)){
+      array_push($services,$each_brand);
+    }
+    return $services;
+  }
+?>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -78,12 +118,6 @@
             <a href="./service.php">
               <i class="fa fa-server"></i>
               Dịch vụ
-            </a>
-          </li>
-          <li>
-            <a href="./image.php">
-              <i class="fa fa-image"></i>
-              Ảnh
             </a>
           </li>
         </ul>
@@ -211,8 +245,8 @@
                   </div>
                   <input
                     type="text"
-                    name="serviceId"
-                    id="serviceId"
+                    name="serviceID"
+                    id="serviceID"
                     class="form-control input-sm"
                     placeholder="Mã số"
                   />
@@ -248,8 +282,8 @@
                   </div>
                   <input
                     type="text"
-                    name="serviceDescription"
-                    id="serviceDescription"
+                    name="serviceDesc"
+                    id="serviceDesc"
                     class="form-control input-sm"
                     placeholder="Mô tả"
                   />
@@ -297,10 +331,10 @@
 
           <!-- Modal footer -->
           <div class="modal-footer" id="modal-footer">
-            <button id="btnThemDv" type="button" class="btn btn-success">
+            <button id="btnThemDv" type="button" onclick ="add()" class="btn btn-success">
               Thêm
             </button>
-            <button id="btnCapNhat" type="button" class="btn btn-success">
+            <button id="btnCapNhat" type="button" onclick ="update()" class="btn btn-success">
               Cập nhật
             </button>
             <button
@@ -322,6 +356,105 @@
     <script type="text/javascript" src="js/popper.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
+
+
+    <script>
+      
+
+      function get_all_services(){
+        var services=<?php echo json_encode(get_all_products());?>;
+        taoBang(services);
+      }
+      function getELE(id) {
+        return document.getElementById(id);
+      }
+      
+      function del(id) {
+        $.ajax({
+            type: "POST",
+            url: 'service.php',
+            data:{"iden":id},
+            success:function(result) {
+              // get_all_cars();
+              location.reload();
+            }
+
+        });
+        
+      }
+      function search(){
+        get_all_services();
+      }
+      function update(){
+        var serviceID = parseInt(getELE("serviceID").value);
+        var serviceName = getELE("serviceName").value;
+        var serviceDesc = getELE("serviceDesc").value;
+        var serviceContent = getELE("serviceContent").value;
+
+        var data = [];
+        $.ajax({
+            type: "POST",
+            url: 'service.php',
+            data:{"u_service": 1,"serviceID":serviceID,"serviceName":serviceName,"serviceDesc":serviceDesc,"serviceContent":serviceContent},
+            success:function(result) {
+              location.reload();
+            }
+
+        });
+      }
+
+      function add(){
+        var serviceID = parseInt(getELE("serviceID").value);
+        var serviceName = getELE("serviceName").value;
+        var serviceDesc = getELE("serviceDesc").value;
+        var serviceContent = getELE("serviceContent").value;
+
+        var data = [];
+        $.ajax({
+            type: "POST",
+            url: 'service.php',
+            data:{"c_service": 1,"serviceID":serviceID,"serviceName":serviceName,"serviceDesc":serviceDesc,"serviceContent":serviceContent},
+            success:function(result) {
+              location.reload();
+            }
+
+        });
+      }
+
+
+      function taoBang(mang) {
+        var search = getELE("searchName").value;
+        var tbody = getELE("tableDanhSach");
+        var content = "";
+        mang.map(function (item, index) {
+          if(item["serviceName"].toLowerCase().includes(search.toLowerCase())){
+            content += `
+                  <tr>
+                      <td>${item["serviceID"]}</td>
+                      <td>${item["serviceName"]}</td>
+                      <td>${item["serviceDesc"]}</td>
+                      <td>${item["serviceContent"]}</td>
+                      <td></td>
+                      <td>
+                          <button class="btn btn-danger"  onclick="del(${item["serviceID"]})">Xóa</button>
+                          <button data-toggle="modal"
+                          data-target="#myModal" class="btn btn-info">Sửa</button>
+                      </td>
+                  </tr>
+              `;
+        }
+          }
+          );
+        tbody.innerHTML = content;
+        console.log(content);
+      }
+
+      get_all_services();
+      console.log("abc");
+    </script>
+
+
+
     <!-- Date Picker -->
     <!-- <script src="js/jquery-ui.min.js"></script> -->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -341,6 +474,6 @@
     <script src="./js/main/DataList.js"></script>
     <script src="./js/main/Validation.js"></script>
 
-    <script src="./js/main/mainService.js"></script>
+    <!-- <script src="./js/main/mainService.js"></script> -->
   </body>
 </html>

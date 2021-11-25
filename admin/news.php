@@ -1,4 +1,62 @@
 <!DOCTYPE html>
+<?php
+  include 'header.php';
+?>
+
+
+
+<?php
+  function console_log( $data ){
+    echo '<script>';
+    echo 'console.log("Àds")';
+    echo '</script>';
+  }
+  if(isset($_POST["iden"])) {
+    delete_post($_POST["iden"]);
+  }
+  
+  if(isset($_POST["u_post"])) {
+    update_post($_POST);
+  }
+
+  if(isset($_POST["c_post"])) {
+    create_post($_POST);
+  }
+
+  function search_post(){
+    if(isset($_POST["search"])){
+      $post = new post();
+      $post_list = $post->search_post($_POST["keylog"]);
+      $posts = [];
+      while ($each_brand = mysqli_fetch_array($post_list)){
+        array_push($posts,$each_brand);
+      }
+      return [];
+    }
+    else return get_all_posts();
+  }
+  function update_post($data){
+    $post = new post();
+    $post->update_posts($data);
+  }
+  function create_post($data){
+    $post = new post();
+    $post->insert_posts($data);
+  }
+  function delete_post($id){
+    $post = new post();
+    $post->delete_post($id);
+  }
+  function get_all_products(){
+    $post = new post();
+    $post_list = $post->show_post();
+    $posts = [];
+    while ($each_brand = mysqli_fetch_array($post_list)){
+      array_push($posts,$each_brand);
+    }
+    return $posts;
+  }
+?>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -80,12 +138,6 @@
               Dịch vụ
             </a>
           </li>
-          <li>
-            <a href="./image.php">
-              <i class="fa fa-image"></i>
-              Ảnh
-            </a>
-          </li>
         </ul>
       </nav>
 
@@ -152,7 +204,7 @@
                     />
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="btnTimTt"
-                        ><i class="fa fa-search"></i
+                        ><i class="fa fa-search" onclick="search()"></i
                       ></span>
                     </div>
                   </div>
@@ -204,7 +256,8 @@
           <!-- Modal body -->
           <div class="modal-body">
             <form role="form" id="formTt">
-              <div class="form-group">
+              
+            <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"
@@ -213,16 +266,14 @@
                   </div>
                   <input
                     type="text"
-                    name="newsId"
-                    id="newsId"
+                    name="postID"
+                    id="postID"
                     class="form-control input-sm"
                     placeholder="Mã số"
                   />
                 </div>
-
-                <span class="sp-thongbao" id="tbNewsId"></span>
+                <span class="sp-thongbao" id="tbpostID"></span>
               </div>
-
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -232,13 +283,13 @@
                   </div>
                   <input
                     type="text"
-                    name="newsName"
-                    id="newsName"
+                    name="postName"
+                    id="postName"
                     class="form-control input-sm"
                     placeholder="Tên"
                   />
                 </div>
-                <span class="sp-thongbao" id="tbNewsName"></span>
+                <span class="sp-thongbao" id="tbpostName"></span>
               </div>
 
               <div class="form-group">
@@ -250,13 +301,13 @@
                   </div>
                   <input
                     type="text"
-                    name="newsDescription"
-                    id="newsDescription"
+                    name="postDesc"
+                    id="postDesc"
                     class="form-control input-sm"
                     placeholder="Mô tả"
                   />
                 </div>
-                <span class="sp-thongbao" id="tbNewsDescription"></span>
+                <span class="sp-thongbao" id="tbpostDesc"></span>
               </div>
 
               <div class="form-group">
@@ -268,13 +319,13 @@
                   </div>
                   <input
                     type="text"
-                    name="newsDetail"
-                    id="newsDetail"
+                    name="postContent"
+                    id="postContent"
                     class="form-control input-sm"
                     placeholder="Nội dung"
                   />
                 </div>
-                <span class="sp-thongbao" id="tbNewsDetail"></span>
+                <span class="sp-thongbao" id="tbpostContent"></span>
               </div>
 
               <div class="form-group">
@@ -299,10 +350,10 @@
 
           <!-- Modal footer -->
           <div class="modal-footer" id="modal-footer">
-            <button id="btnThemTt" type="button" class="btn btn-success">
+            <button id="btnThemTt" type="button" class="btn btn-success" >
               Thêm
             </button>
-            <button id="btnCapNhat" type="button" class="btn btn-success">
+            <button id="btnCapNhat" type="button" onclick="update()" class="btn btn-success" >
               Cập nhật
             </button>
             <button
@@ -318,11 +369,113 @@
       </div>
     </div>
 
+
+
+
+
+    
     <!-- Bootstrap -->
     <script src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/jquery.easing.min.js"></script>
     <script type="text/javascript" src="js/popper.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    
+
+    <script>
+      document.getElementById("btnThemTt").addEventListener("click", function(){
+        var postName = getELE("postName").value;
+        var postDesc = getELE("postDesc").value;
+        var postContent = getELE("postContent").value;
+        var data = [];
+        $.ajax({
+            type: "POST",
+            url: 'news.php',
+            data:{"c_post": 1,"postName":postName,"postDesc":postDesc,"postContent":postContent},
+            success:function(result) {
+              location.reload();
+            }
+
+        });
+      });
+
+      function get_all_posts(){
+        var posts=<?php echo json_encode(get_all_products());?>;
+        taoBang(posts);
+      }
+      function getELE(id) {
+        return document.getElementById(id);
+      }
+      function del(id) {
+        $.ajax({
+            type: "POST",
+            url: 'news.php',
+            data:{"iden":id},
+            success:function(result) {
+              // get_all_posts();
+              location.reload();
+            }
+
+        });
+        
+      }
+      function search(){
+        get_all_posts();
+      }
+      function update(){
+        var postID = parseInt(getELE("postID").value);
+        var postName = getELE("postName").value;
+        var postDesc = getELE("postDesc").value;
+        var postContent = getELE("postContent").value;
+
+        var data = [];
+        $.ajax({
+            type: "POST",
+            url: 'news.php',
+            data:{"u_post": 1,"postID":postID,"postName":postName,"postDesc":postDesc,"postContent":postContent},
+            success:function(result) {
+              location.reload();
+            }
+
+        });
+      }
+
+
+      function taoBang(mang) {
+        var search = getELE("searchName").value;
+        var tbody = getELE("tableDanhSach");
+        // content chứa các thẻ tr(mỗi tr chứa thông tin 1 nd)
+        var content = "";
+        // map: giúp duyệt mảng (ES6)
+        //reduce: ES6
+        // for: cú pháp dài, tốc độ duyệt mảng nhanh (ES5)
+        //forEach (ES5)
+        mang.map(function (item, index) {
+          //item đại diện cho 1 phần tử trong mảng
+          //item chính là 1 nd
+          // content = `tr mới` + content(chứa các tr trước đó)
+          if(item["postName"].toLowerCase().includes(search.toLowerCase())){
+            content += `
+                  <tr>
+                      <td>${item["postID"]}</td>
+                      <td>${item["postName"]}</td>
+                      <td>${item["postDesc"]}</td>
+                      <td>${item["postContent"]}</td>
+                      <td> </td>
+                      <td>
+                          <button class="btn btn-danger"  onclick="del(${item["postID"]})" >Xóa</button>
+                      </td>
+                  </tr>
+              `;
+        }
+          }
+          );
+        tbody.innerHTML = content;
+        // console.log(content);
+      }
+
+      get_all_posts();
+    </script>
+
 
     <!-- Date Picker -->
     <!-- <script src="js/jquery-ui.min.js"></script> -->
@@ -338,11 +491,13 @@
         });
       });
     </script> -->
-
+      
     <script src="./js/main/Data.js"></script>
     <script src="./js/main/DataList.js"></script>
     <script src="./js/main/Validation.js"></script>
 
-    <script src="./js/main/mainNews.js"></script>
+    <!-- <script src="./js/main/mainNews.js"></script> -->
+    
   </body>
+  
 </html>

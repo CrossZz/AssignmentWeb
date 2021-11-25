@@ -15,6 +15,10 @@
    $contact = new contact();
    $model = new model();
    $car = new car();
+   $post = new post();  
+   $appointment = new appointment();
+   $comment = new comment();
+   $service = new service();
    // $product = new product();
    // $category = new category();
    // $bankaccount = new bankaccount();

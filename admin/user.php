@@ -2,19 +2,52 @@
 <?php
   include 'header.php';
 ?>
+
 <?php
+  function console_log( $data ){
+    echo '<script>';
+    echo 'console.log("Àds")';
+    echo '</script>';
+  }
+  if(isset($_POST["iden"])) {
+    delete_user($_POST["iden"]);
+  }
   
-  if(isset($_POST['iden'])) {
-    return delete_user($_POST['iden']);
+  if(isset($_POST["u_user"])) {
+    update_user($_POST);
+  }
+
+  // if(isset($_POST["search"])) {
+  //   search_user($_POST);
+  // }
+
+  if(isset($_POST["c_user"])) {
+    create_user($_POST);
+  }
+
+  function search_user(){
+    if(isset($_POST["search"])){
+      $user = new user();
+      $user_list = $user->search_user($_POST["keylog"]);
+      $users = [];
+      while ($each_brand = mysqli_fetch_array($user_list)){
+        array_push($users,$each_brand);
+      }
+      return [];
+    }
+    else return get_all_users();
+  }
+  function update_user($data){
+    $user = new user();
+    $user->update_user_admin($data);
+  }
+  function create_user($data){
+    $user = new user();
+    $user->create_user_admin($data);
   }
   function delete_user($id){
     $user = new user();
-    $user_list = $user->delete_user($id);
-    $users = [];
-    while ($each_brand = mysqli_fetch_array($user_list)){
-      array_push($users,$each_brand);
-    }
-    return $users;
+    $user->delete_user($id);
   }
   function get_all_users(){
     $user = new user();
@@ -107,12 +140,6 @@
               Dịch vụ
             </a>
           </li>
-          <li>
-            <a href="./image.php">
-              <i class="fa fa-image"></i>
-              Ảnh
-            </a>
-          </li>
         </ul>
       </nav>
 
@@ -179,7 +206,7 @@
                     />
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="btnTimNV"
-                        ><i class="fa fa-search"></i
+                        ><i class="fa fa-search" onclick="search()"></i
                       ></span>
                     </div>
                   </div>
@@ -348,25 +375,25 @@
                     ></span>
                   </div>
                   <select class="form-control" id="userRole">
-                    <option>Chọn chức vụ</option>
-                    <option>Quản lý</option>
-                    <option>Nhân viên</option>
-                    <option>Khách hàng</option>
+                    <option value="" disabled selected>Chọn chức vụ</option>
+                    <option>user</option>
+                    <option>admin</option>
                   </select>
                 </div>
                 <span class="sp-thongbao" id="tbUserRole"></span>
               </div>
+            <button id="btnThemND" type="button" onclick="add_user()" class="btn btn-success">
+              Thêm
+            </button>
+            <button id="btnCapNhat" type="button" onclick="update_user()" class="btn btn-success">
+              Cập nhật
+            </button>
             </form>
           </div>
 
           <!-- Modal footer -->
           <div class="modal-footer" id="modal-footer">
-            <button id="btnThemND" type="button" class="btn btn-success">
-              Thêm
-            </button>
-            <button id="btnCapNhat" type="button" class="btn btn-success">
-              Cập nhật
-            </button>
+            
             <button
               id="btnDong"
               type="button"
@@ -408,18 +435,86 @@
         return document.getElementById(id);
       }
       function del(id) {
-      $.ajax({
-          type: "POST",
-          url: 'user.php',
-          data:{iden:id},
-          success:function(result) {
-            var users=<?php echo json_encode(get_all_users());?>;
-            taoBang(users);
-          }
+        $.ajax({
+            type: "POST",
+            url: 'user.php',
+            data:{"iden":id},
+            success:function(result) {
+              // get_all_users();
+              location.reload();
+            }
 
-      });
- }
+        });
+        
+      }
+      
+      function search(){
+        get_all_users();
+      }
+
+      function add_user(){
+        var validation = new Validation();
+        var id = getELE("userId").value;
+        var name = getELE("userName").value;
+        var email = getELE("userEmail").value;
+        var phone = getELE("userPhone").value;
+        var password = getELE("userPassword").value;
+        var address = getELE("userAddress").value;
+        var role = getELE("userRole").value;
+        var data = [];
+        data["userId"] = id;
+        data["userName"] = name;
+        data["userEmail"] = email;
+        data["userPhone"] = phone;
+        data["userPassword"] = password;
+        data["userAddress"] = address;
+        data["userRole"] = role;
+        // result = validation.checkuser(data);
+        if (result != ""){
+          alert(result);
+          return;
+        }
+        $.ajax({
+            type: "POST",
+            url: 'user.php',
+            data:{"c_user": 1,"id": id,"userName":name,"userEmail":email,"userPhone":phone,"userPassword":password,"userAddress":address,"userRole":role},
+            success:function(result) {
+              location.reload();
+            }
+
+        });
+      }
+
+      function update_user(){
+        var id = parseInt(getELE("userId").value);
+        var name = getELE("userName").value;
+        var email = getELE("userEmail").value;
+        var phone = getELE("userPhone").value;
+        var password = getELE("userPassword").value;
+        var address = getELE("userAddress").value;
+        var role = getELE("userRole").value;
+        var data = [];
+        data["userID"] = id;
+        data["userName"] = name;
+        data["userEmail"] = email;
+        data["userPhone"] = phone;
+        data["userPassword"] = password;
+        data["userAddress"] = address;
+        data["userRole"] = role;
+        $.ajax({
+            type: "POST",
+            url: 'user.php',
+            data:{"u_user": 1,"userID": id,"userName":name,"userEmail":email,"userPhone":phone,"userPassword":password,"userAddress":address,"userRole":role},
+            success:function(result) {
+              location.reload();
+            }
+
+        });
+      }
+
+
       function taoBang(mang) {
+        var search = getELE("searchName").value;
         var tbody = getELE("tableDanhSach");
         // content chứa các thẻ tr(mỗi tr chứa thông tin 1 nd)
         var content = "";
@@ -431,7 +526,8 @@
           //item đại diện cho 1 phần tử trong mảng
           //item chính là 1 nd
           // content = `tr mới` + content(chứa các tr trước đó)
-          content += `
+          if(item["userName"].toLowerCase().includes(search.toLowerCase())){
+            content += `
                   <tr>
                       <td>${item["userID"]}</td>
                       <td>${item["userName"]}</td>
@@ -442,14 +538,16 @@
                       <td>
                           <button class="btn btn-danger"  onclick="del(${item["userID"]})" >Xóa</button>
                           <button data-toggle="modal"
-                          data-target="#myModal" class="btn btn-info"   >Sửa</button>
+                          data-target="#myModal" class="btn btn-info">Sửa</button>
                       </td>
                   </tr>
               `;
-        });
+        }
+          }
+          );
         tbody.innerHTML = content;
+        // console.log(content);
       }
-      console.log("abc");
 
       get_all_users();
     </script>
