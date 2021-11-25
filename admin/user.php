@@ -3,6 +3,15 @@
   include 'header.php';
 ?>
 <?php
+  
+  if(isset($_POST['iden'])) {
+    return delete_user($_POST['iden']);
+  }
+  function delete_user($id){
+    $user = new user();
+    $user_list = $user->show_all_user();
+    echo "abc";
+  }
   function get_all_users(){
     $user = new user();
     $user_list = $user->show_all_user();
@@ -394,7 +403,17 @@
       function getELE(id) {
         return document.getElementById(id);
       }
-      
+      function del(id) {
+      $.ajax({
+           type: "POST",
+           url: 'AssignmentWeb/admin/user.php',
+           data:{iden:id},
+           success:function(result) {
+             console.log(result);
+           }
+
+      });
+ }
       function taoBang(mang) {
         var tbody = getELE("tableDanhSach");
         // content chứa các thẻ tr(mỗi tr chứa thông tin 1 nd)
@@ -416,7 +435,7 @@
                       <td>${item["userAddress"]}</td>
                       <td>${item["userRole"]}</td>
                       <td>
-                          <button class="btn btn-danger"   >Xóa</button>
+                          <button class="btn btn-danger"  onclick="del(${item["userID"]})" >Xóa</button>
                           <button data-toggle="modal"
                           data-target="#myModal" class="btn btn-info"   >Sửa</button>
                       </td>
