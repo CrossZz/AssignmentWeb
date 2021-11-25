@@ -9,8 +9,12 @@
   }
   function delete_user($id){
     $user = new user();
-    $user_list = $user->show_all_user();
-    echo "abc";
+    $user_list = $user->delete_user($id);
+    $users = [];
+    while ($each_brand = mysqli_fetch_array($user_list)){
+      array_push($users,$each_brand);
+    }
+    return $users;
   }
   function get_all_users(){
     $user = new user();
@@ -405,12 +409,13 @@
       }
       function del(id) {
       $.ajax({
-           type: "POST",
-           url: 'AssignmentWeb/admin/user.php',
-           data:{iden:id},
-           success:function(result) {
-             console.log(result);
-           }
+          type: "POST",
+          url: 'user.php',
+          data:{iden:id},
+          success:function(result) {
+            var users=<?php echo json_encode(get_all_users());?>;
+            taoBang(users);
+          }
 
       });
  }
@@ -452,6 +457,6 @@
     <script src="./js/main/DataList.js"></script>
     <script src="./js/main/Validation.js"></script>
 
-    <script src="./js/main/mainUser.js"></script>
+    <!-- <script src="./js/main/mainUser.js"></script> -->
   </body>
 </html>
