@@ -641,4 +641,31 @@ nav>a span {
       height: 200px;
    }
 }
-
+.readmore{
+   color: #ec7532;
+   border-color: #f3efef;
+}
+.modal-service{
+   /* width: 90%; */
+}
+.modal-title{
+   color: #ec7532;
+   text-transform: uppercase;
+}
+.modal-body{
+   padding: 10px 30px;
+}
+.modal-body h3{
+   font-weight: 700;
+   padding: 10px 0;
+}
+.modal-img{
+   width: 100%;
+   margin-bottom: 10px;
+}
+.modal-img img{
+   width: 100%;
+}
+.modal-body p{
+   padding-top: 10px;
+}
