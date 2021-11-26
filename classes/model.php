@@ -83,16 +83,21 @@
             }
         }
         public function del_model($id){
-            $query = "DELETE FROM model WHERE modelID='$id' ";
+            $query = "DELETE FROM car WHERE carModel='$id' ";
             $result = $this->db->delete($query);
             if($result){
-                $alert= "<span class='success' >Xóa thành công!</span>";
-                return $alert;
+                $query = "DELETE FROM model WHERE modelID='$id' ";
+                $result = $this->db->delete($query);
+                if($result){
+                    $alert= "<span class='success' >Xóa thành công!</span>";
+                    return $alert;
+                }
+                else{
+                    $alert= "<span class='error' >Xóa không thành công!</span>";
+                    return $alert;
+                }
             }
-            else{
-                $alert= "<span class='error' >Xóa không thành công!</span>";
-                return $alert;
-            }
+            
         }
         public function update_model_admin($data){
             $modelID = $data["modelID"];

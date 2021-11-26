@@ -53,18 +53,20 @@
                     $name = $files['myImages']['name'][$key] ;
                     $tmpName = $files['myImages']['tmp_name'][$key] ;
                     $type = 'car';
-                    $directory = 'img/'.$type;
+                    $directory = 'img/'.$type;-
                     
                     $result = move_uploaded_file($tmpName, $directory.$name);
                     if ($c==0){
-                        $qr = $qr."('$id','$type','$name')";
+                        $qr = $qr."('$id','$type','$name','$tmpName')";
                     }else{
-                        $qr = $qr.",('$id','$type','$name')";
+                        $qr = $qr.",('$id','$type','$name','$tmpName')";
                     }
                     $c += 1;
+                    // $query ="INSERT INTO image(typeID,type,name) VALUES('$id','$type','$name')"; 
+                    // $result = $this->db->insert($query);
                 }
                 
-                $query ="INSERT INTO image(typeID,type,name) VALUES".$qr; 
+                $query ="INSERT INTO image(typeID,type,name,img) VALUES".$qr; 
                 $result = $this->db->insert($query);
             }
             
