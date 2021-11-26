@@ -14,15 +14,11 @@
         $check_contact = $contact->create_contact($userid,$content,$email);
       }
    }
-<<<<<<< HEAD
      
-=======
 ?>
-
 <?php 
    $carcity = $store->get_store_by_ID(1)->fetch_assoc();
 
->>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
 ?>
 <section id="carousel">
   <!-- data-ride="carousel" -->
@@ -116,21 +112,17 @@
      <p>Your request will be answered as fast as possible</p>
   </div>
 
-</section>
+</section> 
 <!-- CONTACT  -->
 <section id="contact">
   <div class="container">
     <div class="contact_content">
       <p class="text-center">Need help? Contact our support team on</p>
-<<<<<<< HEAD
-      <p class="contact_number text-center">0330 123 4567</p>
-=======
       <p class="contact_number text-center">
          <?php 
             echo $carcity["storePhone"];
          ?>
       </p>
->>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
     </div>
   </div>
   <div class="map">

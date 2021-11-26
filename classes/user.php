@@ -13,6 +13,56 @@
     		$this->db = new Database();
     		$this->fm = new Format();
     	}
+        public function show_all_user(){
+            $query = "SELECT * FROM user order by userID desc";
+            //lấy các phần tử trong bảng rồi sắp xếp theo userID
+            $result = $this->db->select($query);
+            return $result;
+        }
+        public function search_user($key){
+            $keylog = mysqli_real_escape_string($this->db->link, $key);
+            $query = "SELECT * FROM user WHERE userName LIKE '\%$keylog\%'";
+            //lấy các phần tử trong bảng rồi sắp xếp theo userID
+            $result = $this->db->select($query);
+            return $result;
+        }
+        public function create_user_admin($data){
+            $userName = mysqli_real_escape_string($this->db->link, $data['userName']);
+            $userEmail = mysqli_real_escape_string($this->db->link, $data['userEmail']);
+            $userPhone = mysqli_real_escape_string($this->db->link, $data['userPhone']);
+            $password = mysqli_real_escape_string($this->db->link, md5($data['userPassword']));
+            $userAddress = mysqli_real_escape_string($this->db->link, $data['userAddress']);
+            $userRole = mysqli_real_escape_string($this->db->link, $data['userRole']);
+            $query ="INSERT INTO user(userName,userEmail,userPhone,userPassword, userAddress, userRole) VALUES('$userName','$userEmail','$userPhone','$password','$userAddress','$userRole')"; 
+            $result = $this->db->insert($query);
+                if($result){
+                    $alert="<span class ='success' style='color:green;font-size:23px;'>Create account completion</span>";
+                    return $alert;
+                }
+                else{
+                    $alert="<span style='color:red;font-size:23px;' class ='error'> Create account not completion</span>";
+                    return $alert;
+                }
+        }
+        public function update_user_admin($data){
+            $userID = $data['userID'];
+            $userName = mysqli_real_escape_string($this->db->link, $data['userName']);
+            $userEmail = mysqli_real_escape_string($this->db->link, $data['userEmail']);
+            $userPhone = mysqli_real_escape_string($this->db->link, $data['userPhone']);
+            $password = mysqli_real_escape_string($this->db->link, md5($data['userPassword']));
+            $userAddress = mysqli_real_escape_string($this->db->link, $data['userAddress']);
+            $userRole = mysqli_real_escape_string($this->db->link, $data['userRole']);           
+            $query ="UPDATE user  SET userName ='$userName',userEmail='$userEmail',userPhone='$userPhone',userAddress='$userAddress',userRole='$userRole',userPassword='$password'  WHERE userID = '$userID' ";
+            $result = $this->db->update($query);
+            if($result){
+                 $alert="<span style='color:green;font-size:16px;margin:2% 20%;'>Cập nhật thành công</span>";
+                 return $alert;
+            }
+            else{
+                 $alert="<span style='color:red;font-size:16px;margin:2% 35%;'>Cập nhật không thành công</span>";
+                 return $alert;
+            }
+        }
         public function create_user($data){
             $userName = mysqli_real_escape_string($this->db->link, $data['userName']);
             $userEmail = mysqli_real_escape_string($this->db->link, $data['userEmail']);
@@ -76,6 +126,13 @@
                      return $alert;
                  }
             }
+        }
+        public function delete_user($id){
+            $query = "DELETE FROM user WHERE userID = $id";
+            $result = $this->db->delete($query);
+            $querys = "SELECT * FROM user WHERE userID != $id";
+            $results = $this->db->select($querys);
+            return $results;
         }
         public function get_info(){
             $userid=Session::get('user_id');

@@ -11,20 +11,12 @@
    $db = new Database();
    $fm = new Format();
    $user= new user();
-<<<<<<< HEAD
-   $contact = new contact();
-   // $product = new product();
-   // $category = new category();
-   // $bankaccount = new bankaccount();
-   // $order = new order();
-=======
    $store = new store();
    $contact = new contact();
    $model = new model();
    $car = new car();
    $appointment = new appointment();
    $image = new image();
->>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
  ?>
 <?php
   header("Cache-Control: no-cache, must-revalidate");
@@ -52,12 +44,9 @@
    <link rel="stylesheet" href="./css/signin.css">
    <link rel="stylesheet" href="./css/signup.css">
    <link rel="stylesheet" href="./css/aboutus.css">
-<<<<<<< HEAD
-=======
    <link rel="stylesheet" href="./css/profile.css">
    <link rel="stylesheet" href="./css/service.css">
    <link rel="stylesheet" href="./css/product_detail.css">
->>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
 </head>
 
 <body>
@@ -101,11 +90,7 @@
                   <a class="nav-link" href="./index.php">Home </a>
                </li>
                <li class="nav-item">
-<<<<<<< HEAD
                   <a class="nav-link" href="./brand.php">Brand</a>
-=======
-                  <a class="nav-link" href="./model.php">Model</a>
->>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
                </li>
                <li class="nav-item">
                   <a class="nav-link" href="./service.php">
@@ -113,7 +98,7 @@
                   </a>
                </li>
                <li class="nav-item">
-                  <a class="nav-link" href="#">News</a>
+                  <a class="nav-link" href="./news.php">News</a>
                </li>
                <li class="nav-item">
                   <a class="nav-link" href="aboutus.php">About Us</a>

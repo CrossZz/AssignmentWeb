@@ -15,11 +15,23 @@
     		$this->db = new Database();
     		$this->fm = new Format();
     	}
+        public function insert_cars($data)
+    	{
+            
+            $carName = mysqli_real_escape_string($this->db->link, $data['carName']);
+            $carModel = $data['modelName'];
+            $carDesc = mysqli_real_escape_string($this->db->link, $data['carDesc']);
+            $carPrice = mysqli_real_escape_string($this->db->link, $data['carPrice']);
+            $carContent = mysqli_real_escape_string($this->db->link, $data['carContent']);
+
+            $query ="INSERT INTO car(carName,carModel,carDesc,carPrice,carContent) VALUES('$carName','$carModel','$carDesc','$carPrice','$carContent')"; 
+            $result = $this->db->insert($query);	
+    	}
     	public function insert_car($data,$files)
     	{
            
             $carName = mysqli_real_escape_string($this->db->link, $data['carName']);
-            $carModel = mysqli_real_escape_string($this->db->link, $data['carModel']);
+            $carModel = $data['modelName'];
             $carDesc = mysqli_real_escape_string($this->db->link, $data['carDesc']);
             $carPrice = mysqli_real_escape_string($this->db->link, $data['carPrice']);
             $carContent = mysqli_real_escape_string($this->db->link, $data['carContent']);
@@ -37,7 +49,7 @@
             }
             else{
                 move_uploaded_file($_FILES['image']['tmp_name'], "uploads/$file_name");
-            	$query ="INSERT INTO tbl_car(carName,carModel,carDesc,carPrice,carContent,image) VALUES('$carName','$carModel','$carDesc','$carPrice','$carContent','$file_name')"; 
+            	$query ="INSERT INTO car(carName,carModel,carDesc,carPrice,carContent,image) VALUES('$carName','$carModel','$carDesc','$carPrice','$carContent','$file_name')"; 
             	$result = $this->db->insert($query);
                 if($result){
                     $alert="<span class ='success'>Thêm sản phẩm thành công</span>";

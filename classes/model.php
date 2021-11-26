@@ -15,6 +15,16 @@
     		$this->fm = new Format();
     	}
 
+
+        public function create_model($data){
+            $modelName = mysqli_real_escape_string($this->db->link, $data["modelName"]);
+            $modelDesc = mysqli_real_escape_string($this->db->link, $data["modelDesc"]);
+            $modelContent = mysqli_real_escape_string($this->db->link, $data["modelContent"]);
+
+            $query ="INSERT INTO model(modelName, modelDesc,modelContent) VALUES('$modelName','$modelDesc','$modelContent')"; 
+            $result = $this->db->update($query);
+        }
+
     	public function insert_model($modelName, $modelDesc)
     	{
             $modelName = mysqli_real_escape_string($this->db->link, $modelName);
@@ -83,6 +93,15 @@
                 $alert= "<span class='error' >Xóa không thành công!</span>";
                 return $alert;
             }
+        }
+        public function update_model_admin($data){
+            $modelID = $data["modelID"];
+            $modelName = mysqli_real_escape_string($this->db->link, $data["modelName"]);
+            $modelDesc = mysqli_real_escape_string($this->db->link, $data["modelDesc"]);
+            $modelContent = mysqli_real_escape_string($this->db->link, $data["modelContent"]);
+
+            $query ="UPDATE model  SET modelName ='$modelName',modelContent = '$modelContent', modelDesc = '$modelDesc' WHERE modelID = '$modelID'"; 
+            $result = $this->db->update($query);
         }
 	}
 ?>
