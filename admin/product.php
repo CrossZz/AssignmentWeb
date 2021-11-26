@@ -19,8 +19,24 @@
 ?>
 <?php 
     if(isset($_POST["submit"])) {
-      $car = new car();
-      $car->insert_car($_POST,$_FILES);
+      if (!isset($_POST["modelName"])){
+        echo '<script>alert("Chọn hãng");</script>';
+      }else{
+        $car = new car();
+        $car->insert_car($_POST,$_FILES);
+        header('Location: http://localhost/AssignmentWeb/admin/product.php');
+      }
+      
+    }
+    if(isset($_POST["submit1"])) {
+      if (!isset($_POST["modelName"])){
+        echo '<script>alert("Chọn hãng");</script>';
+      }else{
+        $car = new car();
+        $car->update_car($_POST,$_FILES);
+        header('Location: http://localhost/AssignmentWeb/admin/product.php');
+      }
+      
     }
 ?>
 
@@ -35,23 +51,6 @@
   }
   
 
-
-  if(isset($_POST["c_car"])) {
-    create_car($_POST);
-  }
-
-  function search_car(){
-    if(isset($_POST["search"])){
-      $car = new car();
-      $car_list = $car->search_car($_POST["keylog"]);
-      $cars = [];
-      while ($each_brand = mysqli_fetch_array($car_list)){
-        array_push($cars,$each_brand);
-      }
-      return [];
-    }
-    else return get_all_cars();
-  }
   function create_car($data){
     $car = new car();
     $car->insert_cars($data);
@@ -197,7 +196,7 @@
                     data-toggle="modal"
                     data-target="#myModal"
                   >
-                    Thêm sản phẩm
+                    Thêm, sửa sản phẩm
                   </button>
                 </div>
               </div>
@@ -277,7 +276,23 @@
           <!-- Modal body -->
           <div class="modal-body">
             <form role="form" method = "post" enctype = "multipart/form-data" id="formSp">
-              
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fa fa-address-book"></i
+                    ></span>
+                  </div>
+                  <input
+                    type="text"
+                    name="carID"
+                    id="carID"
+                    class="form-control input-sm"
+                    placeholder="Mã sản phẩm cần cập nhật"
+                  />
+                </div>
+                <span class="sp-thongbao" id="xcarName"></span>
+              </div>
 
               <div class="form-group">
                 <div class="input-group">
@@ -395,23 +410,20 @@
                 <span class="sp-thongbao" id="tbProductImage"></span>
               </div>
               <input type="submit" name="submit" value = "Thêm" class="btn btn-success">
-            </form>
-          </div>
-
-          <!-- Modal footer -->
-          <div class="modal-footer" id="modal-footer">
-            <button id="btnThemSp" type="button" onclick = "add_car()" class="btn btn-success">
-              Thêm
-            </button>
-            <button
+              <input type="submit" name="submit1" value = "Sửa" class="btn btn-success">
+              <button
               id="btnDong"
               type="button"
               class="btn btn-danger"
               data-dismiss="modal"
-            >
-              Đóng
-            </button>
+              >
+                Đóng
+              </button>
+            </form>
           </div>
+
+          <!-- Modal footer -->
+          
         </div>
       </div>
     </div>

@@ -36,9 +36,7 @@
     	public function insert_car($data,$files) {
             $carName = mysqli_real_escape_string($this->db->link, $data['carName']);
             $carModel = 0;
-            if($data['modelName']){
-                $carModel = $data['modelName'];
-            }
+            $carModel = $data['modelName'];
             $carDesc = mysqli_real_escape_string($this->db->link, $data['carDesc']);
             $carPrice = mysqli_real_escape_string($this->db->link, $data['carPrice']);
             $carContent = mysqli_real_escape_string($this->db->link, $data['carContent']);
@@ -125,45 +123,41 @@
             return $result;
         }
 
-        public function update_car($data,$files, $id){
+        public function update_car($data,$files) {
+            $carID = (int)mysqli_real_escape_string($this->db->link, $data['carID']);
             $carName = mysqli_real_escape_string($this->db->link, $data['carName']);
-            $carModel = mysqli_real_escape_string($this->db->link, $data['carModel']);
+            $carModel = $data['modelName'];
             $carDesc = mysqli_real_escape_string($this->db->link, $data['carDesc']);
             $carPrice = mysqli_real_escape_string($this->db->link, $data['carPrice']);
             $carContent = mysqli_real_escape_string($this->db->link, $data['carContent']);
-            
-
-            $file_name = $_FILES['image']['name'];
-            
-            
-            $div =explode('.', $file_name);
-            $file_ext = strtolower(end($div));
-            $unique_image = substr(md5(time()), 0,10).'.'.$file_ext;
-            
-
-            if(empty($carName) || empty($carModel) || empty($carDesc) || empty($carPrice)){
-                $alert= "<span class='error'>Không được để trống</span>";
-                return $alert;
-            }
-            else{ 
-                if(!empty($file_name)){//chon anh
-                    move_uploaded_file($_FILES['image']['tmp_name'], "uploads/$file_name");
-                     $query ="UPDATE car  SET carName ='$carName',carModel='$carModel',carDesc='$carDesc',carPrice='$carPrice',carContent='$carContent',image='$file_name' WHERE carID = '$id'";
-                }
-                else{//khong chon anh
-                    $query ="UPDATE car  SET carName ='$carName',carModel='$carModel',carDesc='$carDesc',carPrice='$carPrice',carContent='$carContent' WHERE carID = '$id'";
-                }
-                 $result = $this->db->update($query);
-                    if($result){
-                        $alert="<span class ='success'>Cập nhật mặt hàng thành công</span>";
-                         return $alert;
+            $query ="UPDATE car SET carName ='$carName',carModel ='$carModel',carDesc ='$carDesc',carPrice ='$carPrice',carContent ='$carContent' WHERE carID = '$carID'"; 
+            $result = $this->db->update($query);
+            if ($result){
+                $qr = "";
+                $c = 0;
+                foreach ($files['myImages']['tmp_name'] as $key => $image) {
+                    $name = $files['myImages']['name'][$key] ;
+                    $tmpName = $files['myImages']['tmp_name'][$key] ;
+                    $type = 'car';
+                    $directory = 'img/'.$type;-
+                    
+                    $result = move_uploaded_file($tmpName, $directory.$name);
+                    if ($c==0){
+                        $qr = $qr."('$carID','$type','$name','$tmpName')";
+                    }else{
+                        $qr = $qr.",('$carID','$type','$name','$tmpName')";
                     }
-                    else{
-                         $alert="<span class ='error'>Cập nhật mặt hàng không thành công</span>";
-                          return $alert;
-                    }
+                    $c += 1;
+                    // $query ="INSERT INTO image(typeID,type,name) VALUES('$id','$type','$name')"; 
+                    // $result = $this->db->insert($query);
+                }
+                $query ="DELETE FROM image WHERE type='car' AND typeID='$carID'"; 
+                $result = $this->db->DELETE($query);
+                $query ="INSERT INTO image(typeID,type,name,img) VALUES".$qr; 
+                $result = $this->db->insert($query);
             }
-        }
+            
+    	}
        
         public function delete_car($id){
             $query = "DELETE FROM car WHERE carID='$id' ";

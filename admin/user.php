@@ -17,6 +17,19 @@
       header('Location: http://localhost/AssignmentWeb/index.php');
     }
 ?>
+<?php 
+    if(isset($_POST["submit"])) {
+      $user = new user();
+      $user->insert_user($_POST,$_FILES);
+      header('Location: http://localhost/AssignmentWeb/admin/user.php');
+      
+    }
+    if(isset($_POST["submit1"])) {
+      $user = new user();
+      $user->update_user($_POST,$_FILES);
+      header('Location: http://localhost/AssignmentWeb/admin/user.php');
+    }
+?>
 <?php
   function console_log( $data ){
     echo '<script>';
@@ -27,38 +40,6 @@
     delete_user($_POST["iden"]);
   }
   
-  if(isset($_POST["u_user"])) {
-    update_user($_POST);
-  }
-
-  // if(isset($_POST["search"])) {
-  //   search_user($_POST);
-  // }
-
-  if(isset($_POST["c_user"])) {
-    create_user($_POST);
-  }
-
-  function search_user(){
-    if(isset($_POST["search"])){
-      $user = new user();
-      $user_list = $user->search_user($_POST["keylog"]);
-      $users = [];
-      while ($each_brand = mysqli_fetch_array($user_list)){
-        array_push($users,$each_brand);
-      }
-      return [];
-    }
-    else return get_all_users();
-  }
-  function update_user($data){
-    $user = new user();
-    $user->update_user_admin($data);
-  }
-  function create_user($data){
-    $user = new user();
-    $user->create_user_admin($data);
-  }
   function delete_user($id){
     $user = new user();
     $user->delete_user($id);
@@ -200,7 +181,7 @@
                     data-toggle="modal"
                     data-target="#myModal"
                   >
-                    Thêm người dùng
+                    Thêm, sửa người dùng
                   </button>
                 </div>
               </div>
@@ -272,7 +253,7 @@
 
           <!-- Modal body -->
           <div class="modal-body">
-            <form role="form" id="formNV">
+            <form role="form" method = "post" enctype = "multipart/form-data" id="formNV">
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -282,8 +263,8 @@
                   </div>
                   <input
                     type="text"
-                    name="userId"
-                    id="userId"
+                    name="userID"
+                    id="userID"
                     class="form-control input-sm"
                     placeholder="Mã số"
                   />
@@ -388,7 +369,7 @@
                       ><i class="fa fa-briefcase"></i
                     ></span>
                   </div>
-                  <select class="form-control" id="userRole">
+                  <select class="form-control" id="userRole" name="userRole">
                     <option value="" disabled selected>Chọn chức vụ</option>
                     <option>user</option>
                     <option>admin</option>
@@ -396,18 +377,26 @@
                 </div>
                 <span class="sp-thongbao" id="tbUserRole"></span>
               </div>
-            <button id="btnThemND" type="button" onclick="add_user()" class="btn btn-success">
-              Thêm
-            </button>
-            <button id="btnCapNhat" type="button" onclick="update_user()" class="btn btn-success">
-              Cập nhật
-            </button>
-            </form>
-          </div>
-
-          <!-- Modal footer -->
-          <div class="modal-footer" id="modal-footer">
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fa fa-address-book"></i
+                    ></span>
+                  </div>
+                  <input
+                    type="file"
+                    name="myImages[]"
+                    id="productImage"
+                    class="form-control input-sm"
+                    placeholder="Ảnh"
+                  />
+                </div>
+                <span class="sp-thongbao" id="tbProductImage"></span>
+              </div>
             
+              <input type="submit" name="submit" value = "Thêm" class="btn btn-success">
+              <input type="submit" name="submit1" value = "Sửa" class="btn btn-success">
             <button
               id="btnDong"
               type="button"
@@ -416,7 +405,11 @@
             >
               Đóng
             </button>
+            </form>
           </div>
+
+          <!-- Modal footer -->
+          
         </div>
       </div>
     </div>
@@ -551,8 +544,6 @@
                       <td>${item["userRole"]}</td>
                       <td>
                           <button class="btn btn-danger"  onclick="del(${item["userID"]})" >Xóa</button>
-                          <button data-toggle="modal"
-                          data-target="#myModal" class="btn btn-info">Sửa</button>
                       </td>
                   </tr>
               `;

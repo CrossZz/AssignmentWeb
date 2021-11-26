@@ -13,6 +13,12 @@
     		$this->db = new Database();
     		$this->fm = new Format();
     	}
+        public function get_last_id()
+    	{
+            $query = " SELECT userID FROM user order by userID desc LIMIT 1";
+            $result = $this->db->select($query);
+            return $result;	
+    	}
         public function show_all_user(){
             $query = "SELECT * FROM user order by userID desc";
             //lấy các phần tử trong bảng rồi sắp xếp theo userID
@@ -63,6 +69,76 @@
                  return $alert;
             }
         }
+        public function insert_user($data,$files) {
+            $userName = mysqli_real_escape_string($this->db->link, $data['userName']);
+            $userEmail = mysqli_real_escape_string($this->db->link, $data['userEmail']);
+            $userPhone = mysqli_real_escape_string($this->db->link, $data['userPhone']);
+            $password = mysqli_real_escape_string($this->db->link, md5($data['userPassword']));
+            $userAddress = mysqli_real_escape_string($this->db->link, $data['userAddress']);
+            $userRole = mysqli_real_escape_string($this->db->link, $data['userRole']);
+            $query ="INSERT INTO user(userName,userEmail,userPhone,userPassword, userAddress, userRole) VALUES('$userName','$userEmail','$userPhone','$password','$userAddress','$userRole')"; 
+            $result = $this->db->insert($query);
+            if($result){
+                $id = mysqli_fetch_array($this->get_last_id())[0];
+                $qr = "";
+                $c = 0;
+                foreach ($files['myImages']['tmp_name'] as $key => $image) {
+                    $name = $files['myImages']['name'][$key] ;
+                    $tmpName = $files['myImages']['tmp_name'][$key] ;
+                    $type = 'user';
+                    $directory = 'img/'.$type;-
+                    
+                    $result = move_uploaded_file($tmpName, $directory.$name);
+                    if ($c==0){
+                        $qr = $qr."('$id','$type','$name','$tmpName')";
+                    }else{
+                        $qr = $qr.",('$id','$type','$name','$tmpName')";
+                    }
+                    $c += 1;
+                    // $query ="INSERT INTO image(typeID,type,name) VALUES('$id','$type','$name')"; 
+                    // $result = $this->db->insert($query);
+                }
+                
+                $query ="INSERT INTO image(typeID,type,name,img) VALUES".$qr; 
+                $result = $this->db->insert($query);
+            }
+    	}
+        public function update_user($data,$files) {
+            $userID = (int)mysqli_real_escape_string($this->db->link, $data['userID']);
+            $userName = mysqli_real_escape_string($this->db->link, $data['userName']);
+            $userEmail = mysqli_real_escape_string($this->db->link, $data['userEmail']);
+            $userPhone = mysqli_real_escape_string($this->db->link, $data['userPhone']);
+            $password = mysqli_real_escape_string($this->db->link, md5($data['userPassword']));
+            $userAddress = mysqli_real_escape_string($this->db->link, $data['userAddress']);
+            $userRole = mysqli_real_escape_string($this->db->link, $data['userRole']);
+            $query ="UPDATE user SET userName='$userName',userEmail='$userEmail',userPhone='$userPhone',userPassword='$password',userAddress='$userAddress',userRole='$userRole' WHERE userID = '$userID'"; 
+            $result = $this->db->update($query);
+            if($result){
+                $id = $userID;
+                $qr = "";
+                $c = 0;
+                foreach ($files['myImages']['tmp_name'] as $key => $image) {
+                    $name = $files['myImages']['name'][$key] ;
+                    $tmpName = $files['myImages']['tmp_name'][$key] ;
+                    $type = 'user';
+                    $directory = 'img/'.$type;-
+                    
+                    $result = move_uploaded_file($tmpName, $directory.$name);
+                    if ($c==0){
+                        $qr = $qr."('$id','$type','$name','$tmpName')";
+                    }else{
+                        $qr = $qr.",('$id','$type','$name','$tmpName')";
+                    }
+                    $c += 1;
+                    // $query ="INSERT INTO image(typeID,type,name) VALUES('$id','$type','$name')"; 
+                    // $result = $this->db->insert($query);
+                }
+                $query ="DELETE FROM image WHERE type='user' AND typeID='$userID'"; 
+                $result = $this->db->DELETE($query);
+                $query ="INSERT INTO image(typeID,type,name,img) VALUES".$qr; 
+                $result = $this->db->insert($query);
+            }
+    	}
         public function create_user($data){
             $userName = mysqli_real_escape_string($this->db->link, $data['userName']);
             $userEmail = mysqli_real_escape_string($this->db->link, $data['userEmail']);
