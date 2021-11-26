@@ -88,6 +88,18 @@
             $result = $this->db->select($query);
             return $result;
         }
+<<<<<<< HEAD
+=======
+        public function show_car_by_type($type){
+            $query = "
+            SELECT c.*,m.modelName
+            FROM car as c, model as m  WHERE c.carModel = m.modelID AND c.type = '$type'
+             order by c.carID desc";
+            //lấy các phần tử trong bảng rồi sắp xếp theo ID
+            $result = $this->db->select($query);
+            return $result;
+        }
+>>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
 
         public function show_slider(){
             $query = "
@@ -194,9 +206,15 @@
         // }
         public function get_details($id){
             $query = "
+<<<<<<< HEAD
             SELECT p.*,c.catName,v.vendorName
             FROM car as p,categori as c,vendor as v WHERE p.modelID = c.catID AND
              p.carID='$id' AND p.vendorID=v.vendorID";
+=======
+            SELECT c.*,m.modelName
+            FROM car as c,model as m WHERE c.carModel = m.modelID AND
+             c.carID='$id'";
+>>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
 
             $result = $this->db->select($query);
             return $result;

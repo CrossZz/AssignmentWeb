@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <<<<<<< HEAD:index.php
 <?php
   include 'inc/header.php';
@@ -72,12 +71,6 @@
     </nav>
   </header>
 >>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733:news.php
-=======
-<?php
-  include 'inc/header.php';
-?>
-
->>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
   <!-- CAROUSEL -->
   <section id="carousel">
     <!-- data-ride="carousel" -->
@@ -155,7 +148,6 @@
     <div class="newin_content">
       <!-- row:display flex -->
       <div class="row">
-<<<<<<< HEAD
         <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
           <div class="newin_img text-white">
             <img class="img-fluid" style="width: 100%;" src="./img/huyndai.png" alt="Hinh anh">
@@ -220,37 +212,6 @@
             </div>
           </div>
         </div>
-=======
-        <?php 
-           $type = 'new';
-          $car_list = $car->show_car_by_type($type);
-          while ($car_item = mysqli_fetch_array($car_list)){
-            $type = 'car';
-            $get_images= $image->get_images_by_typeID($car_item['carID'],$type);
-              if($get_images){
-                  $images = mysqli_fetch_array($get_images);
-        ?>
-            <div class='col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 text-center'>
-              <div class='newin_img text-white'>
-                <img class='img-fluid' style='width: 100%;' src="img/car/<?php echo $images['name']?>" alt='Hinh anh'>
-              </div>
-              <div class='newin_name mt-3 text-center'>
-                <p><a href="product_detail.php?carid=<?php echo $car_item['carID']?>"><?php echo $car_item["carName"]?></a></p>
-                <div>
-                  <i class='bi bi-star-fill'></i>
-                  <i class='bi bi-star-fill'></i>
-                  <i class='bi bi-star-fill'></i>
-                  <i class='bi bi-star-fill'></i>
-                  <i class='bi bi-star-fill'></i>
-                </div>
-              </div>
-            </div>
-          
-          <?php
-              }
-            }
-          ?>
->>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
       </div>
     </div>
   </section>
@@ -550,10 +511,6 @@
         <h2 class="coming_title">COMING SOON</h2>
         <div class="row pt-5">
           <div class="col-md-6 col-12 d-flex align-item-center">
-<<<<<<< HEAD
-=======
-            
->>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
             <div class="coming_detail">
               <h3>NEW MODELS</h3>
               <h1>VI GENERATION</h1>
@@ -584,7 +541,6 @@
           </div>
         </div>
       </div>
-<<<<<<< HEAD
       <div class="coming_list">
         <div class="container">
           <div class="row pt-5">
@@ -596,32 +552,6 @@
               <p class="comingsoon_date">01 December,2021</p>
             </div>
             <div class="col-lg-2 col-md-4 col-12 coming_item">
-=======
-      <div class="coming_list">         
-        <div class="container">
-          <div class="row pt-5">
-            <?php
-              $type = 'new';
-              $car_list = $car->show_car_by_type($type);
-              while ($car_item = mysqli_fetch_array($car_list)){
-                $type = 'car';
-                $get_images= $image->get_images_by_typeID($car_item['carID'],$type);
-                  if($get_images){
-                      $images = mysqli_fetch_array($get_images);
-            ?>
-            <div class="col-lg-2 col-md-4 col-12 coming_item">
-              <a href="#">
-                <img src="img/car/<?php echo $images['name']?>" class="img-fluid">
-              </a>
-              <p class="mt-4 mb-0 coming_name"><?php echo $car_item['carName']?></p>
-              <p class="comingsoon_date">01 December,2021</p>
-            </div>
-              <?php
-                }
-              }
-            ?>
-            <!-- <div class="col-lg-2 col-md-4 col-12 coming_item">
->>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
               <a href="#">
                 <img src="./img/huyndai.png" class="img-fluid">
               </a>
@@ -655,11 +585,7 @@
               </a>
               <p class="mt-4 mb-0 coming_name">Huynhdai X50</p>
               <p class="comingsoon_date">01 December,2021</p>
-<<<<<<< HEAD
             </div>
-=======
-            </div> -->
->>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
           </div>
         </div>
       </div>
