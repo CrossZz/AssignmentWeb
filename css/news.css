@@ -1,15 +1,37 @@
-#news h2.news_title{
+#news {
+   padding-top: 50px;
+   padding-bottom: 50px;
+}
+
+.wrapper_news {
+   padding-top: 30px;
+   margin: 0 60px;
+}
+.news_img{
+   margin-bottom: 20px;
+}
+
+.news_img img {
+   width: 100%;
+   border-radius: 5px;
+}
+.news_content h3{
+   text-transform: uppercase;
+}
+.news_title{
    text-transform: uppercase;
    color: #fbbd61;
    font-size: 30px;
    font-weight: 400;
    letter-spacing: 2px;
+   margin: 0 70px;
    margin-bottom: 40px;
    padding-bottom: 15px;
    border-bottom: 1px solid rgba(0, 0, 0, .2);
    position: relative;
+   
 }
-#news .news_title::after{
+.news_title::after{
    content: '';
    height: 3px;
    width: 160px;
@@ -18,63 +40,12 @@
    bottom: -1px;
    left: 0;
 }
-#news .news_content .news_img{
-   border-radius: 10px;
-   overflow: hidden;
-   position: relative;
+
+.readmore{
+   color: #ec7532;
+   cursor: pointer;
 }
-#news .news_content .news_img .news_detail{
-   position: absolute;
-   top: 50%;
-   left: 0;
-   transform: translateY(-50%) scale(0.8);
-   width: 100%;
-   text-align: center;
-   opacity: 0;
-   transition: all .5s;
-}
-#news .news_content .news_img .news_detail i{
-   height: 60px;
-   width: 60px;
-   border-radius: 50%;
-   font-size: 20px;
-   border: 1px solid #ffffff;
-   line-height: 60px;
-   margin: 10px auto;
-}
-#news .news_content .news_img .news_detail span{
-   letter-spacing: 2px;
-   font-size: 16px;
-}
-#news .news_content .news_img .news_detail a{
-   text-decoration: #ffffff;
-   text-transform: uppercase;
-   color: #ffffff;
-   font-size: 14px;
-   letter-spacing: 2px;
-   margin-bottom: 10px;
-}
-#news .news_content .news_img .news_detail a:hover{
-   color: #000000;
-}
-#news .news_overplay{
-   position: absolute;
-   top: 0;
-   left: -400%;
-   transform: skew(45deg);
-   background-image: linear-gradient(to top,#fbbd61,#ec7532);
-   width: 300%;
-   height: 100%;
-   transition: all .5s;
-}
-#news .news_img:hover .news_overplay{
-   left: -100%;
-}
-#news .news_img:hover .news_detail{
-   opacity: 1;
-   transform: translateY(-50%) scale(1);
-}
-#news .news_name p{
-   font-size: 18px;
-   color: #4a4a4a;
+.readmore:hover{
+   text-decoration: none;
+   color: #fbbd61;
 }

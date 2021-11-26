@@ -609,7 +609,11 @@ nav>a span {
 
 .readmore{
    color: #ec7532;
-   border-color: #f3efef;
+   cursor: pointer;
+}
+.readmore:hover{
+   text-decoration: none;
+   color: #fbbd61;
 }
 .modal-service{
    /* width: 90%; */
