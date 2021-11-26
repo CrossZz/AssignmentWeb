@@ -15,6 +15,12 @@
     		$this->db = new Database();
     		$this->fm = new Format();
     	}
+        public function get_last_id()
+    	{
+            $query = " SELECT carID FROM car order by carID desc LIMIT 1";
+            $result = $this->db->select($query);
+            return $result;	
+    	}
         public function insert_cars($data)
     	{
             
@@ -27,39 +33,41 @@
             $query ="INSERT INTO car(carName,carModel,carDesc,carPrice,carContent) VALUES('$carName','$carModel','$carDesc','$carPrice','$carContent')"; 
             $result = $this->db->insert($query);	
     	}
-    	public function insert_car($data,$files)
-    	{
-           
+    	public function insert_car($data,$files) {
             $carName = mysqli_real_escape_string($this->db->link, $data['carName']);
-            $carModel = $data['modelName'];
+            $carModel = 0;
+            if($data['modelName']){
+                $carModel = $data['modelName'];
+            }
             $carDesc = mysqli_real_escape_string($this->db->link, $data['carDesc']);
             $carPrice = mysqli_real_escape_string($this->db->link, $data['carPrice']);
             $carContent = mysqli_real_escape_string($this->db->link, $data['carContent']);
 
-            $file_name = $_FILES['image']['name'];
-            
-            $div =explode('.', $file_name);
-            $file_ext = strtolower(end($div));
-            $unique_image = substr(md5(time()), 0,10).'.'.$file_ext;
-            
-
-            if($carName=="" || $carModel=="" || $carDesc=="" || $carPrice=="" || $file_name=="" || $carContent==""){
-            	$alert= "<span class='error' >Không được để trống</span>";
-            	return $alert;
-            }
-            else{
-                move_uploaded_file($_FILES['image']['tmp_name'], "uploads/$file_name");
-            	$query ="INSERT INTO car(carName,carModel,carDesc,carPrice,carContent,image) VALUES('$carName','$carModel','$carDesc','$carPrice','$carContent','$file_name')"; 
-            	$result = $this->db->insert($query);
-                if($result){
-                    $alert="<span class ='success'>Thêm sản phẩm thành công</span>";
-                    return $alert;
+            $query ="INSERT INTO car(carName,carModel,carDesc,carPrice,carContent) VALUES('$carName','$carModel','$carDesc','$carPrice','$carContent')"; 
+            $result = $this->db->insert($query);
+            if ($result){
+                $id = mysqli_fetch_array($this->get_last_id())[0];
+                $qr = "";
+                $c = 0;
+                foreach ($files['myImages']['tmp_name'] as $key => $image) {
+                    $name = $files['myImages']['name'][$key] ;
+                    $tmpName = $files['myImages']['tmp_name'][$key] ;
+                    $type = 'car';
+                    $directory = 'img/'.$type;
+                    
+                    $result = move_uploaded_file($tmpName, $directory.$name);
+                    if ($c==0){
+                        $qr = $qr."('$id','$type','$name')";
+                    }else{
+                        $qr = $qr.",('$id','$type','$name')";
+                    }
+                    $c += 1;
                 }
-                else{
-                    $alert="<span class ='error'>Thêm sản phẩm không thành công</span>";
-                    return $alert;
-                }
+                
+                $query ="INSERT INTO image(typeID,type,name) VALUES".$qr; 
+                $result = $this->db->insert($query);
             }
+            
     	}
         public function insert_slider($data,$files)
         {

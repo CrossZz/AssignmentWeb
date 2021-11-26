@@ -14,7 +14,6 @@
     		$this->db = new Database();
     		$this->fm = new Format();
     	}
-
     	public function upload_image($files, $type, $typeID)
     	{
             foreach ($_FILES['image']['tmp_name'] as $key => $image) {

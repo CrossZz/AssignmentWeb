@@ -2,8 +2,27 @@
 <?php
   include 'header.php';
 ?>
-
-
+<?php 
+    $check_login = Session::get('user_login');
+    if($check_login){
+      if(Session::get('user_role') === 'user'){
+        header('Location:http://localhost/AssignmentWeb/index.php');
+      }
+      else if(Session::get('user_role') === 'admin'){
+        
+      }else{
+        header('Location: http://localhost/AssignmentWeb/index.php');
+      }
+    }else{
+      header('Location: http://localhost/AssignmentWeb/index.php');
+    }
+?>
+<?php 
+    if(isset($_POST["submit"])) {
+      $car = new car();
+      $car->insert_car($_POST,$_FILES);
+    }
+?>
 
 <?php
   function console_log( $data ){
@@ -257,7 +276,7 @@
 
           <!-- Modal body -->
           <div class="modal-body">
-            <form role="form" id="formSp">
+            <form role="form" method = "post" enctype = "multipart/form-data" id="formSp">
               
 
               <div class="form-group">
@@ -267,7 +286,7 @@
                       ><i class="fa fa-briefcase"></i
                     ></span>
                   </div>
-                  <select class="form-control" id="modelName">
+                  <select class="form-control" id="modelName" name ="modelName">
                     <option value="" disabled selected>Chọn hãng</option>
                     <?php
                       $model = new model();
@@ -366,7 +385,7 @@
                   </div>
                   <input
                     type="file"
-                    name="productImage"
+                    name="myImages[]"
                     id="productImage"
                     class="form-control input-sm"
                     placeholder="Ảnh"
@@ -375,6 +394,7 @@
                 </div>
                 <span class="sp-thongbao" id="tbProductImage"></span>
               </div>
+              <input type="submit" name="submit" value = "Thêm" class="btn btn-success">
             </form>
           </div>
 

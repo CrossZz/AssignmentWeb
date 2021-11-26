@@ -2,6 +2,21 @@
 <?php
   include 'header.php';
 ?>
+<?php 
+    $check_login = Session::get('user_login');
+    if($check_login){
+      if(Session::get('user_role') === 'user'){
+        header('Location:http://localhost/AssignmentWeb/index.php');
+      }
+      else if(Session::get('user_role') === 'admin'){
+        
+      }else{
+        header('Location: http://localhost/AssignmentWeb/index.php');
+      }
+    }else{
+      header('Location: http://localhost/AssignmentWeb/index.php');
+    }
+?>
 <?php
   if(isset($_POST["iden"])) {
     delete_service($_POST["iden"]);
