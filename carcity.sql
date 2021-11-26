@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 26, 2021 lúc 11:25 PM
+-- Thời gian đã tạo: Th10 27, 2021 lúc 12:34 AM
 -- Phiên bản máy phục vụ: 10.4.21-MariaDB
 -- Phiên bản PHP: 8.0.12
 
@@ -55,53 +55,55 @@ CREATE TABLE `car` (
   `carPrice` varchar(150) NOT NULL,
   `carDesc` varchar(255) NOT NULL,
   `carModel` int(11) NOT NULL,
-  `carContent` varchar(255) NOT NULL,
-  `image` varchar(255) NOT NULL
+  `carContent` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Đang đổ dữ liệu cho bảng `car`
 --
 
-INSERT INTO `car` (`carID`, `carName`, `carPrice`, `carDesc`, `carModel`, `carContent`, `image`) VALUES
-(2, 'HONDA XY31', '2000000000', 'sadf', 3, 'ádf', './img/huyndai.png'),
-(3, 'Huyndai XY32', '1500000000', 'ádf', 1, 'ádf', './img/huyndai.png'),
-(4, 'Huyndai XY3', '5000000000', 'ádf', 1, 'ádf', './img/huyndai.png'),
-(9, '123', '123', '123', 3, '123', ''),
-(11, '2', '', '', 3, '', ''),
-(12, '123', '123', '123', 4, '123', ''),
-(16, '', '', '', 6, '', ''),
-(17, '', '', '', 3, '', ''),
-(26, '2', '', '', 4, '', ''),
-(27, '2', '', '', 4, '', ''),
-(28, '123', '', '', 4, '', ''),
-(29, '', '', '', 3, '', ''),
-(30, '', '', '', 3, '', ''),
-(31, '', '', '', 3, '', ''),
-(32, '', '', '', 4, '', ''),
-(33, '123', '', '', 4, '', ''),
-(34, '', '', '', 4, '', ''),
-(35, '', '', '', 3, '', ''),
-(36, '', '', '', 4, '', ''),
-(37, '', '', '', 1, '', ''),
-(38, '', '', '', 1, '', ''),
-(39, '', '', '', 4, '', ''),
-(40, '', '', '', 4, '', ''),
-(41, '', '', '', 4, '', ''),
-(42, '', '', '', 6, '', ''),
-(43, '', '', '', 6, '', ''),
-(44, '', '', '', 6, '', ''),
-(45, '', '', '', 4, '', ''),
-(46, '', '', '', 4, '', ''),
-(47, '', '', '', 4, '', ''),
-(48, '', '', '', 6, '', ''),
-(49, '', '', '', 1, '', ''),
-(50, '', '', '', 1, '', ''),
-(51, '', '', '', 3, '', ''),
-(52, '', '', '', 3, '', ''),
-(53, '', '', '', 1, '', ''),
-(54, '', '', '', 6, '', ''),
-(55, '', '', '', 3, '', '');
+INSERT INTO `car` (`carID`, `carName`, `carPrice`, `carDesc`, `carModel`, `carContent`) VALUES
+(2, 'HONDA XY31', '2000000000', 'sadf', 3, 'ádf'),
+(3, 'Huyndai XY32', '1500000000', 'ádf', 1, 'ádf'),
+(4, 'Huyndai XY3', '5000000000', 'ádf', 1, 'ádf'),
+(9, '123', '123', '123', 3, '123'),
+(11, '2', '', '', 3, ''),
+(12, '123', '123', '123', 4, '123'),
+(16, '', '', '', 6, ''),
+(17, '', '', '', 3, ''),
+(26, '2', '', '', 4, ''),
+(27, '2', '', '', 4, ''),
+(28, '123', '', '', 4, ''),
+(29, '', '', '', 3, ''),
+(30, '', '', '', 3, ''),
+(31, '', '', '', 3, ''),
+(32, '', '', '', 4, ''),
+(33, '123', '', '', 4, ''),
+(34, '', '', '', 4, ''),
+(35, '', '', '', 3, ''),
+(36, '', '', '', 4, ''),
+(37, '', '', '', 1, ''),
+(38, '', '', '', 1, ''),
+(39, '', '', '', 4, ''),
+(40, '', '', '', 4, ''),
+(41, '', '', '', 4, ''),
+(42, '', '', '', 6, ''),
+(43, '', '', '', 6, ''),
+(44, '', '', '', 6, ''),
+(45, '', '', '', 4, ''),
+(46, '', '', '', 4, ''),
+(47, '', '', '', 4, ''),
+(48, '', '', '', 6, ''),
+(49, '', '', '', 1, ''),
+(50, '', '', '', 1, ''),
+(51, '', '', '', 3, ''),
+(52, '', '', '', 3, ''),
+(53, '', '', '', 1, ''),
+(54, '', '', '', 6, ''),
+(55, '', '', '', 6, ''),
+(58, '123', '', '', 4, ''),
+(59, '123', '', '', 4, ''),
+(63, '', '', '', 3, '');
 
 -- --------------------------------------------------------
 
@@ -183,9 +185,12 @@ INSERT INTO `image` (`imageID`, `name`, `typeID`, `type`, `img`) VALUES
 (15, 'Screenshot (1).png', 53, 'car', 0x443a78616d70704e657720666f6c646572096d70706870343633342e746d70),
 (16, 'Screenshot (1) - Copy.png', 54, 'car', 0x443a78616d70704e657720666f6c646572096d707068703734332e746d70),
 (17, 'Screenshot (1).png', 54, 'car', 0x443a78616d70704e657720666f6c646572096d707068703734342e746d70),
-(18, 'Screenshot (1) - Copy.png', 55, 'car', 0x443a78616d70704e657720666f6c646572096d70706870354144342e746d70),
-(19, 'Screenshot (1).png', 55, 'car', 0x443a78616d70704e657720666f6c646572096d70706870354233332e746d70),
-(20, '', 56, 'car', '');
+(20, '', 56, 'car', ''),
+(21, '', 58, 'car', ''),
+(22, '', 59, 'car', ''),
+(23, 'b.png', 59, 'car', 0x443a78616d70704e657720666f6c646572096d707068703132352e746d70),
+(27, 'd.png', 63, 'car', 0x443a78616d70704e657720666f6c646572096d70706870383630372e746d70),
+(29, 'b.png', 66, 'user', 0x443a78616d70704e657720666f6c646572096d70706870373544422e746d70);
 
 -- --------------------------------------------------------
 
@@ -322,7 +327,8 @@ INSERT INTO `user` (`userID`, `userName`, `userEmail`, `userPhone`, `userAddress
 (52, '', '', '', '', 'd41d8cd98f00b204e9800998ecf8427e', 'user'),
 (57, '123123', '', '', '', 'd41d8cd98f00b204e9800998ecf8427e', 'Chọn chức vụ'),
 (61, '123', '123', '', '123123', '202cb962ac59075b964b07152d234b70', 'Quản lý'),
-(63, 'xxx', 'minh@gmail.com', '123', '123', '202cb962ac59075b964b07152d234b70', 'admin');
+(63, 'xxx', 'minh@gmail.com', '123', '123', '202cb962ac59075b964b07152d234b70', 'admin'),
+(66, 'asdf', '', '', '', 'd41d8cd98f00b204e9800998ecf8427e', 'admin');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -403,7 +409,7 @@ ALTER TABLE `appointment`
 -- AUTO_INCREMENT cho bảng `car`
 --
 ALTER TABLE `car`
-  MODIFY `carID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `carID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT cho bảng `comment`
@@ -421,13 +427,13 @@ ALTER TABLE `contact`
 -- AUTO_INCREMENT cho bảng `image`
 --
 ALTER TABLE `image`
-  MODIFY `imageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `imageID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT cho bảng `model`
 --
 ALTER TABLE `model`
-  MODIFY `modelID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `modelID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT cho bảng `post`
@@ -451,7 +457,7 @@ ALTER TABLE `store`
 -- AUTO_INCREMENT cho bảng `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `userID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
