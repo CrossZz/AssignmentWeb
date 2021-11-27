@@ -31,6 +31,19 @@
     }
 ?>
 <?php
+  function getimg(){
+    $type='service';
+    $image = new image();
+    $image_list = $image->get_images_by_type($type);
+    $images = [];
+    while ($each_brand = mysqli_fetch_array($image_list)){
+      array_push($images,$each_brand);
+    }
+    return $images;
+  }
+  if(isset($_POST["iden"])) {
+    delete_car($_POST["iden"]);
+  }
   if(isset($_POST["iden"])) {
     delete_service($_POST["iden"]);
   }
@@ -390,7 +403,16 @@
       function search(){
         get_all_services();
       }
-
+      function getimg(){
+        var imgs=<?php echo json_encode(getimg());?>;
+        imgs.map(function (item, index) {
+          key = 'service';
+          id = 'imglist'.concat(item["typeID"]);
+          if(getELE(id)&&item["name"]!=""){
+            getELE(id).innerHTML += `<img style="width:50px;height:40px;" src="../img/${key}${item["typeID"]}${item["name"]}"/>`;
+          }
+        });
+      }
       function taoBang(mang) {
         var search = getELE("searchName").value;
         var tbody = getELE("tableDanhSach");
@@ -403,7 +425,10 @@
                       <td>${item["serviceName"]}</td>
                       <td>${item["serviceDesc"]}</td>
                       <td>${item["serviceContent"]}</td>
-                      <td></td>
+                      <td> 
+                        <div id="imglist${item["serviceID"]}">
+                        </div>
+                      </td>
                       <td>
                           <button class="btn btn-danger"  onclick="del(${item["serviceID"]})">Xóa</button>
                       </td>
@@ -413,7 +438,7 @@
           }
           );
         tbody.innerHTML = content;
-        console.log(content);
+        getimg();
       }
 
       get_all_services();

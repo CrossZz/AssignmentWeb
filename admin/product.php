@@ -40,16 +40,17 @@
     }
 ?>
 
-<?php 
-  if(isset($_POST["typeID"])) {
-    $type = 'car';
-    $typeID = $_POST["typeID"];
-    $image = new image();
-    $image_list = $image->get_images_by_typeID();
-  }
-                
-?>
 <?php
+  function getimg(){
+    $type='car';
+    $image = new image();
+    $image_list = $image->get_images_by_type($type);
+    $images = [];
+    while ($each_brand = mysqli_fetch_array($image_list)){
+      array_push($images,$each_brand);
+    }
+    return $images;
+  }
   if(isset($_POST["iden"])) {
     delete_car($_POST["iden"]);
   }
@@ -433,34 +434,7 @@
     </div>
                     
 
-        <!-- The Modal -->
-    <div class="modal fade" id="myModal1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <header class="head-form mb-0">
-            <h2 id="header-title">Edit</h2>
-          </header>
-
-          <div class="modal-body">
-            
-            <div id="imglist"></div>
-              
-              <button
-              id="btnDong"
-              type="button"
-              class="btn btn-danger"
-              data-dismiss="modal"
-              >
-                Đóng
-              </button>
-          </div>
-
-          <!-- Modal footer -->
-          
-        </div>
-      </div>
-     
-    </div>                 
+         
 
 
     <script>
@@ -488,21 +462,21 @@
         get_all_cars();
       }
       
-
-      
+      function getimg(){
+        var imgs=<?php echo json_encode(getimg());?>;
+        imgs.map(function (item, index) {
+          key = 'car';
+          id = 'imglist'.concat(item["typeID"]);
+          if(getELE(id)&&item["name"]!=""){
+            getELE(id).innerHTML += `<img style="width:50px;height:40px;" src="../img/${key}${item["typeID"]}${item["name"]}"/>`;
+          }
+        });
+      }
       function taoBang(mang) {
         var search = getELE("searchName").value;
         var tbody = getELE("tableDanhSach");
-        // content chứa các thẻ tr(mỗi tr chứa thông tin 1 nd)
         var content = "";
-        // map: giúp duyệt mảng (ES6)
-        //reduce: ES6
-        // for: cú pháp dài, tốc độ duyệt mảng nhanh (ES5)
-        //forEach (ES5)
         mang.map(function (item, index) {
-          //item đại diện cho 1 phần tử trong mảng
-          //item chính là 1 nd
-          // content = `tr mới` + content(chứa các tr trước đó)
           if(item["carName"].toLowerCase().includes(search.toLowerCase())){
             content += `
                   <tr>
@@ -513,8 +487,8 @@
                       <td>${item["carDesc"]}</td>
                       <td>${item["carContent"]}</td>
                       <td> 
-                        <button data-toggle="modal"
-                        data-target="#myModal1" class="btn btn-info" onclick="show_img(${item["carID"]})" >Xem ảnh</button>
+                        <div id="imglist${item["carID"]}">
+                        </div>
                       </td>
                       <td>
                           <button class="btn btn-danger"  onclick="del(${item["carID"]})" >Xóa</button>
@@ -525,7 +499,7 @@
           }
           );
         tbody.innerHTML = content;
-        // console.log(content);
+        getimg();
       }
 
       get_all_cars();

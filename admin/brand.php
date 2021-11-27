@@ -32,6 +32,16 @@
     }
 ?>
 <?php
+  function getimg(){
+    $type='model';
+    $image = new image();
+    $image_list = $image->get_images_by_type($type);
+    $images = [];
+    while ($each_brand = mysqli_fetch_array($image_list)){
+      array_push($images,$each_brand);
+    }
+    return $images;
+  }
   if(isset($_POST["iden"])) {
     delete_model($_POST["iden"]);
   }
@@ -436,7 +446,16 @@
         });
       }
 
-
+      function getimg(){
+        var imgs=<?php echo json_encode(getimg());?>;
+        imgs.map(function (item, index) {
+          key = 'model';
+          id = 'imglist'.concat(item["typeID"]);
+          if(getELE(id)&&item["name"]!=""){
+            getELE(id).innerHTML += `<img style="width:50px;height:40px;" src="../img/${key}${item["typeID"]}${item["name"]}"/>`;
+          }
+        });
+      }
       function taoBang(mang) {
         var search = getELE("searchName").value;
         var tbody = getELE("tableDanhSach");
@@ -449,7 +468,10 @@
                       <td>${item["modelName"]}</td>
                       <td>${item["modelDesc"]}</td>
                       <td>${item["modelContent"]}</td>
-                      <td></td>
+                      <td> 
+                        <div id="imglist${item["modelID"]}">
+                        </div>
+                      </td>
                       <td>
                           <button class="btn btn-danger"  onclick="del(${item["modelID"]})">Xóa</button>
                       </td>
@@ -459,7 +481,7 @@
           }
           );
         tbody.innerHTML = content;
-        // console.log(content);
+        getimg();
       }
 
       get_all_models();

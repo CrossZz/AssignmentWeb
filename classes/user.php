@@ -80,27 +80,18 @@
             $result = $this->db->insert($query);
             if($result){
                 $id = mysqli_fetch_array($this->get_last_id())[0];
-                $qr = "";
-                $c = 0;
                 foreach ($files['myImages']['tmp_name'] as $key => $image) {
                     $name = $files['myImages']['name'][$key] ;
                     $tmpName = $files['myImages']['tmp_name'][$key] ;
                     $type = 'user';
-                    $directory = 'img/'.$type;-
+                    $directory = '../img/'.$type;
                     
-                    $result = move_uploaded_file($tmpName, $directory.$name);
-                    if ($c==0){
-                        $qr = $qr."('$id','$type','$name','$tmpName')";
-                    }else{
-                        $qr = $qr.",('$id','$type','$name','$tmpName')";
+                    $result = move_uploaded_file($tmpName, $directory.$id.$name);
+                    if($name!=""){
+                        $query ="INSERT INTO image(typeID,type,name,img) VALUES('$id','$type','$name','$tmpName')"; 
+                        $result = $this->db->insert($query);
                     }
-                    $c += 1;
-                    // $query ="INSERT INTO image(typeID,type,name) VALUES('$id','$type','$name')"; 
-                    // $result = $this->db->insert($query);
                 }
-                
-                $query ="INSERT INTO image(typeID,type,name,img) VALUES".$qr; 
-                $result = $this->db->insert($query);
             }
     	}
         public function update_user($data,$files) {
@@ -114,29 +105,20 @@
             $query ="UPDATE user SET userName='$userName',userEmail='$userEmail',userPhone='$userPhone',userPassword='$password',userAddress='$userAddress',userRole='$userRole' WHERE userID = '$userID'"; 
             $result = $this->db->update($query);
             if($result){
-                $id = $userID;
-                $qr = "";
-                $c = 0;
+                $query ="DELETE FROM image WHERE type='user' AND typeID='$userID'"; 
+                $result = $this->db->DELETE($query);
                 foreach ($files['myImages']['tmp_name'] as $key => $image) {
                     $name = $files['myImages']['name'][$key] ;
                     $tmpName = $files['myImages']['tmp_name'][$key] ;
                     $type = 'user';
-                    $directory = 'img/'.$type;-
+                    $directory = '../img/'.$type;
                     
-                    $result = move_uploaded_file($tmpName, $directory.$name);
-                    if ($c==0){
-                        $qr = $qr."('$id','$type','$name','$tmpName')";
-                    }else{
-                        $qr = $qr.",('$id','$type','$name','$tmpName')";
+                    $result = move_uploaded_file($tmpName, $directory.$userID.$name);
+                    if($name!=""){
+                        $query ="INSERT INTO image(typeID,type,name,img) VALUES('$userID','$type','$name','$tmpName')"; 
+                        $result = $this->db->insert($query);
                     }
-                    $c += 1;
-                    // $query ="INSERT INTO image(typeID,type,name) VALUES('$id','$type','$name')"; 
-                    // $result = $this->db->insert($query);
                 }
-                $query ="DELETE FROM image WHERE type='user' AND typeID='$userID'"; 
-                $result = $this->db->DELETE($query);
-                $query ="INSERT INTO image(typeID,type,name,img) VALUES".$qr; 
-                $result = $this->db->insert($query);
             }
     	}
         public function create_user($data){
@@ -194,6 +176,8 @@
         }
         public function delete_user($id){
             $query = "DELETE FROM user WHERE userID = $id";
+            $result = $this->db->delete($query);
+            $query = "DELETE FROM image WHERE typeID = $id AND type = 'user'";
             $result = $this->db->delete($query);
             $querys = "SELECT * FROM user WHERE userID != $id";
             $results = $this->db->select($querys);

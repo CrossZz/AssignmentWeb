@@ -41,6 +41,11 @@
             $result = $this->db->select($query);
             return $result;
         }
+        public function get_images_by_type($type){ 
+            $query = "SELECT * FROM image WHERE type='$type'";
+            $result = $this->db->select($query);
+            return $result;
+        }
 
         public function del_image($type, $typeID){
             $query = "DELETE FROM image WHERE typeID='$id' AND type='$type'";

@@ -31,10 +31,15 @@
     }
 ?>
 <?php
-  function console_log( $data ){
-    echo '<script>';
-    echo 'console.log("Àds")';
-    echo '</script>';
+  function getimg(){
+    $type='user';
+    $image = new image();
+    $image_list = $image->get_images_by_type($type);
+    $images = [];
+    while ($each_brand = mysqli_fetch_array($image_list)){
+      array_push($images,$each_brand);
+    }
+    return $images;
   }
   if(isset($_POST["iden"])) {
     delete_user($_POST["iden"]);
@@ -220,6 +225,7 @@
                     <th>Điện Thoại</th>
                     <th>Địa Chỉ</th>
                     <th>Chức Vụ</th>
+                    <th>Ảnh</th>
                     <th><em class="fa fa-cog"></em></th>
                   </tr>
                 </thead>
@@ -519,7 +525,16 @@
         });
       }
 
-
+      function getimg(){
+        var imgs=<?php echo json_encode(getimg());?>;
+        imgs.map(function (item, index) {
+          key = 'user';
+          id = 'imglist'.concat(item["typeID"]);
+          if(getELE(id)&&item["name"]!=""){
+            getELE(id).innerHTML += `<img style="width:50px;height:40px;" src="../img/${key}${item["typeID"]}${item["name"]}"/>`;
+          }
+        });
+      }
       function taoBang(mang) {
         var search = getELE("searchName").value;
         var tbody = getELE("tableDanhSach");
@@ -542,6 +557,10 @@
                       <td>${item["userPhone"]}</td>
                       <td>${item["userAddress"]}</td>
                       <td>${item["userRole"]}</td>
+                      <td> 
+                        <div id="imglist${item["userID"]}">
+                        </div>
+                      </td>
                       <td>
                           <button class="btn btn-danger"  onclick="del(${item["userID"]})" >Xóa</button>
                       </td>
@@ -551,6 +570,8 @@
           }
           );
         tbody.innerHTML = content;
+        
+        getimg();
         // console.log(content);
       }
 

@@ -23,7 +23,6 @@
     	}
         public function insert_cars($data)
     	{
-            
             $carName = mysqli_real_escape_string($this->db->link, $data['carName']);
             $carModel = $data['modelName'];
             $carDesc = mysqli_real_escape_string($this->db->link, $data['carDesc']);
@@ -45,32 +44,23 @@
             $result = $this->db->insert($query);
             if ($result){
                 $id = mysqli_fetch_array($this->get_last_id())[0];
-                $qr = "";
-                $c = 0;
                 foreach ($files['myImages']['tmp_name'] as $key => $image) {
                     $name = $files['myImages']['name'][$key] ;
                     $tmpName = $files['myImages']['tmp_name'][$key] ;
                     $type = 'car';
-                    $directory = 'img/'.$type;-
+                    $directory = '../img/'.$type;
                     
-                    $result = move_uploaded_file($tmpName, $directory.$name);
-                    if ($c==0){
-                        $qr = $qr."('$id','$type','$name','$tmpName')";
-                    }else{
-                        $qr = $qr.",('$id','$type','$name','$tmpName')";
+                    $result = move_uploaded_file($tmpName, $directory.$id.$name);
+                    if($name!=""){
+                        $query ="INSERT INTO image(typeID,type,name,img) VALUES ('$id','$type','$name','$tmpName')"; 
+                        $result = $this->db->insert($query);
                     }
-                    $c += 1;
-                    // $query ="INSERT INTO image(typeID,type,name) VALUES('$id','$type','$name')"; 
-                    // $result = $this->db->insert($query);
+                    
                 }
-                
-                $query ="INSERT INTO image(typeID,type,name,img) VALUES".$qr; 
-                $result = $this->db->insert($query);
             }
             
     	}
-        public function insert_slider($data,$files)
-        {
+        public function insert_slider($data,$files){
            
             $title = mysqli_real_escape_string($this->db->link, $data['title']);
 
@@ -133,35 +123,28 @@
             $query ="UPDATE car SET carName ='$carName',carModel ='$carModel',carDesc ='$carDesc',carPrice ='$carPrice',carContent ='$carContent' WHERE carID = '$carID'"; 
             $result = $this->db->update($query);
             if ($result){
-                $qr = "";
-                $c = 0;
+                $query ="DELETE FROM image WHERE type='car' AND typeID='$carID'"; 
+                $result = $this->db->DELETE($query);
                 foreach ($files['myImages']['tmp_name'] as $key => $image) {
                     $name = $files['myImages']['name'][$key] ;
                     $tmpName = $files['myImages']['tmp_name'][$key] ;
                     $type = 'car';
-                    $directory = 'img/'.$type;
+                    $directory = '../img/'.$type;
                     
-                    $result = move_uploaded_file($tmpName, $directory.$name);
-                    if ($c==0){
-                        $qr = $qr."('$carID','$type','$name','$tmpName')";
-                    }else{
-                        $qr = $qr.",('$carID','$type','$name','$tmpName')";
+                    $result = move_uploaded_file($tmpName, $directory.$carID.$name);
+                    if($name!=""){
+                        $query ="INSERT INTO image(typeID,type,name,img) VALUES ('$carID','$type','$name','$tmpName')"; 
+                        $result = $this->db->insert($query);
                     }
-                    $c += 1;
-                    // $query ="INSERT INTO image(typeID,type,name) VALUES('$id','$type','$name')"; 
-                    // $result = $this->db->insert($query);
                 }
-                $query ="DELETE FROM image WHERE type='car' AND typeID='$carID'"; 
-                $result = $this->db->DELETE($query);
-                $query ="INSERT INTO image(typeID,type,name,img) VALUES".$qr; 
-                $result = $this->db->insert($query);
             }
             
     	}
        
         public function delete_car($id){
+            $query = "DELETE FROM image WHERE typeID = $id AND type = 'car'";
+            $result = $this->db->delete($query);
             $query = "DELETE FROM car WHERE carID='$id' ";
-            //chọn phần tử trong bảng với đk carID= id 
             $result = $this->db->delete($query);
             if($result){
                 $alert= "<span class='success' >Xóa thành công</span>";

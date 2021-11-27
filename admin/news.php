@@ -32,11 +32,17 @@
     }
 ?>
 <?php
-  function console_log( $data ){
-    echo '<script>';
-    echo 'console.log("Àds")';
-    echo '</script>';
+  function getimg(){
+    $type='post';
+    $image = new image();
+    $image_list = $image->get_images_by_type($type);
+    $images = [];
+    while ($each_brand = mysqli_fetch_array($image_list)){
+      array_push($images,$each_brand);
+    }
+    return $images;
   }
+  
   if(isset($_POST["iden"])) {
     delete_post($_POST["iden"]);
   }
@@ -418,7 +424,16 @@
         });
       }
 
-
+      function getimg(){
+        var imgs=<?php echo json_encode(getimg());?>;
+        imgs.map(function (item, index) {
+          key = 'post';
+          id = 'imglist'.concat(item["typeID"]);
+          if(getELE(id)&&item["name"]!=""){
+            getELE(id).innerHTML += `<img style="width:50px;height:40px;" src="../img/${key}${item["typeID"]}${item["name"]}"/>`;
+          }
+        });
+      }
       function taoBang(mang) {
         var search = getELE("searchName").value;
         var tbody = getELE("tableDanhSach");
@@ -439,7 +454,10 @@
                       <td>${item["postName"]}</td>
                       <td>${item["postDesc"]}</td>
                       <td>${item["postContent"]}</td>
-                      <td> </td>
+                      <td> 
+                        <div id="imglist${item["postID"]}">
+                        </div>
+                      </td>
                       <td>
                           <button class="btn btn-danger"  onclick="del(${item["postID"]})" >Xóa</button>
                       </td>
@@ -449,7 +467,7 @@
           }
           );
         tbody.innerHTML = content;
-        // console.log(content);
+        getimg();
       }
 
       get_all_posts();
