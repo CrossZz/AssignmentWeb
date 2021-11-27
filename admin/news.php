@@ -18,7 +18,19 @@
       header('Location: http://localhost/AssignmentWeb/index.php');
     }
 ?>
-
+<?php 
+    if(isset($_POST["submit"])) {
+      $post = new post();
+      $post->insert_post($_POST,$_FILES);
+      header('Location: http://localhost/AssignmentWeb/admin/news.php');
+      
+    }
+    if(isset($_POST["submit1"])) {
+      $post = new post();
+      $post->update_post($_POST,$_FILES);
+      header('Location: http://localhost/AssignmentWeb/admin/news.php');
+    }
+?>
 <?php
   function console_log( $data ){
     echo '<script>';
@@ -29,34 +41,6 @@
     delete_post($_POST["iden"]);
   }
   
-  if(isset($_POST["u_post"])) {
-    update_post($_POST);
-  }
-
-  if(isset($_POST["c_post"])) {
-    create_post($_POST);
-  }
-
-  function search_post(){
-    if(isset($_POST["search"])){
-      $post = new post();
-      $post_list = $post->search_post($_POST["keylog"]);
-      $posts = [];
-      while ($each_brand = mysqli_fetch_array($post_list)){
-        array_push($posts,$each_brand);
-      }
-      return [];
-    }
-    else return get_all_posts();
-  }
-  function update_post($data){
-    $post = new post();
-    $post->update_posts($data);
-  }
-  function create_post($data){
-    $post = new post();
-    $post->insert_posts($data);
-  }
   function delete_post($id){
     $post = new post();
     $post->delete_post($id);
@@ -198,7 +182,7 @@
                     data-toggle="modal"
                     data-target="#myModal"
                   >
-                    Thêm tin
+                    Thêm, sửa tin
                   </button>
                 </div>
               </div>
@@ -269,7 +253,7 @@
 
           <!-- Modal body -->
           <div class="modal-body">
-            <form role="form" id="formTt">
+          <form role="form" method = "post" enctype = "multipart/form-data"  id="formTt">
               
             <div class="form-group">
                 <div class="input-group">
@@ -351,25 +335,17 @@
                   </div>
                   <input
                     type="file"
-                    name="newsImage"
+                    name="myImages[]"
                     id="newsImage"
                     class="form-control input-sm"
                     placeholder="Ảnh"
+                    multiple=""
                   />
                 </div>
                 <span class="sp-thongbao" id="tbNewsImage"></span>
               </div>
-            </form>
-          </div>
-
-          <!-- Modal footer -->
-          <div class="modal-footer" id="modal-footer">
-            <button id="btnThemTt" type="button" class="btn btn-success" >
-              Thêm
-            </button>
-            <button id="btnCapNhat" type="button" onclick="update()" class="btn btn-success" >
-              Cập nhật
-            </button>
+            <input type="submit" name="submit" value = "Thêm" class="btn btn-success">
+            <input type="submit" name="submit1" value = "Sửa" class="btn btn-success">
             <button
               id="btnDong"
               type="button"
@@ -378,7 +354,11 @@
             >
               Đóng
             </button>
+            </form>
           </div>
+
+          <!-- Modal footer -->
+          
         </div>
       </div>
     </div>
@@ -396,21 +376,6 @@
     
 
     <script>
-      document.getElementById("btnThemTt").addEventListener("click", function(){
-        var postName = getELE("postName").value;
-        var postDesc = getELE("postDesc").value;
-        var postContent = getELE("postContent").value;
-        var data = [];
-        $.ajax({
-            type: "POST",
-            url: 'news.php',
-            data:{"c_post": 1,"postName":postName,"postDesc":postDesc,"postContent":postContent},
-            success:function(result) {
-              location.reload();
-            }
-
-        });
-      });
 
       function get_all_posts(){
         var posts=<?php echo json_encode(get_all_products());?>;

@@ -18,30 +18,24 @@
     }
 ?>
 
-
+<?php 
+    if(isset($_POST["submit"])) {
+      $model = new model();
+      $model->insert_model($_POST,$_FILES);
+      header('Location: http://localhost/AssignmentWeb/admin/brand.php');
+      
+    }
+    if(isset($_POST["submit1"])) {
+      $model = new model();
+      $model->update_model($_POST,$_FILES);
+      header('Location: http://localhost/AssignmentWeb/admin/brand.php');
+    }
+?>
 <?php
   if(isset($_POST["iden"])) {
     delete_model($_POST["iden"]);
   }
 
-  if(isset($_POST["u_model"])) {
-    update_model($_POST);
-  }
-
-  if(isset($_POST["c_model"])) {
-    create_model($_POST);
-  }
-  
-  function update_model($data){
-    $model = new model();
-    $model->update_model_admin($data);
-  } 
-  
-  function create_model($data){
-    $model = new model();
-    $model->create_model($data);
-  }
-  
   function delete_model($id){
     $model = new model();
     $model->del_model($id);
@@ -183,7 +177,7 @@
                     data-toggle="modal"
                     data-target="#myModal"
                   >
-                    Thêm hãng
+                    Thêm, sửa hãng
                   </button>
                 </div>
               </div>
@@ -260,7 +254,7 @@
 
           <!-- Modal body -->
           <div class="modal-body">
-            <form role="form" id="formH">
+            <form role="form" method = "post" enctype = "multipart/form-data" id="formH">
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -347,26 +341,16 @@
                   </div>
                   <input
                     type="file"
-                    name="image"
+                    name="myImages[]"
                     id="image"
                     class="form-control input-sm"
                     placeholder="Ảnh"
-                    multiple=""
                   />
                 </div>
                 <span class="sp-thongbao" id="tbBrandImage"></span>
               </div>
-            </form>
-          </div>
-
-          <!-- Modal footer -->
-          <div class="modal-footer" id="modal-footer">
-            <button id="btnThemH" type="button" onclick = "add()" class="btn btn-success">
-              Thêm
-            </button>
-            <button id="btnCapNhat" type="button" onclick = "update()" class="btn btn-success">
-              Cập nhật
-            </button>
+            <input type="submit" name="submit" value = "Thêm" class="btn btn-success">
+            <input type="submit" name="submit1" value = "Sửa" class="btn btn-success">
             <button
               id="btnDong"
               type="button"
@@ -375,7 +359,11 @@
             >
               Đóng
             </button>
+            </form>
           </div>
+
+          <!-- Modal footer -->
+          
         </div>
       </div>
     </div>
@@ -464,8 +452,6 @@
                       <td></td>
                       <td>
                           <button class="btn btn-danger"  onclick="del(${item["modelID"]})">Xóa</button>
-                          <button data-toggle="modal"
-                          data-target="#myModal" class="btn btn-info">Sửa</button>
                       </td>
                   </tr>
               `;

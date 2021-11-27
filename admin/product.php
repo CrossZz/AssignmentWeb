@@ -40,12 +40,16 @@
     }
 ?>
 
-<?php
-  function console_log( $data ){
-    echo '<script>';
-    echo 'console.log("Àds")';
-    echo '</script>';
+<?php 
+  if(isset($_POST["typeID"])) {
+    $type = 'car';
+    $typeID = $_POST["typeID"];
+    $image = new image();
+    $image_list = $image->get_images_by_typeID();
   }
+                
+?>
+<?php
   if(isset($_POST["iden"])) {
     delete_car($_POST["iden"]);
   }
@@ -427,8 +431,36 @@
         </div>
       </div>
     </div>
+                    
 
+        <!-- The Modal -->
+    <div class="modal fade" id="myModal1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <header class="head-form mb-0">
+            <h2 id="header-title">Edit</h2>
+          </header>
 
+          <div class="modal-body">
+            
+            <div id="imglist"></div>
+              
+              <button
+              id="btnDong"
+              type="button"
+              class="btn btn-danger"
+              data-dismiss="modal"
+              >
+                Đóng
+              </button>
+          </div>
+
+          <!-- Modal footer -->
+          
+        </div>
+      </div>
+     
+    </div>                 
 
 
     <script>
@@ -455,26 +487,9 @@
       function search(){
         get_all_cars();
       }
-      function add_car(){
-        var modelName = parseInt(getELE("modelName").value);
-        var carName = getELE("carName").value;
-        var carPrice = getELE("carPrice").value;
-        var carDesc = getELE("carDesc").value;
-        var carContent = getELE("carContent").value;
+      
 
-        var data = [];
-        $.ajax({
-            type: "POST",
-            url: 'product.php',
-            data:{"c_car": 1,"modelName": modelName,"carName":carName,"carPrice":carPrice,"carDesc":carDesc,"carContent":carContent},
-            success:function(result) {
-              location.reload();
-            }
-
-        });
-      }
-
-
+      
       function taoBang(mang) {
         var search = getELE("searchName").value;
         var tbody = getELE("tableDanhSach");
@@ -497,7 +512,10 @@
                       <td>${item["carPrice"]}</td>
                       <td>${item["carDesc"]}</td>
                       <td>${item["carContent"]}</td>
-                      <td> </td>
+                      <td> 
+                        <button data-toggle="modal"
+                        data-target="#myModal1" class="btn btn-info" onclick="show_img(${item["carID"]})" >Xem ảnh</button>
+                      </td>
                       <td>
                           <button class="btn btn-danger"  onclick="del(${item["carID"]})" >Xóa</button>
                       </td>

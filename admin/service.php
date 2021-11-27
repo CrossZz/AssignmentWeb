@@ -17,29 +17,23 @@
       header('Location: http://localhost/AssignmentWeb/index.php');
     }
 ?>
+<?php 
+    if(isset($_POST["submit"])) {
+      $service = new service();
+      $service->insert_service($_POST,$_FILES);
+      header('Location: http://localhost/AssignmentWeb/admin/service.php');
+      
+    }
+    if(isset($_POST["submit1"])) {
+      $service = new service();
+      $service->update_service($_POST,$_FILES);
+      header('Location: http://localhost/AssignmentWeb/admin/service.php');
+    }
+?>
 <?php
   if(isset($_POST["iden"])) {
     delete_service($_POST["iden"]);
   }
-
-  if(isset($_POST["u_service"])) {
-    update_service($_POST);
-  }
-
-  if(isset($_POST["c_service"])) {
-    create_service($_POST);
-  }
-  
-  function update_service($data){
-    $service = new service();
-    $service->update_service_admin($data);
-  } 
-  
-  function create_service($data){
-    $service = new service();
-    $service->create_service($data);
-  }
-  
   function delete_service($id){
     $service = new service();
     $service->del_service($id);
@@ -181,7 +175,7 @@
                     data-toggle="modal"
                     data-target="#myModal"
                   >
-                    Thêm dịch vụ
+                    Thêm, sửa dịch vụ
                   </button>
                 </div>
               </div>
@@ -250,7 +244,7 @@
 
           <!-- Modal body -->
           <div class="modal-body">
-            <form role="form" id="formDv">
+            <form role="form" method = "post" enctype = "multipart/form-data" id="formDv">
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -333,25 +327,17 @@
                   </div>
                   <input
                     type="file"
-                    name="serviceImage"
+                    name="myImages[]"
                     id="serviceImage"
                     class="form-control input-sm"
                     placeholder="Ảnh"
+                    multiple=""
                   />
                 </div>
                 <span class="sp-thongbao" id="tbServiceImage"></span>
               </div>
-            </form>
-          </div>
-
-          <!-- Modal footer -->
-          <div class="modal-footer" id="modal-footer">
-            <button id="btnThemDv" type="button" onclick ="add()" class="btn btn-success">
-              Thêm
-            </button>
-            <button id="btnCapNhat" type="button" onclick ="update()" class="btn btn-success">
-              Cập nhật
-            </button>
+            <input type="submit" name="submit" value = "Thêm" class="btn btn-success">
+            <input type="submit" name="submit1" value = "Sửa" class="btn btn-success">
             <button
               id="btnDong"
               type="button"
@@ -360,7 +346,11 @@
             >
               Đóng
             </button>
+            </form>
           </div>
+
+          <!-- Modal footer -->
+          
         </div>
       </div>
     </div>
@@ -400,42 +390,6 @@
       function search(){
         get_all_services();
       }
-      function update(){
-        var serviceID = parseInt(getELE("serviceID").value);
-        var serviceName = getELE("serviceName").value;
-        var serviceDesc = getELE("serviceDesc").value;
-        var serviceContent = getELE("serviceContent").value;
-
-        var data = [];
-        $.ajax({
-            type: "POST",
-            url: 'service.php',
-            data:{"u_service": 1,"serviceID":serviceID,"serviceName":serviceName,"serviceDesc":serviceDesc,"serviceContent":serviceContent},
-            success:function(result) {
-              location.reload();
-            }
-
-        });
-      }
-
-      function add(){
-        var serviceID = parseInt(getELE("serviceID").value);
-        var serviceName = getELE("serviceName").value;
-        var serviceDesc = getELE("serviceDesc").value;
-        var serviceContent = getELE("serviceContent").value;
-
-        var data = [];
-        $.ajax({
-            type: "POST",
-            url: 'service.php',
-            data:{"c_service": 1,"serviceID":serviceID,"serviceName":serviceName,"serviceDesc":serviceDesc,"serviceContent":serviceContent},
-            success:function(result) {
-              location.reload();
-            }
-
-        });
-      }
-
 
       function taoBang(mang) {
         var search = getELE("searchName").value;
@@ -452,8 +406,6 @@
                       <td></td>
                       <td>
                           <button class="btn btn-danger"  onclick="del(${item["serviceID"]})">Xóa</button>
-                          <button data-toggle="modal"
-                          data-target="#myModal" class="btn btn-info">Sửa</button>
                       </td>
                   </tr>
               `;
@@ -465,7 +417,6 @@
       }
 
       get_all_services();
-      console.log("abc");
     </script>
 
 

@@ -42,30 +42,6 @@
             return $result;
         }
 
-        // public function update_image($title,$content,$id){
-           
-        //     $title = mysqli_real_escape_string($this->db->link, $title);
-        //     $content = mysqli_real_escape_string($this->db->link, $content);
-
-        //     $id = mysqli_real_escape_string($this->db->link, $id);
-
-        //     if(empty($title)|| empty($content)){
-        //         $alert= "<span class='error' >Bạn chưa điền thông tin đầy đủ!</span>";
-        //         return $alert;
-        //     }
-        //     else{
-        //         $query ="UPDATE image  SET title ='$title' AND content = '$content' WHERE imageID = '$id'"; 
-        //         $result = $this->db->update($query);
-        //         if($result){
-        //             $alert="<span class ='success'>Thay đổi thông tin thành công!</span>";
-        //             return $alert;
-        //         }
-        //         else{
-        //             $alert="<span class ='error'>Thay đổi thông tin không thành công!</span>";
-        //             return $alert;
-        //         }
-        //     }
-        // }
         public function del_image($type, $typeID){
             $query = "DELETE FROM image WHERE typeID='$id' AND type='$type'";
             $result = $this->db->delete($query);
