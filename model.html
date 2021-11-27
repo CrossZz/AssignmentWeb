@@ -61,10 +61,10 @@
                   </div> -->
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">News</a>
+            <a class="nav-link" href="./news.html">News</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#contact">About Us</a>
+            <a class="nav-link" href="./aboutus.html">About Us</a>
           </li>
         </ul>
       </div>
@@ -150,13 +150,13 @@
   </section>
   <!-- NEW IN -->
   <section id="newin" class="container mt-5">
-    <h2 class="newin_title">Brands</h2>
+    <h2 class="newin_title">Models</h2>
     <div class="newin_content">
       <!-- row:display flex -->
       <div class="row">
         <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="newin_img text-white">
-            <img class="img-fluid" style="width: 100%;" src="./img/logo-hyundai.png" alt="Hinh anh">
+          <div class="newin_img text-white" id="img1">
+            <img class="img-fluid" style="width: 100%;" src="./img/car1.jpg" alt="Hinh anh">
             
           </div>
           <div class="newin_name mt-5 text-center">
@@ -165,8 +165,8 @@
           </div>
         </div>
         <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 text-center">
-          <div class="newin_img text-white">
-            <img class="img-fluid" style="width: 100%;" src="./img/logo-audi.png" alt="Hinh anh">
+          <div class="newin_img text-white" id="img2">
+            <img class="img-fluid" style="width: 100%;" src="./img/car2.jpg" alt="Hinh anh">
             
           </div>
           <div class="newin_name mt-5 text-center">
@@ -175,8 +175,8 @@
           </div>
         </div>
         <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="newin_img text-white">
-            <img class="img-fluid" style="width: 100%;" src="./img/logo-honda.png" alt="Hinh anh">
+          <div class="newin_img text-white" id="img3">
+            <img class="img-fluid" style="width: 100%;" src="./img/car3.jpg" alt="Hinh anh">
             
           </div>
           <div class="newin_name mt-5 text-center">
@@ -185,8 +185,8 @@
           </div>
         </div>
         <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="newin_img text-white">
-            <img class="img-fluid" style="width: 100%" src="./img/logo-porsche.png" alt="Hinh anh">
+          <div class="newin_img text-white" id="img4">
+            <img class="img-fluid" style="width: 100%" src="./img/car1.jpg" alt="Hinh anh">
           </div>
           <div class="newin_name mt-5 text-center">
             <p>Porsche</p>
@@ -226,10 +226,8 @@
           </div>
           <div class="col-md-6 col-12">
             <div class="coming_img">
-              <img src="./img/audi.jpg" class="img-fluid">
-              <!-- <a class="venobox" data-vbtype="video" href="https://youtu.be/S-UPJyEHmM0">
-                <i class="bi bi-play-fill d-block"></i>
-              </a> -->
+              <img src="./img/car1.jpg" class="img-fluid">
+              
             </div>
           </div>
         </div>
@@ -283,18 +281,7 @@
         </div>
       </div>
   </section>
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="container">
-      <div class="contact_content">
-        <p class="text-center">Need help? Contact our support team on</p>
-        <p class="contact_number text-center">0330 123 4567</p>
-      </div>
-    </div>
-    <div class="map">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.504638855697!2d106.65550931411646!3d10.772608262211527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752ec17709146b%3A0x54a1658a0639d341!2zMjY4IEzDvSBUaMaw4budbmcgS2nhu4d0!5e0!3m2!1svi!2s!4v1636181749492!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-    </div>
-  </section>
+  
   
   <!-- FOOTER -->
   <footer id="footer">
@@ -352,6 +339,27 @@
     $(document).ready(function () {
       $(".venobox").venobox();
     });
+    $("#img1").click(function(){
+      var img = $("#img1 img").attr("src");
+      $(".coming_img img").attr("src",img);
+    });
+      
+    $("#img2").click(function(){
+      var img = $("#img2 img").attr("src");
+      $(".coming_img img").attr("src",img);
+      
+    });
+    $("#img3").click(function(){
+      var img = $("#img3 img").attr("src");
+      $(".coming_img img").attr("src",img);
+      
+    });
+    $("#img4").click(function(){
+      var img = $("#img4 img").attr("src");
+      $(".coming_img img").attr("src",img);
+      
+    });
+    
   </script>
   <script type="text/javascript" src="./js/venobox.min.js"></script>
 </body>
