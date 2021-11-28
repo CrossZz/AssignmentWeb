@@ -175,23 +175,25 @@
          <form action="" method="POST" id="formsignup">
             <div class="formsignup-item">
                <label for="signupname">Name</label>
-               <input type="text" name="userName" id="signupname">
+               <input type="text" name="userName" id="signupname" required>
             </div>
             <div class="formsignup-item">
                <label for="signupemail">Email</label>
-               <input type="email" placeholder="abc@gmail.com" name="userEmail" id="signupemail">
+               <input type="email" placeholder="abc@gmail.com" name="userEmail" id="signupemail"
+               pattern="/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/">
             </div>
             <div class="formsignup-item">
                <label for="signuppassword">Password</label>
-               <input type="password" placeholder="" name="userPassword" id="signuppassword" >
+               <input type="password" placeholder="" name="userPassword" id="signuppassword" 
+               pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" title="Password must contain at least 6 characters, have both letter and number">
             </div>
             <div class="formsignup-item">
                <label for="signupaddress">Address</label>
-               <input type="text" name="userAddress" id="signupaddress" >
+               <input type="text" name="userAddress" id="signupaddress" required>
             </div>
             <div class="formsignup-item">
                <label for="signupphone">Phone</label>
-               <input type="text" name="userPhone" id="signupphone">
+               <input type="text" name="userPhone" id="signupphone" required>
             </div>
             
             <button type="submit" name="submit">Sign Up</button>
