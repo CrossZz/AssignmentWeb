@@ -23,15 +23,29 @@
       session_destroy();
     }
     if(isset($_POST["submit"])) {
-      $model = new model();
-      $model->insert_model($_POST,$_FILES);
-      header('Location: brand.php');
+      if ($_POST["modelName"]==""){
+        echo "<script type='text/javascript'>alert('Type Name');</script>";
+      }else if($_POST["modelDesc"]==""){
+        echo "<script type='text/javascript'>alert('Type Description');</script>";
+      }else{
+        $model = new model();
+        $model->insert_model($_POST,$_FILES);
+        header('Location: brand.php');
+      }
       
     }
     if(isset($_POST["submit1"])) {
-      $model = new model();
-      $model->update_model($_POST,$_FILES);
-      header('Location: brand.php');
+      if ($_POST["postID"]==""){
+        echo "<script type='text/javascript'>alert('Choose Id to update');</script>";
+      }else if ($_POST["modelName"]==""){
+        echo "<script type='text/javascript'>alert('Type Name');</script>";
+      }else if($_POST["modelDesc"]==""){
+        echo "<script type='text/javascript'>alert('Type Description');</script>";
+      }else{
+        $model = new model();
+        $model->update_model($_POST,$_FILES);
+        header('Location: brand.php');
+      }
     }
 ?>
 <?php

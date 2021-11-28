@@ -23,15 +23,33 @@
       
     }
     if(isset($_POST["submit"])) {
-      $service = new service();
-      $service->insert_service($_POST,$_FILES);
-      header('Location: service.php');
+      if ($_POST["serviceName"]==""){
+        echo "<script type='text/javascript'>alert('Type Name');</script>";
+      }else if($_POST["serviceDesc"]==""){
+        echo "<script type='text/javascript'>alert('Type Description');</script>";
+      }else if($_POST["serviceContent"]==""){
+        echo "<script type='text/javascript'>alert('Type Content');</script>";
+      }else{
+        $service = new service();
+        $service->insert_service($_POST,$_FILES);
+        header('Location: service.php');
+      }
       
     }
     if(isset($_POST["submit1"])) {
-      $service = new service();
-      $service->update_service($_POST,$_FILES);
-      header('Location: service.php');
+      if ($_POST["serviceID"]==""){
+        echo "<script type='text/javascript'>alert('Choose Id to update');</script>";
+      }else if ($_POST["serviceName"]==""){
+        echo "<script type='text/javascript'>alert('Type Name');</script>";
+      }else if($_POST["serviceDesc"]==""){
+        echo "<script type='text/javascript'>alert('Type Description');</script>";
+      }else if($_POST["serviceContent"]==""){
+        echo "<script type='text/javascript'>alert('Type Content');</script>";
+      }else{
+        $service = new service();
+        $service->update_service($_POST,$_FILES);
+        header('Location: service.php');
+      }
     }
 ?>
 <?php
@@ -44,9 +62,6 @@
       array_push($images,$each_brand);
     }
     return $images;
-  }
-  if(isset($_POST["iden"])) {
-    delete_car($_POST["iden"]);
   }
   if(isset($_POST["iden"])) {
     delete_service($_POST["iden"]);

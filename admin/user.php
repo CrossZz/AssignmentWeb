@@ -23,16 +23,47 @@
       
     }
     if(isset($_POST["submit"])) {
-      $user = new user();
-      $user->insert_user($_POST,$_FILES);
-      header('Location: user.php');
+      if($_POST["userName"]==""){
+        echo "<script type='text/javascript'>alert('Type Name');</script>";
+      }else if($_POST["userEmail"]==""){
+        echo "<script type='text/javascript'>alert('Type Email');</script>";
+      }else if($_POST["userPassword"]==""){
+        echo "<script type='text/javascript'>alert('Type Password');</script>";
+      }else if($_POST["userPhone"]==""){
+        echo "<script type='text/javascript'>alert('Type Phone');</script>";
+      }else if($_POST["userAddress"]==""){
+        echo "<script type='text/javascript'>alert('Type Address');</script>";
+      }else if($_POST["userRole"]==""){
+        echo "<script type='text/javascript'>alert('Type Role');</script>";
+      }
+      else{
+        $user = new user();
+        $user->insert_user($_POST,$_FILES);
+        header('Location: user.php');
+      }
       
     }
     if(isset($_POST["submit1"])) {
-      $user = new user();
-      $user->update_user($_POST,$_FILES);
-      header('Location: user.php');
-    }
+      if($_POST["userID"]==""){
+        echo "<script type='text/javascript'>alert('Type Id to update');</script>";
+      }else if($_POST["userName"]==""){
+        echo "<script type='text/javascript'>alert('Type Name');</script>";
+      }else if($_POST["userEmail"]==""){
+        echo "<script type='text/javascript'>alert('Type Email');</script>";
+      }else if($_POST["userPassword"]==""){
+        echo "<script type='text/javascript'>alert('Type Password');</script>";
+      }else if($_POST["userPhone"]==""){
+        echo "<script type='text/javascript'>alert('Type Phone');</script>";
+      }else if($_POST["userAddress"]==""){
+        echo "<script type='text/javascript'>alert('Type Address');</script>";
+      }else if($_POST["userRole"]==""){
+        echo "<script type='text/javascript'>alert('Type Role');</script>";
+      }else{
+        $user = new user();
+        $user->update_user($_POST,$_FILES);
+        header('Location: user.php');
+      }
+      }
 ?>
 <?php
   function getimg(){

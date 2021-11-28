@@ -22,8 +22,16 @@
       session_destroy();
     }
     if(isset($_POST["submit"])) {
-      if (!isset($_POST["modelName"])){
-        echo '<script>alert("Chọn hãng");</script>';
+      if ($_POST["modelName"]==""){
+        echo '<script>alert("Choose brand");</script>';
+      }else if($_POST["carName"]==""){
+        echo "<script type='text/javascript'>alert('Type Name');</script>";
+      }else if($_POST["carPrice"]==""){
+        echo "<script type='text/javascript'>alert('Type Price');</script>";
+      }else if($_POST["carDesc"]==""){
+        echo "<script type='text/javascript'>alert('Type Description');</script>";
+      }else if($_POST["carContent"]==""){
+        echo "<script type='text/javascript'>alert('Type Content');</script>";
       }else{
         $car = new car();
         $car->insert_car($_POST,$_FILES);
@@ -32,11 +40,21 @@
       
     }
     if(isset($_POST["submit1"])) {
-      if (!isset($_POST["modelName"])){
-        echo '<script>alert("Chọn hãng");</script>';
+      if ($_POST["carID"]==""){
+        echo '<script>alert("Choose brand");</script>';
+      }else if ($_POST["modelName"]==""){
+        echo '<script>alert("Choose brand");</script>';
+      }else if($_POST["carName"]==""){
+        echo "<script type='text/javascript'>alert('Type Name');</script>";
+      }else if($_POST["carPrice"]==""){
+        echo "<script type='text/javascript'>alert('Type Price');</script>";
+      }else if($_POST["carDesc"]==""){
+        echo "<script type='text/javascript'>alert('Type Description');</script>";
+      }else if($_POST["carContent"]==""){
+        echo "<script type='text/javascript'>alert('Type Content');</script>";
       }else{
         $car = new car();
-        $car->update_car($_POST,$_FILES);
+        $car->insert_car($_POST,$_FILES);
         header('Location: product.php');
       }
       

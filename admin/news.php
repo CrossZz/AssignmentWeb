@@ -23,15 +23,33 @@
       session_destroy();
     }
     if(isset($_POST["submit"])) {
-      $post = new post();
-      $post->insert_post($_POST,$_FILES);
-      header('Location: news.php');
+      if ($_POST["postName"]==""){
+        echo '<script>alert("Type Name");</script>';
+      }else if($_POST["postDesc"]==""){
+        echo "<script type='text/javascript'>alert('Type Description');</script>";
+      }else if($_POST["postContent"]==""){
+        echo "<script type='text/javascript'>alert('Type Content');</script>";
+      }else{
+        $post = new post();
+        $post->insert_post($_POST,$_FILES);
+        header('Location: news.php');
+      }
       
     }
     if(isset($_POST["submit1"])) {
-      $post = new post();
-      $post->update_post($_POST,$_FILES);
-      header('Location: news.php');
+      if ($_POST["postID"]==""){
+        echo "<script type='text/javascript'>alert('Choose Id to update');</script>";
+      }else if ($_POST["postName"]==""){
+        echo "<script type='text/javascript'>alert('Type Name');</script>";
+      }else if($_POST["postDesc"]==""){
+        echo "<script type='text/javascript'>alert('Type Description');</script>";
+      }else if($_POST["postContent"]==""){
+        echo "<script type='text/javascript'>alert('Type Content');</script>";
+      }else{
+        $post = new post();
+        $post->update_post($_POST,$_FILES);
+        header('Location: news.php');
+      }
     }
 ?>
 <?php
