@@ -72,3 +72,41 @@
 .form-contact p{
    text-align: center;
 }
+
+#aboutus {
+   padding-top: 50px;
+   padding-bottom: 50px;
+}
+.aboutus_title{
+   text-transform: uppercase;
+   color: #fbbd61;
+   font-size: 30px;
+   font-weight: 400;
+   letter-spacing: 2px;
+   margin: 0 70px;
+   margin-bottom: 40px;
+   padding-bottom: 15px;
+   border-bottom: 1px solid rgba(0, 0, 0, .2);
+   position: relative;
+   
+}
+.aboutus_title::after{
+   content: '';
+   height: 3px;
+   width: 160px;
+   background-image: linear-gradient(to right,#fbbd61,#ec7532);
+   position: absolute;
+   bottom: -1px;
+   left: 0;
+}
+.aboutus_content{
+   margin: 0 70px;
+}
+.aboutus_img{
+   width: 100%;
+   padding: 20px;
+}
+.aboutus_img img{
+   width: 100%;
+   border-radius: 5px;
+}

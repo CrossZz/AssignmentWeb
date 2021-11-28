@@ -186,6 +186,50 @@
      </div>
   </div>
 </section>
+<section id="aboutus">
+      <h2 class="aboutus_title">About us</h2>
+      <div class="aboutus_content">
+         <h1>ABOUT CAR CITY</h1>
+         <p>268 Ly Thuong Kiet</p>
+         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Blanditiis omnis accusantium dignissimos voluptatem in laborum cum totam quae quia atque!</p>
+         <div class="aboutus_img">
+            <img src="./img/FINANCIAL-RIGHT-1.webp" alt="">
+         </div>
+         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam est hic eius fuga esse mollitia in,
+            delectus nemo soluta pariatur earum repellendus quae aut voluptate! Vitae impedit quis ea iste.
+            Obcaecati ullam est adipisci omnis cumque error assumenda placeat magni nostrum quis, delectus
+            molestiae explicabo tempore ea! Totam, iste asperiores?</p>
+         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam est hic eius fuga esse mollitia in,
+            delectus nemo soluta pariatur earum repellendus quae aut voluptate! Vitae impedit quis ea iste.
+            Obcaecati ullam est adipisci omnis cumque error assumenda placeat magni nostrum quis, delectus
+            molestiae explicabo tempore ea! Totam, iste asperiores?Lorem ipsum dolor sit amet consectetur adipisicing
+            elit.
+            Ipsam est hic eius fuga esse mollitia in,
+            delectus nemo soluta pariatur earum repellendus quae aut voluptate! Vitae impedit quis ea iste.
+            Obcaecati ullam est adipisci omnis cumque error assumenda placeat magni nostrum quis, delectus
+            molestiae explicabo tempore ea! Totam, iste asperiores?Lorem ipsum dolor sit amet consectetur adipisicing
+            elit.
+            Ipsam est hic eius fuga esse mollitia in,
+            delectus nemo soluta pariatur earum repellendus quae aut voluptate! Vitae impedit quis ea iste.
+            Obcaecati ullam est adipisci omnis cumque error assumenda placeat magni nostrum quis, delectus
+            molestiae explicabo tempore ea! Totam, iste asperiores?</p>
+
+         <div class="aboutus_img">
+            <img src="./img/lamborghini_workshop.jpg" alt="">
+         </div>
+         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam est hic eius fuga esse mollitia in,
+            delectus nemo soluta pariatur earum repellendus quae aut voluptate! Vitae impedit quis ea iste.
+            Obcaecati ullam est adipisci omnis cumque error assumenda placeat magni nostrum quis, delectus
+            molestiae explicabo tempore ea! Totam, iste asperiores?Lorem ipsum dolor sit amet consectetur adipisicing
+            elit.
+            Ipsam est hic eius fuga esse mollitia in,
+            delectus nemo soluta pariatur earum repellendus quae aut voluptate! Vitae impedit quis ea iste.
+            Obcaecati ullam est adipisci omnis cumque error assumenda placeat magni nostrum quis, delectus
+            molestiae explicabo tempore ea! Totam, iste asperiores?</p>
+      </div>
+
+   </section>
 <section id="contactwithus">
   <div class="form-contact">
      <h3>CONTACT WITH US</h3>
