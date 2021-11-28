@@ -108,7 +108,7 @@
   <!-- CAROUSEL -->
   <section id="carousel">
     <!-- data-ride="carousel" -->
-    <div id="carouselMovie" class="carousel slide carousel-fade" data-ride="">
+    <div id="carouselMovie" class="carousel slide carousel-fade" data-ride="carousel" data-interval="3000">
       <div class="carousel-inner">
         <div class="carousel-item active item_1">
 

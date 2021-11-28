@@ -152,7 +152,7 @@
    </header>
    <section id="carousel">
       <!-- data-ride="carousel" -->
-      <div id="carouselMovie" class="carousel slide carousel-fade" data-ride="">
+      <div id="carouselMovie" class="carousel slide carousel-fade" data-ride="carousel" data-interval="3000">
          <ol class="carousel-indicators justify-content-start">
             <li data-target="#carouselMovie" data-slide-to="0" class="active"></li>
             <li data-target="#carouselMovie" data-slide-to="1"></li>
