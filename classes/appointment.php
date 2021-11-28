@@ -10,7 +10,7 @@
     /**
      * 
      */
-    class appointment 
+    class appointment
     {
     	private $db;
     	private $fm;
@@ -24,7 +24,7 @@
     	{
            
             $content = mysqli_real_escape_string($this->db->link, $data['content']);
-            $date = mysqli_real_escape_string($this->db->link, $data['date']);
+            $date = mysqli_real_escape_string($this->db->link, $data['time']);
             $store = mysqli_real_escape_string($this->db->link, $data['store']);
 
             if(empty($content) || empty($date) || empty($store)){
@@ -59,6 +59,12 @@
             return $result;
         }
         
+        public function update_appointment_admin($data){
+            $id = $data['id'];
+            $state = mysqli_real_escape_string($this->db->link, $data['state']);
+            $query ="UPDATE appointment SET state = '$state' WHERE ID = '$id'"; 
+            $result = $this->db->update($query);
+        }
         public function update_appointment ($data, $id){
            
             $content = mysqli_real_escape_string($this->db->link, $data['content']);

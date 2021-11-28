@@ -1,85 +1,14 @@
-<!doctype html>
-<html lang="en">
-
 <?php
   include 'inc/header.php';
 ?>
+
 <?php
   $brand_list = $model->show_model();
 ?>
-<head>
-  <title>Car City</title>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-  <!-- Bootstrap CSS -->
-  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-    integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="./css/venobox.css">
-  <link rel="stylesheet" href="./css/style.css">
-</head>
-
-<body>
-  <!-- NAVBAR -->
-  <header class="header">
-    <div class="container pt-3">
-      <p class="text-right">
-        <!-- <i class="bi bi-telephone-fill text-white"></i> -->
-        <!-- mx trái phải -->
-        <!-- <span class="border-right mx-2 pr-2 text-white">0991879222</span> -->
-        <button type="button" class="btn btn-signIn mx-3"><a href="./signin.php#signin">Sign In</a></button>
-        <i class="bi bi-search text-white"></i>
-      </p>
-    </div>
-    <nav class=" container navbar navbar-expand-lg navbar-dark py-0">
-      <a class="navbar-brand" href="#">
-        <!-- <img src="./img/logo.svg" alt="Hình ảnh "> -->
-        <span>Car City</span>
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMovie"
-        aria-controls="navbarMovie" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        <span class="navbar-toggler-icon"></span>
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarMovie">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="./index.php">Home </a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="./brand.php">Brand</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./service.php">
-              Service
-            </a>
-            <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                  </div> -->
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">News</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#contact">About Us</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  </header>
   <!-- CAROUSEL -->
   <section id="carousel">
     <!-- data-ride="carousel" -->
-    <div id="carouselMovie" class="carousel slide carousel-fade" data-ride="">
+    <div id="carouselMovie" class="carousel slide carousel-fade" data-ride="carousel" data-interval="3000">
       <ol class="carousel-indicators justify-content-start">
         <li data-target="#carouselMovie" data-slide-to="0" class="active"></li>
         <li data-target="#carouselMovie" data-slide-to="1"></li>
@@ -156,27 +85,26 @@
   </section>
   <!-- NEW IN -->
   <section id="newin" class="container mt-5">
-    <h2 class="newin_title">Brands</h2>
+    <h2 class="newin_title">Models</h2>
     <div class="newin_content">
       <!-- row:display flex -->
       <div class="row">
-        <?php 
-          while($each_brand = mysqli_fetch_array($brand_list)){
-            $imgsrc = './img/logo-'.strtolower($each_brand["modelName"]).'.png';
-            echo "
-            <div class='col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3'>
-            <div class='newin_img text-white'>
-              <img class='img-fluid' style='width: 100%;' src='{$imgsrc}' alt='Hinh anh'>
-              
-            </div>
-            <div class='newin_name mt-5 text-center'>
-              <p>{$each_brand["modelName"]}</p>
-              
-            </div>
-          </div>";
-          }
-        ?>
-        
+           <?php 
+            while($each_brand = mysqli_fetch_array($brand_list)){
+              $imgsrc = './img/logo-'.strtolower($each_brand["modelName"]).'.png';
+              echo "
+              <div class='col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3'>
+              <div class='newin_img text-white'>
+                <img class='img-fluid' style='width: 100%;' src='{$imgsrc}' alt='Hinh anh'>
+                
+              </div>
+              <div class='newin_name mt-5 text-center'>
+                <p>{$each_brand["modelName"]}</p>
+                
+              </div>
+            </div>";
+            }
+          ?>
       </div>
     </div>
   </section>

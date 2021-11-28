@@ -408,12 +408,11 @@ nav > a span{
     color: #ffffff;
 }
 .coming_item{
-    
-    opacity: 0.2;
+    opacity: 0.8;
     transition: all .5s;
 }
 .coming_item:hover{
-    opacity: 1;
+    opacity: 1.2;
 }
 .coming_list .coming_item img{
     border-radius: 10px;
@@ -480,3 +479,6 @@ nav > a span{
     text-decoration: none;
 }
 
+#comingsoon{
+    margin-bottom: 20px;
+}

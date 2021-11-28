@@ -20,19 +20,17 @@
     		$this->db = new Database();
     		$this->fm = new Format();
     	}
-    	public function create_comment($userID,$commentContent,$commentPostID)
+    	public function create_comment($userid,$commentContent,$commentPostID,$commentCarID)
     	{
-            $commentContent = $this->fm->validation($commentContent);//kiểm tra định dạng của dữ liệu nhập vào
            
             $commentContent = mysqli_real_escape_string($this->db->link, $commentContent);
-            //lấy commentName gán vào link trong class database
 
             if(empty($commentContent)){
-            	$alert= "<span class='error' > Must be not empty</span>";
+            	$alert= "<span style='color:red;' > Must be not empty</span>";
             	return $alert;
             }
             else{
-            	$query ="INSERT INTO comment(commentUserID,commentContent,commentPostID) VALUES('$userID','$commentContent','$commentPostID')"; 
+            	$query ="INSERT INTO comment(commentUserID,commentContent,commentPostID,commentCarID) VALUES('$userid','$commentContent','$commentPostID','$commentCarID')"; 
             	$result = $this->db->insert($query);
                 if($result){
                     $alert="<span class ='success'> Add comment completion</span>";
@@ -44,8 +42,19 @@
                 }
             }
     	}
-        public function get_comment($postID){
-            $query = "SELECT * FROM comment WHERE commentPostID ='$postID' limit 1 ";
+        public function get_comment_post($postID){
+            $query = "SELECT c.*, u.userName
+            FROM comment as c, user as u WHERE c.commentPostID ='$postID' AND c.commentUserID = u.userID ";
+            //lấy các phần tử trong bảng rồi sắp xếp theo catID
+            $result = $this->db->select($query);
+            return $result;
+        }
+        
+        public function get_comment_car($carID){
+            $query = "SELECT c.*, u.userName
+            FROM comment as c, user as u WHERE c.commentCarID ='$carID' AND c.commentUserID = u.userID ";
+  
+
             //lấy các phần tử trong bảng rồi sắp xếp theo catID
             $result = $this->db->select($query);
             return $result;

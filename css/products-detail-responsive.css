@@ -1,0 +1,166 @@
+@media (max-width: 910px) and (min-width: 601px){
+    body{
+        font-size: 15px;
+    }
+    .hero-txt{
+        font-size: 6rem;
+    }
+    .hero{
+        height: 85vh;
+        padding-top: 90px;
+    }
+    .financial-title{
+        font-size: 15px
+    }
+    .financial-price{
+        font-size: 25px ;
+    }
+    .financial-link a{
+        font-size: 15px;
+    }
+    .important-block span{
+        font-size: 15px;
+    }
+    #gallery-carousel{
+        padding: 5% 11%;
+    }
+    #spinner img { 
+        width: 100%;  
+        position: absolute; left: 0;
+        transform-origin: 50% 50% -500px;
+        outline:1px solid transparent; 
+      }
+    .available-item{
+        margin: 10px 0;
+    }
+    .available-img img{
+        width: 60px;
+    }
+    .showroom-name{
+        font-size: 18px;
+    }
+    .book-to-test{
+        left: 0;
+        width: 100%;
+    }
+    .diff-cars-block{
+        width: 90%;
+    }
+}
+@media (max-width: 600px) and (min-width: 280px){
+    body{
+        font-size: 12px;
+    }
+    .hero-txt{
+        font-size: 2rem;
+        right: -10px;
+    }
+    .hero{
+        height: 65vh;
+        padding-top: 60px;
+    }
+    .slide-title > h3{
+        font-size: 1.8rem;
+    }
+    .slide-img{
+        padding: 70px 0;
+    }
+    #gallery-carousel{
+        margin: 0;
+        padding: 0;
+    }
+    #spinner{
+        height: 200px;
+    }
+    #spinner img { 
+        width: 100%;  
+        position: absolute; left: 0;
+        transform-origin: 50% 50% -500px;
+        outline:1px solid transparent; 
+    }
+    .gallery-icon{
+        font-size: 1rem;
+    }
+    .showroom-pricing{
+        width: 90%;
+    }
+    .financial-title, .financial-link a,.showroom-pricing-contact .btn, .important-block span{
+        font-size: 12px
+    }
+    .financial-price{
+        font-size: 20px ;
+    }
+    .block{
+        width: 95%;
+    }
+    .zebra-table-item-inner span{
+        width: 100%;
+    }
+    .zebra-table-item-inner span:first-child{
+        padding-right: 10px;
+    }
+    .btn{
+        padding: 0.4rem 0.8rem;
+        font-size: 12px;
+    }
+    .slideButton{
+        padding: 0.4rem 0.8rem;
+    }
+    .available-items{
+        justify-content: flex-start;
+    }
+    .available-item{
+        margin: 10px 0;
+    }
+    .available-img img{
+        width: 50px;
+    }
+    
+    .showroom-name{
+        font-size: 15px;
+    }
+    .book-to-test{
+        left: 0;
+        width: 100%;
+    }
+    .diff-cars-block{
+        width: 100%;
+    }
+    .product-card {
+        margin: 5px;
+        height: 200px;
+        width: 150px;
+      }
+      .product-card h3 {
+        font-size: 0.7rem;
+      }
+      .product-card-img {
+        margin-bottom: 0;
+      }
+      .product-card-img a img {
+        width: auto;
+        height: auto;
+      }
+      .product-card-info {
+        font-family: "Crimson Text", serif;
+        font-size: 0.5rem;
+        color: var(--text-white);
+        font-weight: 300;
+      }
+      /* .product-card-content .btn{
+          font-size: 0.7rem ;
+          position: absolute;
+          
+      } */
+      /* .btn {
+        margin-top: 5px;
+        padding: 0.4rem 0.7rem;
+        font-size: 0.4rem;
+        font-weight: 500;
+      } */
+}
+@media (min-width: 911px) and (max-width: 1280px){
+    #gallery-carousel{
+        padding: 5% 4%;
+    }
+}

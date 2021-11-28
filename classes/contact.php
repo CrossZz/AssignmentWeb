@@ -28,7 +28,7 @@
             //lấy content gán vào link trong class database
 
             if(empty($content) || empty($email)){
-            	$alert= "<span class='error' > Must be not empty</span>";
+            	$alert= "<span style='color:red;' > Must be not empty</span>";
             	return $alert;
             }
             else{
@@ -51,7 +51,12 @@
             $result = $this->db->select($query);
             return $result;
         }
-
+        public function change_state($id){
+            $query = "UPDATE contact SET state ='Đã xem' WHERE contactID = '$id' ";
+            //lấy các phần tử trong bảng rồi sắp xếp theo catID
+            $result = $this->db->update($query);
+            return $result;
+        }
         public function show_all_contact(){
             $query = "SELECT * FROM contact order by contactID desc";
             //lấy các phần tử trong bảng rồi sắp xếp theo catID

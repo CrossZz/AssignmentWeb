@@ -1,4 +1,8 @@
-<!doctype html>
+<?php
+  include 'inc/header.php';
+?>
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -7,290 +11,202 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Bootstrap CSS -->
-  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
     integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="./css/venobox.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link rel="stylesheet" href="./css/service.css">
 </head>
 
 <body>
+   
   <!-- NAVBAR -->
   <header class="header">
-    <div class="container pt-3">
-      <p class="text-right">
-        <!-- <i class="bi bi-telephone-fill text-white"></i> -->
-        <!-- mx trái phải -->
-        <!-- <span class="border-right mx-2 pr-2 text-white">0991879222</span> -->
-        <button type="button" class="btn btn-signIn mx-3"><a href="./signin.php#signin">Sign In</a></button>
-        <i class="bi bi-search text-white"></i>
-      </p>
-    </div>
-    <nav class=" container navbar navbar-expand-lg navbar-dark py-0">
-      <a class="navbar-brand" href="#">
-        <!-- <img src="./img/logo.svg" alt="Hình ảnh "> -->
-        <span>Car City</span>
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMovie"
-        aria-controls="navbarMovie" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        <span class="navbar-toggler-icon"></span>
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarMovie">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="./index.php">Home </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./brand.php">Brand</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="./service.php">
-              Service
-            </a>
-            
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">News</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#contact">About Us</a>
-          </li>
-        </ul>
+      <div class="container pt-3">
+         <div class="text-right" style="display: flex; justify-content: flex-end; padding-right: 20px;">
+          <?php 
+              if(isset($_GET['userid'])){ 
+                Session::destroy();
+              }
+          ?>
+          <?php 
+         $check_login = Session::get('user_login');
+         if($check_login){
+               echo '            <button type="button" class="btn btn-signIn mx-3"><a href="./profile.php#info">My Profile</a></button>';
+          echo '<button type="button" class="btn btn-signIn mx-3"><a href="?userid='.Session::get('user_id').'" >Logout</a></button>';
+         }
+         else{
+                 echo '<button type="button" class="btn btn-signIn mx-3"><a href="./signin.php#signin">Sign In</a></button>';
+         }
+         ?> 
+           <!--  <button type="button" class="btn btn-signIn mx-3"><a href="./signin.php#signin">Sign In</a></button> -->
+           <form>
+              <input style="height:35px; margin-right:10px;" type="text" name="search" value="Search Car..." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search for Products';}"><input style="display:none;background:#f2945d; color:black;" type="submit" name="ok" value="ok">
+            </form>
+            <?php
+              if (isset($_REQUEST['ok'])) {
+                  global $search;
+                  $search = addslashes($_GET['search']);
+                  if (empty($search)) {
+                    echo "Not empty";
+                  } 
+                  else {
+                    $check_search = $car->search($search);
+                    Session::set('search_value',$search);
+                      // Nếu có kết quả thì hiển thị, ngược lại thì thông báo không tìm thấy kết quả
+                      if ($check_search) {
+                          header('Location:search.php#newin');
+                      } 
+                      else {
+                          echo "No result";
+                      }                   
+                  }
+                }
+            ?>
+          <i class="bi bi-search text-white"></i>
+         </div>
       </div>
-    </nav>
-  </header>
+      <nav class=" container navbar navbar-expand-lg navbar-dark py-0">
+         <a class="navbar-brand" href="#">
+            <!-- <img src="./img/logo.svg" alt="Hình ảnh "> -->
+            <span>Car City</span>
+         </a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMovie"
+            aria-controls="navbarMovie" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
+         </button>
+
+         <div class="collapse navbar-collapse" id="navbarMovie">
+            <ul class="navbar-nav ml-auto">
+               <li class="nav-item  ">
+                  <a class="nav-link" href="./index.php">Home </a>
+               </li>
+               <li class="nav-item ">
+                  <a class="nav-link" href="./model.php">Models</a>
+               </li>
+               <li class="nav-item  active">
+                  <a class="nav-link" href="./service.php">
+                     Service
+                  </a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="./news.php">News</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="aboutus.php">About Us</a>
+               </li>
+            </ul>
+         </div>
+      </nav>
+   </header>
   <!-- CAROUSEL -->
   <section id="carousel">
     <!-- data-ride="carousel" -->
-    <div id="carouselMovie" class="carousel slide carousel-fade" data-ride="">
-      <ol class="carousel-indicators justify-content-start">
-        <li data-target="#carouselMovie" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselMovie" data-slide-to="1"></li>
-        <li data-target="#carouselMovie" data-slide-to="2"></li>
-      </ol>
+    <div id="carouselMovie" class="carousel slide carousel-fade" data-ride="carousel" data-interval="3000">
       <div class="carousel-inner">
         <div class="carousel-item active item_1">
 
-          <div class="carousel-item_overlay"></div>
-          <div class="container carousel-caption ">
+           <div class="carousel-item_overlay"></div>
+           <div class="container carousel-caption ">
 
-            <p class="title pb-1">FAST, FASTER, FASTER</p>
-            <h5 class="mb-2">Super Car: New Generation</h5>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            <div>
+              <p class="title pb-1">HOME / SERVICE </p>
+              <h5 style="font-size: 100px ; margin-top: 10%; word-spacing: 30px;"class="mb-2">SERVICE</h5>
+              <p></p>
+              <div>
 
-              <button class="btn btn-trailer mt-5">
-                <a class="venobox" data-vbtype="video" href="https://youtu.be/Orw8CZpzIDU">
-                  <span>Introduction Video</span>
-                </a>
-              </button>
-            </div>
-          </div>
-
-
-
-
-        </div>
-        <div class="carousel-item item_2">
-
-          <div class="carousel-item_overlay"></div>
-          <div class=" container carousel-caption">
-            <p class="title pb-1">FAST, FASTER, FASTER</p>
-            <h5 class="mb-2">Super Car: New Generation</h5>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            <div>
-
-              <button class="btn btn-trailer mt-5">
-                <a class="venobox" data-vbtype="video" href="https://youtu.be/Orw8CZpzIDU">
-                  <span>Introduction Video</span>
-                </a>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item item_3">
-
-          <div class="carousel-item_overlay"></div>
-          <div class="container carousel-caption">
-            <p class="title pb-1">FAST, FASTER, FASTER</p>
-            <h5 class="mb-2">Super Car: New Generation</h5>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            <div>
-
-              <button class="btn btn-trailer mt-5">
-                <a class="venobox" data-vbtype="video" href="https://youtu.be/Orw8CZpzIDU">
-                  <span>Introduction Video</span>
-                </a>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a> -->
-    </div>
-  </section>
-  <!-- NEW IN -->
-  <section id="newin" class="container mt-5">
-    <h2 class="newin_title">Brands</h2>
-    <div class="newin_content">
-      <!-- row:display flex -->
-      <div class="row">
-        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="newin_img text-white">
-            <img class="img-fluid" style="width: 100%;" src="./img/logo-hyundai.png" alt="Hinh anh">
-            
-          </div>
-          <div class="newin_name mt-5 text-center">
-            <p>Huyndai</p>
-            
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 text-center">
-          <div class="newin_img text-white">
-            <img class="img-fluid" style="width: 100%;" src="./img/logo-audi.png" alt="Hinh anh">
-            
-          </div>
-          <div class="newin_name mt-5 text-center">
-            <p>Audi</p>
-            
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="newin_img text-white">
-            <img class="img-fluid" style="width: 100%;" src="./img/logo-honda.png" alt="Hinh anh">
-            
-          </div>
-          <div class="newin_name mt-5 text-center">
-            <p>Honda</p>
-            
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="newin_img text-white">
-            <img class="img-fluid" style="width: 100%" src="./img/logo-porsche.png" alt="Hinh anh">
-          </div>
-          <div class="newin_name mt-5 text-center">
-            <p>Porsche</p>
-            
-          </div>
+                 <button class="btn btn-trailer mt-5">
+                    <a class="venobox" data-vbtype="video" href="https://youtu.be/Orw8CZpzIDU">
+                       <span>Introduction Video</span>
+                    </a>
+                 </button>
+              </div>
+           </div>
         </div>
       </div>
     </div>
   </section>
- 
-  <!-- COMING SOON -->
-  <section id="comingsoon">
-    <div class="coming_background">
-      <div class="container pl-3">
-        <h2 class="coming_title">COMING SOON</h2>
-        <div class="row pt-5">
-          <div class="col-md-6 col-12 d-flex align-item-center">
-            <div class="coming_detail">
-              <h3>NEW MODELS</h3>
-              <h1>HUYNDAI</h1>
-              <P>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <span class="ml-2 coming_date">
-                  <i class="bi bi-calendar-fill text-white"></i>
-                  <span class="text-white"> 30 December, 2021</span>
-                </span>
-              </P>
-              <p class="text-white">
-                A new car model is going to satisfy the most demanding customers.
-              </p>
-              <a href="#">MORE INFO ></a>
-            </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <div class="coming_img">
-              <img src="./img/audi.jpg" class="img-fluid">
-              <!-- <a class="venobox" data-vbtype="video" href="https://youtu.be/S-UPJyEHmM0">
-                <i class="bi bi-play-fill d-block"></i>
-              </a> -->
-            </div>
-          </div>
+  <?php
+      $i=0;
+      $service_list = $service->show_service();
+      if($service_list ){
+        while($result = $service_list->fetch_assoc()){
+          $i++;
+          $type = 'service';
+          $get_images= $image->get_images_by_typeID($result['serviceID'],$type);
+            if($get_images){
+                $images = mysqli_fetch_array($get_images);
+    ?>
+  
+  <div class="modal modal-service" id="service<?php echo $i?>">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h2 class="modal-title"><?php echo $result['serviceName']?></h2>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">X</button>
         </div>
-      </div>
-      <div class="coming_list">
-        <div class="container">
-          <div class="row pt-5">
-            <div class="col-lg-2 col-md-4 col-12 coming_item">
-              <a href="#">
-                <img src="./img/huyndai.png" class="img-fluid">
-              </a>
-              <p class="mt-4 mb-0 coming_name">Huynhdai X50</p>
-              <p class="comingsoon_date">01 December,2021</p>
-            </div>
-            <div class="col-lg-2 col-md-4 col-12 coming_item">
-              <a href="#">
-                <img src="./img/huyndai.png" class="img-fluid">
-              </a>
-              <p class="mt-4 mb-0 coming_name">Huynhdai X50</p>
-              <p class="comingsoon_date">01 December,2021</p>
-            </div>
-            <div class="col-lg-2 col-md-4 col-12 coming_item">
-              <a href="#">
-                <img src="./img/huyndai.png" class="img-fluid">
-              </a>
-              <p class="mt-4 mb-0 coming_name">Huynhdai X50</p>
-              <p class="comingsoon_date">01 December,2021</p>
-            </div>
-            <div class="col-lg-2 col-md-4 col-12 coming_item">
-              <a href="#">
-                <img src="./img/huyndai.png" class="img-fluid">
-              </a>
-              <p class="mt-4 mb-0 coming_name">Huynhdai X50</p>
-              <p class="comingsoon_date">01 December,2021</p>
-            </div>
-            <div class="col-lg-2 col-md-4 col-12 coming_item">
-              <a href="#">
-                <img src="./img/huyndai.png" class="img-fluid">
-              </a>
-              <p class="mt-4 mb-0 coming_name">Huynhdai X50</p>
-              <p class="comingsoon_date">01 December,2021</p>
-            </div>
-            <div class="col-lg-2 col-md-4 col-12 coming_item">
-              <a href="#">
-                <img src="./img/huyndai.png" class="img-fluid">
-              </a>
-              <p class="mt-4 mb-0 coming_name">Huynhdai X50</p>
-              <p class="comingsoon_date">01 December,2021</p>
-            </div>
+
+
+        <div class="modal-body">
+          <h3><?php echo $result['serviceDesc']?></h3>
+          <div class="modal-img">
+            <img src="./img/service/<?php echo $images['typeID'].$images['name']?>" alt="">
           </div>
+          <p><?php echo $result['serviceContent']?></p>
+
         </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer" id="modal-footer">
+
+        </div>
+
       </div>
+    </div>
+  </div>
+
+  <?php
+      }
+    }
+  }
+  ?>
+  <section id="intro_service">
+    <h2 class="service_title">Service</h2>
+    <?php
+      $i=0;
+      $service_list = $service->show_service();
+      if($service_list ){
+        while($result = $service_list->fetch_assoc()){
+          $i++;
+          $type = 'service';
+          $get_images= $image->get_images_by_typeID($result['serviceID'],$type);
+            if($get_images){
+                $images = mysqli_fetch_array($get_images);
+    ?>
+    <div class="wrapper_service row" data-aos="fade-right" data-aos-duration="3000">
+      <div class="service_img col-12 col-md-6" >
+        <img src="./img/service/<?php echo $images['typeID'].$images['name']?>" alt="">
+      </div>
+      <div class="service_content col-12 col-md-6"  >
+        <h3><?php echo $result['serviceName']?></h3>
+        <p>
+          <?php echo $result['serviceDesc']?>
+        </p>
+        <a class="readmore" data-toggle="modal" data-target="#service<?php echo $i?>">READ MORE >></a>
+      </div>
+    </div>
+    <?php 
+        }
+      }
+    }
+    ?>
+    
   </section>
   <!-- CONTACT -->
-  <section id="contact">
-    <div class="container">
-      <div class="contact_content">
-        <p class="text-center">Need help? Contact our support team on</p>
-        <p class="contact_number text-center">0330 123 4567</p>
-      </div>
-    </div>
-    <div class="map">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.504638855697!2d106.65550931411646!3d10.772608262211527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752ec17709146b%3A0x54a1658a0639d341!2zMjY4IEzDvSBUaMaw4budbmcgS2nhu4d0!5e0!3m2!1svi!2s!4v1636181749492!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-    </div>
-  </section>
-  
+
   <!-- FOOTER -->
   <footer id="footer">
     <div class="container">
@@ -347,8 +263,16 @@
     $(document).ready(function () {
       $(".venobox").venobox();
     });
+    $(".wrapper_service").click(function () {
+      console.log("...");
+      $("#myModal").show();
+    })
   </script>
   <script type="text/javascript" src="./js/venobox.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
 </body>
 
 </html>
