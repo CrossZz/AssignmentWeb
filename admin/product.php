@@ -2,37 +2,60 @@
 <?php
   include 'header.php';
 ?>
-
-
+<?php 
+    $check_login = Session::get('user_login');
+    if($check_login){
+      if(Session::get('user_role') === 'user'){
+        header('Location: ../index.php');
+      }
+      else if(Session::get('user_role') === 'admin'){
+        
+      }else{
+        header('Location: ../index.php');
+      }
+    }else{
+      header('Location: ../index.php');
+    }
+?>
+<?php 
+    if(isset($_POST["submit"])) {
+      if (!isset($_POST["modelName"])){
+        echo '<script>alert("Chọn hãng");</script>';
+      }else{
+        $car = new car();
+        $car->insert_car($_POST,$_FILES);
+        header('Location: product.php');
+      }
+      
+    }
+    if(isset($_POST["submit1"])) {
+      if (!isset($_POST["modelName"])){
+        echo '<script>alert("Chọn hãng");</script>';
+      }else{
+        $car = new car();
+        $car->update_car($_POST,$_FILES);
+        header('Location: product.php');
+      }
+      
+    }
+?>
 
 <?php
-  function console_log( $data ){
-    echo '<script>';
-    echo 'console.log("Àds")';
-    echo '</script>';
+  function getimg(){
+    $type='car';
+    $image = new image();
+    $image_list = $image->get_images_by_type($type);
+    $images = [];
+    while ($each_brand = mysqli_fetch_array($image_list)){
+      array_push($images,$each_brand);
+    }
+    return $images;
   }
   if(isset($_POST["iden"])) {
     delete_car($_POST["iden"]);
   }
   
 
-
-  if(isset($_POST["c_car"])) {
-    create_car($_POST);
-  }
-
-  function search_car(){
-    if(isset($_POST["search"])){
-      $car = new car();
-      $car_list = $car->search_car($_POST["keylog"]);
-      $cars = [];
-      while ($each_brand = mysqli_fetch_array($car_list)){
-        array_push($cars,$each_brand);
-      }
-      return [];
-    }
-    else return get_all_cars();
-  }
   function create_car($data){
     $car = new car();
     $car->insert_cars($data);
@@ -178,7 +201,7 @@
                     data-toggle="modal"
                     data-target="#myModal"
                   >
-                    Thêm sản phẩm
+                    Thêm, sửa sản phẩm
                   </button>
                 </div>
               </div>
@@ -257,8 +280,24 @@
 
           <!-- Modal body -->
           <div class="modal-body">
-            <form role="form" id="formSp">
-              
+            <form role="form" method = "post" enctype = "multipart/form-data" id="formSp">
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"
+                      ><i class="fa fa-address-book"></i
+                    ></span>
+                  </div>
+                  <input
+                    type="text"
+                    name="carID"
+                    id="carID"
+                    class="form-control input-sm"
+                    placeholder="Mã sản phẩm cần cập nhật"
+                  />
+                </div>
+                <span class="sp-thongbao" id="xcarName"></span>
+              </div>
 
               <div class="form-group">
                 <div class="input-group">
@@ -267,7 +306,7 @@
                       ><i class="fa fa-briefcase"></i
                     ></span>
                   </div>
-                  <select class="form-control" id="modelName">
+                  <select class="form-control" id="modelName" name ="modelName">
                     <option value="" disabled selected>Chọn hãng</option>
                     <?php
                       $model = new model();
@@ -366,7 +405,7 @@
                   </div>
                   <input
                     type="file"
-                    name="productImage"
+                    name="myImages[]"
                     id="productImage"
                     class="form-control input-sm"
                     placeholder="Ảnh"
@@ -375,28 +414,27 @@
                 </div>
                 <span class="sp-thongbao" id="tbProductImage"></span>
               </div>
-            </form>
-          </div>
-
-          <!-- Modal footer -->
-          <div class="modal-footer" id="modal-footer">
-            <button id="btnThemSp" type="button" onclick = "add_car()" class="btn btn-success">
-              Thêm
-            </button>
-            <button
+              <input type="submit" name="submit" value = "Thêm" class="btn btn-success">
+              <input type="submit" name="submit1" value = "Sửa" class="btn btn-success">
+              <button
               id="btnDong"
               type="button"
               class="btn btn-danger"
               data-dismiss="modal"
-            >
-              Đóng
-            </button>
+              >
+                Đóng
+              </button>
+            </form>
           </div>
+
+          <!-- Modal footer -->
+          
         </div>
       </div>
     </div>
+                    
 
-
+         
 
 
     <script>
@@ -423,39 +461,22 @@
       function search(){
         get_all_cars();
       }
-      function add_car(){
-        var modelName = parseInt(getELE("modelName").value);
-        var carName = getELE("carName").value;
-        var carPrice = getELE("carPrice").value;
-        var carDesc = getELE("carDesc").value;
-        var carContent = getELE("carContent").value;
-
-        var data = [];
-        $.ajax({
-            type: "POST",
-            url: 'product.php',
-            data:{"c_car": 1,"modelName": modelName,"carName":carName,"carPrice":carPrice,"carDesc":carDesc,"carContent":carContent},
-            success:function(result) {
-              location.reload();
-            }
-
+      
+      function getimg(){
+        var imgs=<?php echo json_encode(getimg());?>;
+        imgs.map(function (item, index) {
+          // key = 'car';
+          id = 'imglist'.concat(item["typeID"]);
+          if(getELE(id)&&item["name"]!=""){
+            getELE(id).innerHTML += `<img style="width:50px;height:40px;" src="../img/car/${item["typeID"]}${item["name"]}"/>`;
+          }
         });
       }
-
-
       function taoBang(mang) {
         var search = getELE("searchName").value;
         var tbody = getELE("tableDanhSach");
-        // content chứa các thẻ tr(mỗi tr chứa thông tin 1 nd)
         var content = "";
-        // map: giúp duyệt mảng (ES6)
-        //reduce: ES6
-        // for: cú pháp dài, tốc độ duyệt mảng nhanh (ES5)
-        //forEach (ES5)
         mang.map(function (item, index) {
-          //item đại diện cho 1 phần tử trong mảng
-          //item chính là 1 nd
-          // content = `tr mới` + content(chứa các tr trước đó)
           if(item["carName"].toLowerCase().includes(search.toLowerCase())){
             content += `
                   <tr>
@@ -465,7 +486,10 @@
                       <td>${item["carPrice"]}</td>
                       <td>${item["carDesc"]}</td>
                       <td>${item["carContent"]}</td>
-                      <td> </td>
+                      <td> 
+                        <div id="imglist${item["carID"]}">
+                        </div>
+                      </td>
                       <td>
                           <button class="btn btn-danger"  onclick="del(${item["carID"]})" >Xóa</button>
                       </td>
@@ -475,7 +499,7 @@
           }
           );
         tbody.innerHTML = content;
-        // console.log(content);
+        getimg();
       }
 
       get_all_cars();

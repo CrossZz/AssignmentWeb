@@ -1,0 +1,31 @@
+.products-detail-overview{
+  display: flex;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+}
+
+.products-detail-overview-img{
+  width: 65%;
+}
+.products-detail-overview-img img{
+  clip-path: polygon(0 0, 90% 0, 64% 100%, 0% 100%);
+  max-width: 100%;
+}
+.products-detail-overview-info h1{
+   margin-bottom: .5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    color:#bbbbbb;
+}
+.products-detail-overview-info p{
+   
+    font-weight: 600;
+    line-height: 1.5;
+    color:#bbbbbb;
+}
+.products-detail-overview-info a{
+    color: #fbbd61;
+    text-decoration: none;
+    margin-top: 15px;
+    font-size: 20px;
+}

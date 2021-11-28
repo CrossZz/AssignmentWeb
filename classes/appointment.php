@@ -24,7 +24,7 @@
     	{
            
             $content = mysqli_real_escape_string($this->db->link, $data['content']);
-            $date = mysqli_real_escape_string($this->db->link, $data['date']);
+            $date = mysqli_real_escape_string($this->db->link, $data['time']);
             $store = mysqli_real_escape_string($this->db->link, $data['store']);
 
             if(empty($content) || empty($date) || empty($store)){

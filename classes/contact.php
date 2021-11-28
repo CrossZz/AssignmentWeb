@@ -28,7 +28,7 @@
             //lấy content gán vào link trong class database
 
             if(empty($content) || empty($email)){
-            	$alert= "<span class='error' > Must be not empty</span>";
+            	$alert= "<span style='color:red;' > Must be not empty</span>";
             	return $alert;
             }
             else{

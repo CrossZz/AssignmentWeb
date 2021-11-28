@@ -19,6 +19,7 @@
    $appointment = new appointment();
    $comment = new comment();
    $service = new service();
+   $image = new image();
    // $product = new product();
    // $category = new category();
    // $bankaccount = new bankaccount();

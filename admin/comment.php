@@ -2,7 +2,21 @@
 <?php
   include 'header.php';
 ?>
-
+<?php 
+    $check_login = Session::get('user_login');
+    if($check_login){
+      if(Session::get('user_role') === 'user'){
+        header('Location: ../index.php');
+      }
+      else if(Session::get('user_role') === 'admin'){
+        
+      }else{
+        header('Location: ../index.php');
+      }
+    }else{
+      header('Location: ../index.php');
+    }
+?>
 
 
 <?php

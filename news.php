@@ -1,9 +1,7 @@
-<<<<<<< HEAD:index.php
 <?php
   include 'inc/header.php';
 ?>
-=======
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -18,124 +16,115 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
     integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link rel="stylesheet" href="./css/venobox.css">
   <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/news.css">
 </head>
 
 <body>
   <!-- NAVBAR -->
   <header class="header">
-    <div class="container pt-3">
-      <p class="text-right">
-        <!-- <i class="bi bi-telephone-fill text-white"></i> -->
-        <!-- mx trái phải -->
-        <!-- <span class="border-right mx-2 pr-2 text-white">0991879222</span> -->
-        <button type="button" class="btn btn-signIn mx-3"><a href="./signin.html#signin">Sign In</a></button>
-        <i class="bi bi-search text-white"></i>
-      </p>
-    </div>
-    <nav class=" container navbar navbar-expand-lg navbar-dark py-0">
-      <a class="navbar-brand" href="#">
-        <!-- <img src="./img/logo.svg" alt="Hình ảnh "> -->
-        <span>Car City</span>
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMovie"
-        aria-controls="navbarMovie" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        <span class="navbar-toggler-icon"></span>
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarMovie">
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="./index.html">Home </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./model.html">Model</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./service.html">
-              Service
-            </a>
-            
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="./news.html">News</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#contact">About Us</a>
-          </li>
-        </ul>
+      <div class="container pt-3">
+         <div class="text-right" style="display: flex; justify-content: flex-end; padding-right: 20px;">
+          <?php 
+              if(isset($_GET['userid'])){ 
+                Session::destroy();
+              }
+          ?>
+          <?php 
+         $check_login = Session::get('user_login');
+         if($check_login){
+               echo '            <button type="button" class="btn btn-signIn mx-3"><a href="./profile.php#info">My Profile</a></button>';
+          echo '<button type="button" class="btn btn-signIn mx-3"><a href="?userid='.Session::get('user_id').'" >Logout</a></button>';
+         }
+         else{
+                 echo '<button type="button" class="btn btn-signIn mx-3"><a href="./signin.php#signin">Sign In</a></button>';
+         }
+         ?> 
+           <!--  <button type="button" class="btn btn-signIn mx-3"><a href="./signin.php#signin">Sign In</a></button> -->
+           <form>
+              <input style="height:35px; margin-right:10px;" type="text" name="search" value="Search Car..." onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search for Products';}"><input style="display:none;background:#f2945d; color:black;" type="submit" name="ok" value="ok">
+            </form>
+            <?php
+              if (isset($_REQUEST['ok'])) {
+                  global $search;
+                  $search = addslashes($_GET['search']);
+                  if (empty($search)) {
+                    echo "Not empty";
+                  } 
+                  else {
+                    $check_search = $car->search($search);
+                    Session::set('search_value',$search);
+                      // Nếu có kết quả thì hiển thị, ngược lại thì thông báo không tìm thấy kết quả
+                      if ($check_search) {
+                          header('Location:search.php#newin');
+                      } 
+                      else {
+                          echo "No result";
+                      }                   
+                  }
+                }
+            ?>
+          <i class="bi bi-search text-white"></i>
+         </div>
       </div>
-    </nav>
-  </header>
->>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733:news.php
+      <nav class=" container navbar navbar-expand-lg navbar-dark py-0">
+         <a class="navbar-brand" href="#">
+            <!-- <img src="./img/logo.svg" alt="Hình ảnh "> -->
+            <span>Car City</span>
+         </a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMovie"
+            aria-controls="navbarMovie" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
+         </button>
+
+         <div class="collapse navbar-collapse" id="navbarMovie">
+            <ul class="navbar-nav ml-auto">
+               <li class="nav-item">
+                  <a class="nav-link" href="./index.php">Home </a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="./model.php">Models</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="./service.php">
+                     Service
+                  </a>
+               </li>
+               <li class="nav-item  active">
+                  <a class="nav-link" href="./news.php">News</a>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="aboutus.php">About Us</a>
+               </li>
+            </ul>
+         </div>
+      </nav>
+   </header>
   <!-- CAROUSEL -->
   <section id="carousel">
     <!-- data-ride="carousel" -->
     <div id="carouselMovie" class="carousel slide carousel-fade" data-ride="">
-      <ol class="carousel-indicators justify-content-start">
-        <li data-target="#carouselMovie" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselMovie" data-slide-to="1"></li>
-        <li data-target="#carouselMovie" data-slide-to="2"></li>
-      </ol>
       <div class="carousel-inner">
         <div class="carousel-item active item_1">
+           <div class="carousel-item_overlay"></div>
+           <div class="container carousel-caption ">
 
-          <div class="carousel-item_overlay"></div>
-          <div class="container carousel-caption ">
+              <p class="title pb-1">HOME / NEWS </p>
+              <h5 style="font-size: 100px ; margin-top: 10%; word-spacing: 30px;"class="mb-2">NEWS</h5>
+              <p></p>
+              <div>
 
-            <p class="title pb-1">FAST, FASTER, FASTER</p>
-            <h5 class="mb-2">Super Car: New Generation</h5>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            <div>
-
-              <button class="btn btn-trailer mt-5">
-                <a class="venobox" data-vbtype="video" href="https://youtu.be/Orw8CZpzIDU">
-                  <span>Introduction Video</span>
-                </a>
-              </button>
-            </div>
-          </div>
-
-
-
-
-        </div>
-        <div class="carousel-item item_2">
-
-          <div class="carousel-item_overlay"></div>
-          <div class=" container carousel-caption">
-            <p class="title pb-1">FAST, FASTER, FASTER</p>
-            <h5 class="mb-2">Super Car: New Generation</h5>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            <div>
-
-              <button class="btn btn-trailer mt-5">
-                <a class="venobox" data-vbtype="video" href="https://youtu.be/Orw8CZpzIDU">
-                  <span>Introduction Video</span>
-                </a>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="carousel-item item_3">
-
-          <div class="carousel-item_overlay"></div>
-          <div class="container carousel-caption">
-            <p class="title pb-1">FAST, FASTER, FASTER</p>
-            <h5 class="mb-2">Super Car: New Generation</h5>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            <div>
-
-              <button class="btn btn-trailer mt-5">
-                <a class="venobox" data-vbtype="video" href="https://youtu.be/Orw8CZpzIDU">
-                  <span>Introduction Video</span>
-                </a>
-              </button>
-            </div>
-          </div>
+                 <button class="btn btn-trailer mt-5">
+                    <a class="venobox" data-vbtype="video" href="https://youtu.be/Orw8CZpzIDU">
+                       <span>Introduction Video</span>
+                    </a>
+                 </button>
+              </div>
+           </div>
         </div>
       </div>
 
@@ -143,465 +132,39 @@
     </div>
   </section>
   <!-- NEW IN -->
-  <section id="newin" class="container mt-5">
-    <h2 class="newin_title">New in</h2>
-    <div class="newin_content">
-      <!-- row:display flex -->
-      <div class="row">
-        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="newin_img text-white">
-            <img class="img-fluid" style="width: 100%;" src="./img/huyndai.png" alt="Hinh anh">
-            
-          </div>
-          <div class="newin_name mt-3 text-center">
-            <p>Huyndai XY30</p>
-            <div>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3 text-center">
-          <div class="newin_img text-white">
-            <img class="img-fluid" style="width: 100%;" src="./img/huyndai.png" alt="Hinh anh">
-            
-          </div>
-          <div class="newin_name mt-3 text-center">
-            <p>Huyndai XY30</p>
-            <div>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="newin_img text-white">
-            <img class="img-fluid" style="width: 100%;" src="./img/huyndai.png" alt="Hinh anh">
-            
-          </div>
-          <div class="newin_name mt-3 text-center">
-            <p>Huyndai XY30</p>
-            <div>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <span><i class="bi bi-star-fill"></i></span>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-3 col-lg-3 col-xl-3">
-          <div class="newin_img text-white">
-            <img class="img-fluid" style="width: 100%;" src="./img/huyndai.png" alt="Hinh anh">
-            
-          </div>
-          <div class="newin_name mt-3 text-center">
-            <p>Huyndai XY30</p>
-            <div>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-              <i class="bi bi-star-fill"></i>
-            </div>
-          </div>
-        </div>
+  <section id="news">
+    <h2 class="news_title">News</h2>
+    <?php
+      $post_list = $post->show_post();
+      if($post_list){
+        while($result = $post_list->fetch_assoc()){
+          $type = 'post';
+          $get_images= $image->get_images_by_typeID($result['postID'],$type);
+            if($get_images){
+              $images = $get_images-> fetch_all(MYSQLI_ASSOC);
+    ?>
+    <div class="wrapper_news row" data-aos="fade-right" data-aos-duration="3000">
+      <div class="news_img col-12 col-md-6" >
+        <img src="./img/post/<?php echo $images[0]['typeID'].$images[0]['name']?>" alt="img">
+      </div>
+      <div class="news_content col-12 col-md-6"  >
+        <h3><?php echo $result['postName']?></h3>
+        <p>
+          <?php echo $result['postDesc']?>
+        </p>
+        <a href="./newsdetail.php?newsid=<?php echo $result['postID']?>" class="readmore">READ MORE >></a>
       </div>
     </div>
+    <?php 
+        }
+      }
+    }
+    ?>    
   </section>
-  <!-- SHOW TIME -->
-  <!-- <section id="showtime" class="container">
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-      <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="mon-tab" data-toggle="tab" href="#mon" role="tab" aria-controls="home"
-          aria-selected="true">MON</a>
-      </li>
-      <li class="nav-item" role="presentation">
-        <a class="nav-link" id="tue-tab" data-toggle="tab" href="#tue" role="tab" aria-controls="profile"
-          aria-selected="false">TUE</a>
-      </li>
-      <li class="nav-item" role="presentation">
-        <a class="nav-link" id="wed-tab" data-toggle="tab" href="#today" role="tab" aria-controls="contact"
-          aria-selected="false">TODAY</a>
-      </li>
-      <li class="nav-item" role="presentation">
-        <a class="nav-link" id="wed-tab" data-toggle="tab" href="#thu" role="tab" aria-controls="contact"
-          aria-selected="false">THU</a>
-      </li>
-      <li class="nav-item" role="presentation">
-        <a class="nav-link" id="wed-tab" data-toggle="tab" href="#fri" role="tab" aria-controls="contact"
-          aria-selected="false">FRI</a>
-      </li>
-      <li class="nav-item" role="presentation">
-        <a class="nav-link" id="wed-tab" data-toggle="tab" href="#sat" role="tab" aria-controls="contact"
-          aria-selected="false">SAT</a>
-      </li>
-      <li class="nav-item" role="presentation">
-        <a class="nav-link" id="wed-tab" data-toggle="tab" href="#sun" role="tab" aria-controls="contact"
-          aria-selected="false">SUN</a>
-      </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="mon" role="tabpanel" aria-labelledby="home-tab">
-        <div class="row py-5">
-          <div class="col-md-2 col-sm-3 col-12 showtime_img">
-            <img class="img-fluid" src="./img/movie-7.jpg" alt="Hinh anh">
-          </div>
-          <div class="col-md-10 col-sm-9 col-12">
-            <p class="showtime_genre">DRAMA</p>
-            <h3 class="showtime_title">Daylight</h3>
-            <p>European mercenaries searching for black powder become embroiled in the defense of It's over of China
-              against a horde of monstrous creatures.</p>
-            <a href="#" class="showtime_item">Full Synosis ></a>
-            <div class="row mt-4">
-              <div class="col-lg-8 col-sm-12 col-12">
-                <span class="showtime_view">
-                  <i class="bi bi-clock"></i>
-                  <span class="mr-2">Viewing Times</span>
-                </span>
-
-                <button type="button" class="btn btn-secondary mr-2" disabled>14:30</button>
-                <button type="button" class="btn btn-secondary mr-2" disabled>16:30</button>
-                <button type="button" class="btn btn-secondary mr-2">17:30</button>
-                <button type="button" class="btn btn-secondary mr-2">18:30</button>
-              </div>
-              <div class="col-lg-4 col-sm-12 col-12 text-right showtime_sta">
-                <span>105 MINS</span>
-                <span class="showtime_number d-inline-block bg-dark text-white font-weight-bold
-                            text-center ml-2">15</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-2 col-sm-3  col-12 showtime_img">
-            <img class="img-fluid" src="./img/movie-8.jpg" alt="Hinh anh">
-          </div>
-          <div class="col-md-10 col-sm-9 col-12">
-            <p class="showtime_genre">ACTION, ADVENTURE, FANTASY</p>
-            <h3 class="showtime_title">It's over</h3>
-            <p>European mercenaries searching for black powder become embroiled in the defense of It's over of China
-              against a horde of monstrous creatures.</p>
-            <a href="#" class="showtime_item">Full Synosis ></a>
-            <div class="row mt-4">
-              <div class="col-lg-8 col-sm-12 col-12">
-                <span class="showtime_view">
-                  <i class="bi bi-clock"></i>
-                  <span class="mr-2">Viewing Times</span>
-                </span>
-
-                <button type="button" class="btn btn-secondary mr-2" disabled>14:30</button>
-                <button type="button" class="btn btn-secondary mr-2">16:30</button>
-                <button type="button" class="btn btn-secondary mr-2">17:30</button>
-                <button type="button" class="btn btn-secondary mr-2">18:30</button>
-              </div>
-              <div class="col-lg-4 col-sm-12 col-12 text-right showtime_sta">
-                <span>105 MINS</span>
-                <span class="showtime_number  d-inline-block bg-dark text-white font-weight-bold
-                          text-center ml-2">15</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tab-pane fade" id="tue" role="tabpanel" aria-labelledby="profile-tab">
-        <div class="row py-5">
-          <div class="col-md-2 col-12 showtime_img">
-            <img class="img-fluid" src="./img/movie-7.jpg" alt="Hinh anh">
-          </div>
-          <div class="col-md-10 col-12">
-            <p class="showtime_genre">ACTION, ADVENTURE, FANTASY</p>
-            <h3 class="showtime_title">It's over</h3>
-            <p>European mercenaries searching for black powder become embroiled in the defense of It's over of China
-              against a horde of monstrous creatures.</p>
-            <a href="#" class="showtime_item">Full Synosis ></a>
-            <div class="row mt-4">
-              <div class="col-lg-8 col-sm-12 col-12">
-                <span class="showtime_view">
-                  <i class="bi bi-clock"></i>
-                  <span class="mr-2">Viewing Times</span>
-                </span>
-
-                <button type="button" class="btn btn-secondary  mr-2" disabled>14:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">16:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">17:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">18:30</button>
-              </div>
-              <div class="col-lg-4 col-sm-12 col-12 text-right showtime_sta">
-                <span>105 MINS</span>
-                <span class="showtime_number d-inline-block bg-dark text-white font-weight-bold
-                    text-center ml-2">15</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tab-pane fade " id="today" role="tabpanel" aria-labelledby="contact-tab">
-        <div class="row py-5">
-          <div class="col-md-2 col-sm-3 col-12 showtime_img">
-            <img class="img-fluid" src="./img/movie-9.jpg" alt="Hinh anh">
-          </div>
-          <div class="col-md-10 col-sm-9 col-12">
-            <p class="showtime_genre">ACTION, ADVENTURE, SCI-Fi</p>
-            <h3 class=" showtime_title">Captain America: The First Avenger</h3>
-            <p>European mercenaries searching for black powder become embroiled in the defense of It's over of China
-              against a horde of monstrous creatures.</p>
-            <a href="#" class="showtime_item">Full Synosis ></a>
-            <div class="row mt-4">
-              <div class="col-lg-8 col-sm-12 col-12">
-                <span class="showtime_view">
-                  <i class="bi bi-clock"></i>
-                  <span class="mr-2">Viewing Times</span>
-                </span>
-
-                <button type="button" class="btn btn-secondary  mr-2" disabled>14:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">16:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">17:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">18:30</button>
-              </div>
-              <div class="col-lg-4 col-sm-12 col-12 text-right showtime_sta">
-                <span>105 MINS</span>
-                <span class="showtime_number d-inline-block bg-dark text-white font-weight-bold
-                    text-center ml-2">15</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tab-pane fade" id="thu" role="tabpanel" aria-labelledby="profile-tab">
-        <div class="row py-5">
-          <div class="col-md-2 col-12 showtime_img">
-            <img class="img-fluid" src="./img/movie-14.jpg" alt="Hinh anh">
-          </div>
-          <div class="col-md-10 col-12">
-            <p class="showtime_genre">ACTION, ADVENTURE, FANTASY</p>
-            <h3 class="showtime_title">It's over</h3>
-            <p>European mercenaries searching for black powder become embroiled in the defense of It's over of China
-              against a horde of monstrous creatures.</p>
-            <a href="#" class="showtime_item">Full Synosis ></a>
-            <div class="row mt-4">
-              <div class="col-lg-8 col-sm-12 col-12">
-                <span class="showtime_view">
-                  <i class="bi bi-clock"></i>
-                  <span class="mr-2">Viewing Times</span>
-                </span>
-
-                <button type="button" class="btn btn-secondary  mr-2" disabled>14:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">16:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">17:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">18:30</button>
-              </div>
-              <div class="col-lg-4 col-sm-12 col-12 text-right showtime_sta">
-                <span>105 MINS</span>
-                <span class="showtime_number d-inline-block bg-dark text-white font-weight-bold
-                    text-center ml-2">15</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tab-pane fade" id="fri" role="tabpanel" aria-labelledby="profile-tab">
-        <div class="row py-5">
-          <div class="col-md-2 col-12 showtime_img">
-            <img class="img-fluid" src="./img/movie-7.jpg" alt="Hinh anh">
-          </div>
-          <div class="col-md-10 col-12">
-            <p class="showtime_genre">ACTION, ADVENTURE, FANTASY</p>
-            <h3 class="showtime_title">It's over</h3>
-            <p>European mercenaries searching for black powder become embroiled in the defense of It's over of China
-              against a horde of monstrous creatures.</p>
-            <a href="#" class="showtime_item">Full Synosis ></a>
-            <div class="row mt-4">
-              <div class="col-lg-8 col-sm-12 col-12">
-                <span class="showtime_view">
-                  <i class="bi bi-clock"></i>
-                  <span class="mr-2">Viewing Times</span>
-                </span>
-
-                <button type="button" class="btn btn-secondary  mr-2" disabled>14:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">16:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">17:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">18:30</button>
-              </div>
-              <div class="col-lg-4 col-sm-12 col-12 text-right showtime_sta">
-                <span>105 MINS</span>
-                <span class="showtime_number d-inline-block bg-dark text-white font-weight-bold
-                    text-center ml-2">15</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tab-pane fade" id="sat" role="tabpanel" aria-labelledby="profile-tab">
-        <div class="row py-5">
-          <div class="col-md-2 col-12 showtime_img">
-            <img class="img-fluid" src="./img/movie-13.jpg" alt="Hinh anh">
-          </div>
-          <div class="col-md-10 col-12">
-            <p class="showtime_genre">ACTION, ADVENTURE, FANTASY</p>
-            <h3 class="showtime_title">It's over</h3>
-            <p>European mercenaries searching for black powder become embroiled in the defense of It's over of China
-              against a horde of monstrous creatures.</p>
-            <a href="#" class="showtime_item">Full Synosis ></a>
-            <div class="row mt-4">
-              <div class="col-lg-8 col-sm-12 col-12">
-                <span class="showtime_view">
-                  <i class="bi bi-clock"></i>
-                  <span class="mr-2">Viewing Times</span>
-                </span>
-
-                <button type="button" class="btn btn-secondary  mr-2" disabled>14:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">16:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">17:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">18:30</button>
-              </div>
-              <div class="col-lg-4 col-sm-12 col-12 text-right showtime_sta">
-                <span>105 MINS</span>
-                <span class="showtime_number d-inline-block bg-dark text-white font-weight-bold
-                    text-center ml-2">15</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tab-pane fade" id="sun" role="tabpanel" aria-labelledby="profile-tab">
-        <div class="row py-5">
-          <div class="col-md-2 col-12 showtime_img">
-            <img class="img-fluid" src="./img/movie-12.jpg" alt="Hinh anh">
-          </div>
-          <div class="col-md-10 col-12">
-            <p class="showtime_genre">ACTION, ADVENTURE, FANTASY</p>
-            <h3 class="showtime_title">It's over</h3>
-            <p>European mercenaries searching for black powder become embroiled in the defense of It's over of China
-              against a horde of monstrous creatures.</p>
-            <a href="#" class="showtime_item">Full Synosis ></a>
-            <div class="row mt-4">
-              <div class="col-lg-8 col-sm-12 col-12">
-                <span class="showtime_view">
-                  <i class="bi bi-clock"></i>
-                  <span class="mr-2">Viewing Times</span>
-                </span>
-
-                <button type="button" class="btn btn-secondary  mr-2" disabled>14:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">16:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">17:30</button>
-                <button type="button" class="btn btn-secondary  mr-2">18:30</button>
-              </div>
-              <div class="col-lg-4 col-sm-12 col-12 text-right showtime_sta">
-                <span>105 MINS</span>
-                <span class="showtime_number d-inline-block bg-dark text-white font-weight-bold
-                    text-center ml-2">15</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section> -->
-  <!-- COMING SOON -->
-  <section id="comingsoon">
-    <div class="coming_background">
-      <div class="container pl-3">
-        <h2 class="coming_title">COMING SOON</h2>
-        <div class="row pt-5">
-          <div class="col-md-6 col-12 d-flex align-item-center">
-            <div class="coming_detail">
-              <h3>NEW MODELS</h3>
-              <h1>VI GENERATION</h1>
-              <P>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <i class="bi bi-star-fill"></i>
-                <span class="ml-2 coming_date">
-                  <i class="bi bi-calendar-fill text-white"></i>
-                  <span class="text-white"> 30 December, 2021</span>
-                </span>
-              </P>
-              <p class="text-white">
-                A new car model is going to satisfy the most demanding customers.
-              </p>
-              <a href="#">MORE INFO ></a>
-            </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <div class="coming_img">
-              <img src="./img/audi.jpg" class="img-fluid">
-              <!-- <a class="venobox" data-vbtype="video" href="https://youtu.be/S-UPJyEHmM0">
-                <i class="bi bi-play-fill d-block"></i>
-              </a> -->
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="coming_list">
-        <div class="container">
-          <div class="row pt-5">
-            <div class="col-lg-2 col-md-4 col-12 coming_item">
-              <a href="#">
-                <img src="./img/huyndai.png" class="img-fluid">
-              </a>
-              <p class="mt-4 mb-0 coming_name">Huynhdai X50</p>
-              <p class="comingsoon_date">01 December,2021</p>
-            </div>
-            <div class="col-lg-2 col-md-4 col-12 coming_item">
-              <a href="#">
-                <img src="./img/huyndai.png" class="img-fluid">
-              </a>
-              <p class="mt-4 mb-0 coming_name">Huynhdai X50</p>
-              <p class="comingsoon_date">01 December,2021</p>
-            </div>
-            <div class="col-lg-2 col-md-4 col-12 coming_item">
-              <a href="#">
-                <img src="./img/huyndai.png" class="img-fluid">
-              </a>
-              <p class="mt-4 mb-0 coming_name">Huynhdai X50</p>
-              <p class="comingsoon_date">01 December,2021</p>
-            </div>
-            <div class="col-lg-2 col-md-4 col-12 coming_item">
-              <a href="#">
-                <img src="./img/huyndai.png" class="img-fluid">
-              </a>
-              <p class="mt-4 mb-0 coming_name">Huynhdai X50</p>
-              <p class="comingsoon_date">01 December,2021</p>
-            </div>
-            <div class="col-lg-2 col-md-4 col-12 coming_item">
-              <a href="#">
-                <img src="./img/huyndai.png" class="img-fluid">
-              </a>
-              <p class="mt-4 mb-0 coming_name">Huynhdai X50</p>
-              <p class="comingsoon_date">01 December,2021</p>
-            </div>
-            <div class="col-lg-2 col-md-4 col-12 coming_item">
-              <a href="#">
-                <img src="./img/huyndai.png" class="img-fluid">
-              </a>
-              <p class="mt-4 mb-0 coming_name">Huynhdai X50</p>
-              <p class="comingsoon_date">01 December,2021</p>
-            </div>
-          </div>
-        </div>
-      </div>
-  </section>
+  
+  
   <!-- CONTACT -->
-  <section id="contact">
-    <div class="container">
-      <div class="contact_content">
-        <p class="text-center">Need help? Contact our support team on</p>
-        <p class="contact_number text-center">0330 123 4567</p>
-      </div>
-    </div>
-    <div class="map">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.504638855697!2d106.65550931411646!3d10.772608262211527!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752ec17709146b%3A0x54a1658a0639d341!2zMjY4IEzDvSBUaMaw4budbmcgS2nhu4d0!5e0!3m2!1svi!2s!4v1636181749492!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-    </div>
-  </section>
+  
   
   <!-- FOOTER -->
   <footer id="footer">
@@ -661,6 +224,10 @@
     });
   </script>
   <script type="text/javascript" src="./js/venobox.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
 </body>
 
 </html>

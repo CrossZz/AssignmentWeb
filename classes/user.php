@@ -6,13 +6,19 @@
 <?php 
     class user
     {
-    	private $db;
-    	private $fm;
-    	public function __construct()
-    	{
-    		$this->db = new Database();
-    		$this->fm = new Format();
-    	}
+        private $db;
+        private $fm;
+        public function __construct()
+        {
+            $this->db = new Database();
+            $this->fm = new Format();
+        }
+         public function get_last_id()
+        {
+            $query = " SELECT userID FROM user order by userID desc LIMIT 1";
+            $result = $this->db->select($query);
+            return $result; 
+        }
         public function show_all_user(){
             $query = "SELECT * FROM user order by userID desc";
             //lấy các phần tử trong bảng rồi sắp xếp theo userID
@@ -25,6 +31,58 @@
             //lấy các phần tử trong bảng rồi sắp xếp theo userID
             $result = $this->db->select($query);
             return $result;
+        }
+        public function insert_user($data,$files) {
+            $userName = mysqli_real_escape_string($this->db->link, $data['userName']);
+            $userEmail = mysqli_real_escape_string($this->db->link, $data['userEmail']);
+            $userPhone = mysqli_real_escape_string($this->db->link, $data['userPhone']);
+            $password = mysqli_real_escape_string($this->db->link, md5($data['userPassword']));
+            $userAddress = mysqli_real_escape_string($this->db->link, $data['userAddress']);
+            $userRole = mysqli_real_escape_string($this->db->link, $data['userRole']);
+            $query ="INSERT INTO user(userName,userEmail,userPhone,userPassword, userAddress, userRole) VALUES('$userName','$userEmail','$userPhone','$password','$userAddress','$userRole')"; 
+            $result = $this->db->insert($query);
+            if($result){
+                $id = mysqli_fetch_array($this->get_last_id())[0];
+                foreach ($files['myImages']['tmp_name'] as $key => $image) {
+                    $name = $files['myImages']['name'][$key] ;
+                    $tmpName = $files['myImages']['tmp_name'][$key] ;
+                    $type = 'user';
+                    $directory = '../img/'.$type.'/';
+                    
+                    $result = move_uploaded_file($tmpName, $directory.$id.$name);
+                    if($name!=""){
+                        $query ="INSERT INTO image(typeID,type,name,img) VALUES('$id','$type','$name','$tmpName')"; 
+                        $result = $this->db->insert($query);
+                    }
+                }
+            }
+        }
+        public function update_user($data,$files) {
+            $userID = (int)mysqli_real_escape_string($this->db->link, $data['userID']);
+            $userName = mysqli_real_escape_string($this->db->link, $data['userName']);
+            $userEmail = mysqli_real_escape_string($this->db->link, $data['userEmail']);
+            $userPhone = mysqli_real_escape_string($this->db->link, $data['userPhone']);
+            $password = mysqli_real_escape_string($this->db->link, md5($data['userPassword']));
+            $userAddress = mysqli_real_escape_string($this->db->link, $data['userAddress']);
+            $userRole = mysqli_real_escape_string($this->db->link, $data['userRole']);
+            $query ="UPDATE user SET userName='$userName',userEmail='$userEmail',userPhone='$userPhone',userPassword='$password',userAddress='$userAddress',userRole='$userRole' WHERE userID = '$userID'"; 
+            $result = $this->db->update($query);
+            if($result){
+                $query ="DELETE FROM image WHERE type='user' AND typeID='$userID'"; 
+                $result = $this->db->DELETE($query);
+                foreach ($files['myImages']['tmp_name'] as $key => $image) {
+                    $name = $files['myImages']['name'][$key] ;
+                    $tmpName = $files['myImages']['tmp_name'][$key] ;
+                    $type = 'user';
+                    $directory = '../img/'.$type.'/';
+                    
+                    $result = move_uploaded_file($tmpName, $directory.$userID.$name);
+                    if($name!=""){
+                        $query ="INSERT INTO image(typeID,type,name,img) VALUES('$userID','$type','$name','$tmpName')"; 
+                        $result = $this->db->insert($query);
+                    }
+                }
+            }
         }
         public function create_user_admin($data){
             $userName = mysqli_real_escape_string($this->db->link, $data['userName']);
@@ -70,26 +128,15 @@
             $password = mysqli_real_escape_string($this->db->link, md5($data['userPassword']));
             $userAddress = mysqli_real_escape_string($this->db->link, $data['userAddress']);
             $userRole = 'user';
-<<<<<<< HEAD
-=======
-            $avatar = 'avatar_default.png';
->>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
             if(empty($userName) || empty($userEmail) || empty($userPhone) || empty($password)){
                 $alert= "<span class='error' style='color:red;font-size:23px;' > Must be not empty</span>";
                 return $alert;
             }
             else{
-<<<<<<< HEAD
                 $query ="INSERT INTO user(userName,userEmail,userPhone,userPassword, userAddress, userRole) VALUES('$userName','$userEmail','$userPhone','$password','$userAddress','$userRole')"; 
                 $result = $this->db->insert($query);
                 header('Location:signin.php');
                 if($result){
-=======
-                $query ="INSERT INTO user(userName,userEmail,userPhone,userPassword, userAddress, userRole,avatar) VALUES('$userName','$userEmail','$userPhone','$password','$userAddress','$userRole','$avatar')"; 
-                $result = $this->db->insert($query);
-                if($result){
-                    header('Location:signin.php');
->>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
                     $alert="<span class ='success' style='color:green;font-size:23px;'>Create account completion</span>";
                     return $alert;
                 }
@@ -111,16 +158,18 @@
                  $result=$this->db->select($query);
                  if($result==true){
                       $value= $result->fetch_assoc();
-                      if($value['userRole'] ==='user'){
-                      	Session::set('user_role','user'); 
-                      }
-                      else{
-                      	Session::set('user_role','admin');
-                      }
                       Session::set('user_login',true);
                       Session::set('user_id',$value['userID']);
                       Session::set('user_name',$value['userName']);
-                      header('Location:index.php');
+                      if($value['userRole'] ==='user'){
+                        Session::set('user_role','user'); 
+                        header('Location:index.php');
+                      }
+                      else{
+                        Session::set('user_role','admin');
+                        header('Location: ./admin/user.php');
+                      }
+                      
                  }else{
                      $alert= "<span style='color:red;font-size:23px;' > Name and password not match</span>";
                      return $alert;
@@ -168,12 +217,6 @@
             }
         }
          public function update_password_user($data,$id){
-<<<<<<< HEAD
-            $passwordOld = mysqli_real_escape_string($this->db->link, md5($data['passwordOld']));
-            $passwordNew = mysqli_real_escape_string($this->db->link, md5($data['passwordNew']));           
-            if(empty($passwordOld) || empty($passwordNew)){
-                $alert= "<span style='color:red;font-size:16px;margin-left: 21%;'> Bạn chưa điền đầy đủ thông tin!</span>";
-=======
             $passwordOld = mysqli_real_escape_string($this->db->link, $data['passwordOld']);
             $passwordNew = mysqli_real_escape_string($this->db->link, $data['passwordNew']);  
             $passwordConfirm = mysqli_real_escape_string($this->db->link, $data['passwordConfirm']);  
@@ -183,24 +226,12 @@
             }
             if($passwordNew != $passwordConfirm){
                 $alert= "<span style='color:red;font-size:16px;margin-left: 21%;'>Password confirm not match</span>";
->>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
                 return $alert;
             }
             else{ 
                     $query_check = "SELECT * FROM user WHERE userID = '$id' ";
                     $result_check = $this->db->select($query_check);
                     $result_check_final =$result_check->fetch_assoc();
-<<<<<<< HEAD
-                    if($result_check_final['password'] == $passwordOld){
-                        $query ="UPDATE user  SET userPassword='$passwordNew' WHERE userID = '$id' ";
-                        $result = $this->db->update($query);
-                        if($result){
-                              $alert= "<span style='color:green;font-size:16px;margin-left: 21%;'>Thay đổi mật khẩu thành công!</span>";
-                              return $alert;
-                        }
-                        else{
-                              $alert= "<span style='color:red;font-size:16px;margin-left: 21%;'> Thay đổi mật khẩu không thành công!</span>";
-=======
                     if($result_check_final['userPassword'] == md5($passwordOld)){
                         $passwordNew = md5($passwordNew);
                         $query ="UPDATE user  SET userPassword='$passwordNew' WHERE userID = '$id' ";
@@ -211,23 +242,16 @@
                         }
                         else{
                               $alert= "<span style='color:red;font-size:16px;margin-left: 21%;'>Error!</span>";
->>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
                               return $alert;
                         }
 
                     }
                     else{
-<<<<<<< HEAD
-                        $alert= "<span style='color:red;font-size:16px;margin-left: 21%;'>Thay đổi mật khẩu không thành công!</span>";
-=======
                         $alert= "<span style='color:red;font-size:16px;margin-left: 21%;'>Error!</span>";
->>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
                         return $alert;
                     }
             }
         }
-<<<<<<< HEAD
-=======
         public function update_avatar($files,$id){
             $file_name = $_FILES['image']['name'];
             
@@ -235,10 +259,16 @@
             $file_ext = strtolower(end($div));
             $unique_image = substr(md5(time()), 0,10).'.'.$file_ext;
             
+            $tmpName = $_FILES['image']['tmp_name'];
             if(!empty($file_name)){//chon anh
-                move_uploaded_file($_FILES['image']['tmp_name'], "img/avatar/$file_name");
-                $query ="UPDATE user  SET avatar='$file_name'  WHERE userID = '$id' ";
-                $result = $this->db->update($query);
+                $query ="DELETE FROM image WHERE type='user' AND typeID='$id'"; 
+                $result = $this->db->DELETE($query);
+
+                move_uploaded_file($_FILES['image']['tmp_name'], "img/user/$id$file_name");
+                $type ='user';
+                $query ="INSERT INTO image(typeID,type,name,img) VALUES('$id','$type','$file_name','$tmpName')"; 
+                $result = $this->db->insert($query);
+
                 if($result){
                      $alert="<span style='color:green;font-size:16px;margin:2% 20%;'>Update avatar successful</span>";
                      return $alert;
@@ -250,43 +280,5 @@
  
             }
         }
->>>>>>> 2cb0b312b08edae2325b125f0b132b0fbf872733
-        // public function withdraw($amount,$id){      
-        //      $query ="SELECT * FROM tbl_user WHERE userID = '$id' ";
-        //      $result = $this->db->select($query);
-        //      if($result){
-        //         $x=$result->fetch_assoc();
-        //         $balance=$x['balance'];
-        //      }
-        //      $new=$balance+$amount;
-        //      $query ="UPDATE tbl_user SET balance=$new WHERE userID = '$id' ";
-        //      $result = $this->db->update($query);
-        //      return ;
-        // }
-        // public function compare($amount,$id){      
-        //     $query ="SELECT * FROM tbl_user WHERE userID = '$id' ";
-        //     $result = $this->db->select($query);
-        //     if($result){
-        //             $x=$result->fetch_assoc();
-        //             $balance=$x['balance'];
-        //     }
-        //     if($balance<$amount)
-        //       return false;
-        //     else return true;
-        // }
-        // public function pay($amount,$id){      
-        //     $query ="SELECT * FROM tbl_user WHERE userID = '$id' ";
-        //     $result = $this->db->select($query);
-        //     if($result){
-        //             $x=$result->fetch_assoc();
-        //             $balance=$x['balance'];
-        //     }
-        //     $new=$balance-$amount;
-        //     $query ="UPDATE tbl_user SET balance=$new WHERE userID = '$id' ";
-        //     $result = $this->db->update($query);
-        //     Session::set('user_order',true); 
-        //     // header('Location:success.php');
-        //     Session::set('order_success',true);
-        // }
     }
  ?>
