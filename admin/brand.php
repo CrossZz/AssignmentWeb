@@ -501,18 +501,15 @@
             var inside = item["modelDesc"];
             var show = inside;
             var ids = "desc"+item['modelID'];
-            var x = [ids,inside]
-            console.log(ids);
             if(inside.length>100){
               show = inside.substr(0,99);
             }
-            varx = [inside,item["modelName"]];
             content += `
                   <tr>
                       <td>${item["modelID"]}</td>
                       <td>${item["modelName"]}</td>
                       <td id="${ids}">
-                        ${inside} <span style = "color:blue;" onclick="show(`+x+`)";>Xem thêm</span>
+                        ${show} <span style = "color:blue;" onclick="change(\``+inside+`\`,\``+ids+`\`)";>Xem thêm</span>
                       </td>
                       <td> 
                         <div id="imglist${item["modelID"]}">
@@ -528,6 +525,10 @@
           );
         tbody.innerHTML = content;
         getimg();
+      }
+      function change(content,id){
+        var t = getELE(id);
+        t.innerHTML = content;
       }
       get_all_models();
     </script>

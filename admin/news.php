@@ -489,14 +489,33 @@
           //item chính là 1 nd
           // content = `tr mới` + content(chứa các tr trước đó)
           if(item["postName"].toLowerCase().includes(search.toLowerCase())){
+            var inside = item["postDesc"];
+            var show = inside;
+            var ids = "desc"+item['modelID'];
+            if(inside.length>100){
+              show = inside.substr(0,99);
+            }
+            var inside2 = item["postContent"];
+            var show2 = inside2;
+            var ids2 = "cont"+item['modelID'];
+            if(inside.length>100){
+              show2 = inside2.substr(0,99);
+            }
             content += `
                   <tr>
                       <td>${item["postID"]}</td>
                       <td>${item["postName"]}</td>
-                      <td>${item["postDesc"]}</td>
-                      <td>${item["postContent"]}</td>
+                      <td id="${ids}">${show}
+                        <span style = "color:blue;" onclick="change(\``+inside+`\`,\``+ids+`\`)";>Xem thêm</span>
+                      </td>
+                      <td id="${ids2}">${show2}
+                        <span style = "color:blue;" onclick="change(\``+inside2+`\`,\``+ids2+`\`)";>Xem thêm</span>
+                      </td>
                       <td> 
                         <div id="imglist${item["postID"]}">
+                          <span onclick="change(\``+item["postContent"]+`\`,\``+item["postID"]+`\`)">
+                              Xem thêm
+                          </span>
                         </div>
                       </td>
                       <td>
@@ -510,7 +529,10 @@
         tbody.innerHTML = content;
         getimg();
       }
-
+      function change(content,id){
+        var t = getELE(id);
+        t.innerHTML = content;
+      }
       get_all_posts();
     </script>
 

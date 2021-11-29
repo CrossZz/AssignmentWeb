@@ -519,14 +519,30 @@
         var content = "";
         mang.map(function (item, index) {
           if(item["carName"].toLowerCase().includes(search.toLowerCase())){
+            var inside = item["carDesc"];
+            var show = inside;
+            var ids = "desc"+item['carID'];
+            if(inside.length>100){
+              show = inside.substr(0,99);
+            }
+            var inside2 = item["carContent"];
+            var show2 = inside2;
+            var ids2 = "cont"+item['carID'];
+            if(inside.length>100){
+              show2 = inside2.substr(0,99);
+            }
             content += `
                   <tr>
                       <td>${item["carID"]}</td>
                       <td>${item["modelName"]}</td>
                       <td>${item["carName"]}</td>
                       <td>${item["carPrice"]}</td>
-                      <td>${item["carDesc"]}</td>
-                      <td>${item["carContent"]}</td>
+                      <td id="${ids}">${show}
+                        <span style = "color:blue;" onclick="change(\``+inside+`\`,\``+ids+`\`)";>Xem thêm</span>
+                      </td>
+                      <td id="${ids2}">${show2}
+                        <span style = "color:blue;" onclick="change(\``+inside2+`\`,\``+ids2+`\`)";>Xem thêm</span>
+                      </td>
                       <td> 
                         <div id="imglist${item["carID"]}">
                         </div>
@@ -542,7 +558,10 @@
         tbody.innerHTML = content;
         getimg();
       }
-
+      function change(content,id){
+        var t = getELE(id);
+        t.innerHTML = content;
+      }
       get_all_cars();
     </script>
     <!-- Bootstrap -->
