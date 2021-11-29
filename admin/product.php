@@ -22,7 +22,7 @@
       session_destroy();
     }
     if(isset($_POST["submit"])) {
-      if ($_POST["modelName"]==""){
+      if (!isset($_POST["modelName"])){
         echo '<script>alert("Choose brand");</script>';
       }else if($_POST["carName"]==""){
         echo "<script type='text/javascript'>alert('Type Name');</script>";
