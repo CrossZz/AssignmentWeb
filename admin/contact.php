@@ -23,14 +23,18 @@
   if(isset($_POST["logout"])) {
     session_destroy();
   }
+  if(isset($_POST["change"])) {
+    $contact = new contact();
+    $contact_list = $contact->change_state($_POST["change"]);
+  }
   function get_all_products(){
-    $comment = new comment();
-    $comment_list = $comment->get_all_comment();
-    $comments = [];
-    while ($each_brand = mysqli_fetch_array($comment_list)){
-      array_push($comments,$each_brand);
+    $contact = new contact();
+    $contact_list = $contact->show_all_contact();
+    $contacts = [];
+    while ($each_brand = mysqli_fetch_array($contact_list)){
+      array_push($contacts,$each_brand);
     }
-    return $comments;
+    return $contacts;
   }
 ?>
 <html lang="en">
@@ -192,10 +196,10 @@
               <div class="row mb-3">
                 <div class="col">
                   <div class="input-group">
-                  <select class="form-control" id="searchCmt" onchange="search()" name="userRole">
+                  <select class="form-control" id="cnt" onchange="searchContact()" >
                     <option value=0>Tất cả</option>
-                    <option value=1>Xe hơi</option>
-                    <option value=2>Bài viết</option>
+                    <option value=1>Đã xem</option>
+                    <option value=2>Chưa xem</option>
                   </select>
                   </div>
                 </div>
@@ -204,17 +208,6 @@
               <div class="row mb-3">
                 <div class="col">
                   <div class="input-group">
-                    <!-- <input
-                      type="text"
-                      class="form-control"
-                      placeholder="Tên nhân viên"
-                      id="searchName"
-                    />
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="btnTimNV"
-                        ><i class="fa fa-search"></i
-                      ></span>
-                    </div> -->
                   </div>
                 </div>
               </div>
@@ -228,9 +221,9 @@
                     </th>
                     <th>Mã khách hàng</th>
                     <th>Nội dung</th>
-                    <th>Danh mục</th>
-                    <th>Mã bài</th>
-                    <!-- <th><em class="fa fa-cog"></em></th> -->
+                    <th>Email</th>
+                    <th>Trạng thái</th>
+                    <th><em class="fa fa-cog"></em></th>
                   </tr>
                 </thead>
                 <tbody id="tableDanhSach"></tbody>
@@ -263,18 +256,31 @@
     <script>
       
 
-      function get_all_comments(){
-        var comment=<?php echo json_encode(get_all_products());?>;
-        taoBang(comment);
+      function get_all_contacts(){
+        var contact=<?php echo json_encode(get_all_products());?>;
+        taoBang(contact);
       }
       function getELE(id) {
         return document.getElementById(id);
       }
-      function search(){
-        get_all_comments();
+      function searchContact(){
+          console.log("a");
+        get_all_contacts();
+      }
+      function change(id){
+        $.ajax({
+            type: "POST",
+            url: 'contact.php',
+            data:{"change": id},
+            success:function(result) {
+                location.reload();
+            }
+            
+        });
       }
       function taoBang(mang) {
-        var search = parseInt(getELE("searchCmt").value);
+        var search = 0;
+        search = parseInt(getELE("cnt").value);
         var tbody = getELE("tableDanhSach");
         // content chứa các thẻ tr(mỗi tr chứa thông tin 1 nd)
         var content = "";
@@ -286,48 +292,43 @@
           //item đại diện cho 1 phần tử trong mảng
           //item chính là 1 nd
           // content = `tr mới` + content(chứa các tr trước đó)
+          var ct = ``;
+          if(item["state"]=="Đã xem"){
+            ct=`<td></td>`;
+          }else if(item["state"]=="Chưa xem"){
+            ct=`<td id="ct${item["contactID"]}"><button class="btn btn-success"  onclick="change(${item['contactID']})" >Đã xem</button></td>`;
+          }
+          
           if (search==0){
-            if (item["commentCarID"]==0){
-              content += `
+            content = content+`
                     <tr>
-                        <td>${item["commentID"]}</td>
-                        <td>${item["commentUserID"]}</td>
-                        <td>${item["commentContent"]}</td>
-                        <td>Bài viết</td>
-                        <td>${item["commentPostID"]}</td>
+                        <td>${item["contactID"]}</td>
+                        <td>${item["userID"]}</td>
+                        <td>${item["content"]}</td>
+                        <td>${item["email"]}</td>
+                        <td>${item["state"]}</td>`+ct+
+                        `
                     </tr>`;
-            }else if(item["commentPostID"]==0){
-              content += `
+          }else if(search==1 && item["state"]=="Đã xem"){
+            content = content+`
                     <tr>
-                        <td>${item["commentID"]}</td>
-                        <td>${item["commentUserID"]}</td>
-                        <td>${item["commentContent"]}</td>
-                        <td>Xe hơi</td>
-                        <td>${item["commentCarID"]}</td>
+                        <td>${item["contactID"]}</td>
+                        <td>${item["userID"]}</td>
+                        <td>${item["content"]}</td>
+                        <td>${item["email"]}</td>
+                        <td>${item["state"]}</td>`+ct+
+                        `
                     </tr>`;
-            }   
-          }else if(search==1){
-            if(item["commentPostID"]==0){
-              content += `
+          }else if(search==2 && item["state"]=="Chưa xem"){
+            content = content+`
                     <tr>
-                        <td>${item["commentID"]}</td>
-                        <td>${item["commentUserID"]}</td>
-                        <td>${item["commentContent"]}</td>
-                        <td>Xe hơi</td>
-                        <td>${item["commentCarID"]}</td>
+                        <td>${item["contactID"]}</td>
+                        <td>${item["userID"]}</td>
+                        <td>${item["content"]}</td>
+                        <td>${item["email"]}</td>
+                        <td>${item["state"]}</td>`+ct+
+                        `
                     </tr>`;
-            }   
-          }else if(search==2){
-            if(item["commentCarID"]==0){
-              content += `
-                    <tr>
-                        <td>${item["commentID"]}</td>
-                        <td>${item["commentUserID"]}</td>
-                        <td>${item["commentContent"]}</td>
-                        <td>Bài viết</td>
-                        <td>${item["commentPostID"]}</td>
-                    </tr>`;
-            } 
           }
           
           }
@@ -335,8 +336,7 @@
         tbody.innerHTML = content;
         // console.log(content);
       }
-
-      get_all_comments();
+      get_all_contacts();
     </script>
 
 

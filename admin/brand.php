@@ -19,16 +19,33 @@
 ?>
 
 <?php 
+    if(isset($_POST["logout"])) {
+      session_destroy();
+    }
     if(isset($_POST["submit"])) {
-      $model = new model();
-      $model->insert_model($_POST,$_FILES);
-      header('Location: brand.php');
+      if ($_POST["modelName"]==""){
+        echo "<script type='text/javascript'>alert('Type Name');</script>";
+      }else if($_POST["modelDesc"]==""){
+        echo "<script type='text/javascript'>alert('Type Description');</script>";
+      }else{
+        $model = new model();
+        $model->insert_model($_POST,$_FILES);
+        header('Location: brand.php');
+      }
       
     }
     if(isset($_POST["submit1"])) {
-      $model = new model();
-      $model->update_model($_POST,$_FILES);
-      header('Location: brand.php');
+      if ($_POST["postID"]==""){
+        echo "<script type='text/javascript'>alert('Choose Id to update');</script>";
+      }else if ($_POST["modelName"]==""){
+        echo "<script type='text/javascript'>alert('Type Name');</script>";
+      }else if($_POST["modelDesc"]==""){
+        echo "<script type='text/javascript'>alert('Type Description');</script>";
+      }else{
+        $model = new model();
+        $model->update_model($_POST,$_FILES);
+        header('Location: brand.php');
+      }
     }
 ?>
 <?php
@@ -141,6 +158,12 @@
               Dịch vụ
             </a>
           </li>
+          <li>
+            <a href="./contact.php">
+              <i class="fa fa-book"></i>
+              Liên hệ
+            </a>
+          </li>
         </ul>
       </nav>
 
@@ -161,9 +184,23 @@
                 type="button"
                 class="btn btn-info navbar-btn"
                 id="logout-btn"
+                onclick="logout()"
               >
                 Đăng Xuất
               </button>
+              <script>
+              function logout() {
+                $.ajax({
+                type: "POST",
+                url: 'user.php',
+                data:{"logout": 1},
+                success:function(result) {
+                  location.reload();
+                }
+
+              });
+              }
+            </script>
             </div>
           </div>
         </nav>
@@ -223,7 +260,6 @@
                     </th>
                     <th>Tên</th>
                     <th>Mô tả</th>
-                    <th>Nội dung</th>
                     <th>Ảnh</th>
                     <th><em class="fa fa-cog"></em></th>
                   </tr>
@@ -462,12 +498,19 @@
         var content = "";
         mang.map(function (item, index) {
           if(item["modelName"].toLowerCase().includes(search.toLowerCase())){
+            var inside = item["modelDesc"];
+            var show = inside;
+            var ids = "desc"+item['modelID'];
+            if(inside.length>100){
+              show = inside.substr(0,99);
+            }
             content += `
                   <tr>
                       <td>${item["modelID"]}</td>
                       <td>${item["modelName"]}</td>
-                      <td>${item["modelDesc"]}</td>
-                      <td>${item["modelContent"]}</td>
+                      <td id="${ids}">
+                        ${show} <span style = "color:blue;" onclick="change(\``+inside+`\`,\``+ids+`\`)";>Xem thêm</span>
+                      </td>
                       <td> 
                         <div id="imglist${item["modelID"]}">
                         </div>
@@ -483,7 +526,10 @@
         tbody.innerHTML = content;
         getimg();
       }
-
+      function change(content,id){
+        var t = getELE(id);
+        t.innerHTML = content;
+      }
       get_all_models();
     </script>
     <!-- Date Picker -->

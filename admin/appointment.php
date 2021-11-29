@@ -20,6 +20,9 @@
 
 
 <?php
+  if(isset($_POST["logout"])) {
+    session_destroy();
+  }
   if(isset($_POST["iden"])) {
     delete_appointment($_POST["iden"]);
   }
@@ -129,6 +132,12 @@
               Dịch vụ
             </a>
           </li>
+          <li>
+            <a href="./contact.php">
+              <i class="fa fa-book"></i>
+              Liên hệ
+            </a>
+          </li>
         </ul>
       </nav>
 
@@ -149,9 +158,23 @@
                 type="button"
                 class="btn btn-info navbar-btn"
                 id="logout-btn"
+                onclick="logout()"
               >
                 Đăng Xuất
               </button>
+              <script>
+              function logout() {
+                $.ajax({
+                type: "POST",
+                url: 'user.php',
+                data:{"logout": 1},
+                success:function(result) {
+                  location.reload();
+                }
+
+              });
+              }
+            </script>
             </div>
           </div>
         </nav>
@@ -168,16 +191,7 @@
                     Danh sách lịch hẹn
                   </h3>
                 </div>
-                <div class="col-md-6 text-right">
-                  <button
-                    class="btn btn-primary"
-                    id="btnAddNews"
-                    data-toggle="modal"
-                    data-target="#myModal"
-                  >
-                    Chỉnh sửa lịch hẹn
-                  </button>
-                </div>
+                
               </div>
             </div>
             <!-- End Header -->
@@ -209,7 +223,6 @@
                       <span class="mr-1">Ngày</span>
                     </th>
                     <th>Mã khách hàng</th>
-                    <th>Trạng thái</th>
                     <th><em class="fa fa-cog"></em></th>
                   </tr>
                 </thead>
@@ -380,11 +393,8 @@
                       <td>${item["ID"]}</td>
                       <td>${item["date"]}</td>
                       <td>${item["userID"]}</td>
-                      <td>${item["state"]}</td>
                       <td>
                           <button class="btn btn-danger"  onclick="del(${item["ID"]})" >Xóa</button>
-                          <button data-toggle="modal"
-                          data-target="#myModal" class="btn btn-info">Sửa</button>
                       </td>
                   </tr>
               `;

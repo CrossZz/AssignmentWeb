@@ -32,7 +32,7 @@
             	return $alert;
             }
             else{
-                $state = "new";
+                $state = "Chưa xem";
             	$query ="INSERT INTO contact(userID, content, email, state) VALUES('$userID','$content','$email','$state')"; 
             	$result = $this->db->insert($query);
                 if($result){
@@ -51,7 +51,12 @@
             $result = $this->db->select($query);
             return $result;
         }
-
+        public function change_state($id){
+            $query = "UPDATE contact SET state ='Đã xem' WHERE contactID = '$id' ";
+            //lấy các phần tử trong bảng rồi sắp xếp theo catID
+            $result = $this->db->update($query);
+            return $result;
+        }
         public function show_all_contact(){
             $query = "SELECT * FROM contact order by contactID desc";
             //lấy các phần tử trong bảng rồi sắp xếp theo catID

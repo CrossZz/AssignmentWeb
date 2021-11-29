@@ -1,5 +1,5 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
@@ -370,7 +370,8 @@ ALTER TABLE `appointment`
 -- Chỉ mục cho bảng `car`
 --
 ALTER TABLE `car`
-  ADD PRIMARY KEY (`carID`);
+  ADD PRIMARY KEY (`carID`),
+  ADD KEY `carModel` (`carModel`);
 
 --
 -- Chỉ mục cho bảng `comment`

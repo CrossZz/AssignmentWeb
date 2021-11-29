@@ -18,9 +18,20 @@
     }
 ?>
 <?php 
+    if(isset($_POST["logout"])) {
+      session_destroy();
+    }
     if(isset($_POST["submit"])) {
       if (!isset($_POST["modelName"])){
-        echo '<script>alert("Chọn hãng");</script>';
+        echo '<script>alert("Choose brand");</script>';
+      }else if($_POST["carName"]==""){
+        echo "<script type='text/javascript'>alert('Type Name');</script>";
+      }else if($_POST["carPrice"]==""){
+        echo "<script type='text/javascript'>alert('Type Price');</script>";
+      }else if($_POST["carDesc"]==""){
+        echo "<script type='text/javascript'>alert('Type Description');</script>";
+      }else if($_POST["carContent"]==""){
+        echo "<script type='text/javascript'>alert('Type Content');</script>";
       }else{
         $car = new car();
         $car->insert_car($_POST,$_FILES);
@@ -29,11 +40,21 @@
       
     }
     if(isset($_POST["submit1"])) {
-      if (!isset($_POST["modelName"])){
-        echo '<script>alert("Chọn hãng");</script>';
+      if ($_POST["carID"]==""){
+        echo '<script>alert("Choose brand");</script>';
+      }else if ($_POST["modelName"]==""){
+        echo '<script>alert("Choose brand");</script>';
+      }else if($_POST["carName"]==""){
+        echo "<script type='text/javascript'>alert('Type Name');</script>";
+      }else if($_POST["carPrice"]==""){
+        echo "<script type='text/javascript'>alert('Type Price');</script>";
+      }else if($_POST["carDesc"]==""){
+        echo "<script type='text/javascript'>alert('Type Description');</script>";
+      }else if($_POST["carContent"]==""){
+        echo "<script type='text/javascript'>alert('Type Content');</script>";
       }else{
         $car = new car();
-        $car->update_car($_POST,$_FILES);
+        $car->insert_car($_POST,$_FILES);
         header('Location: product.php');
       }
       
@@ -155,6 +176,12 @@
               Dịch vụ
             </a>
           </li>
+          <li>
+            <a href="./contact.php">
+              <i class="fa fa-book"></i>
+              Liên hệ
+            </a>
+          </li>
         </ul>
       </nav>
 
@@ -175,9 +202,23 @@
                 type="button"
                 class="btn btn-info navbar-btn"
                 id="logout-btn"
+                onclick="logout()"
               >
                 Đăng Xuất
               </button>
+              <script>
+              function logout() {
+                $.ajax({
+                type: "POST",
+                url: 'user.php',
+                data:{"logout": 1},
+                success:function(result) {
+                  location.reload();
+                }
+
+              });
+              }
+            </script>
             </div>
           </div>
         </nav>
@@ -478,14 +519,30 @@
         var content = "";
         mang.map(function (item, index) {
           if(item["carName"].toLowerCase().includes(search.toLowerCase())){
+            var inside = item["carDesc"];
+            var show = inside;
+            var ids = "desc"+item['carID'];
+            if(inside.length>100){
+              show = inside.substr(0,99);
+            }
+            var inside2 = item["carContent"];
+            var show2 = inside2;
+            var ids2 = "cont"+item['carID'];
+            if(inside.length>100){
+              show2 = inside2.substr(0,99);
+            }
             content += `
                   <tr>
                       <td>${item["carID"]}</td>
                       <td>${item["modelName"]}</td>
                       <td>${item["carName"]}</td>
                       <td>${item["carPrice"]}</td>
-                      <td>${item["carDesc"]}</td>
-                      <td>${item["carContent"]}</td>
+                      <td id="${ids}">${show}
+                        <span style = "color:blue;" onclick="change(\``+inside+`\`,\``+ids+`\`)";>Xem thêm</span>
+                      </td>
+                      <td id="${ids2}">${show2}
+                        <span style = "color:blue;" onclick="change(\``+inside2+`\`,\``+ids2+`\`)";>Xem thêm</span>
+                      </td>
                       <td> 
                         <div id="imglist${item["carID"]}">
                         </div>
@@ -501,7 +558,10 @@
         tbody.innerHTML = content;
         getimg();
       }
-
+      function change(content,id){
+        var t = getELE(id);
+        t.innerHTML = content;
+      }
       get_all_cars();
     </script>
     <!-- Bootstrap -->
