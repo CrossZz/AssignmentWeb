@@ -163,6 +163,8 @@
         public function delete_car($id){
             $query = "DELETE FROM image WHERE typeID = $id AND type = 'car'";
             $result = $this->db->delete($query);
+            $query = "DELETE FROM comment WHERE commentCarID = '$id'";
+            $result = $this->db->delete($query);
             $query = "DELETE FROM car WHERE carID='$id' ";
             $result = $this->db->delete($query);
             if($result){

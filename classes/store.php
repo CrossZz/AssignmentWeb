@@ -45,7 +45,7 @@
             }
     	}
         public function show_store(){
-            $query = "SELECT * FROM store order by storeID desc";
+            $query = "SELECT * FROM store order by storeID desc LIMIT 1";
             //lấy các phần tử trong bảng rồi sắp xếp theo catID
             $result = $this->db->select($query);
             return $result;
@@ -92,6 +92,12 @@
                 $alert= "<span class='error' > Dalete not completion</span>";
                 return $alert;
             }
+        }
+        public function update_store_($data){
+            $storePhone = mysqli_real_escape_string($this->db->link, $data['storePhone']);
+            $storeEmail = mysqli_real_escape_string($this->db->link, $data['storeEmail']);
+            $query ="UPDATE store SET storePhone ='$storePhone', storeEmail ='$storeEmail' WHERE storeID    = 1"; 
+            $result = $this->db->update($query);
         }
     }
  ?>

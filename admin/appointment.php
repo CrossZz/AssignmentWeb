@@ -223,6 +223,8 @@
                       <span class="mr-1">Ngày</span>
                     </th>
                     <th>Mã khách hàng</th>
+                    <th>Tên cửa hàng</th>
+                    <th>Nội dung</th>
                     <th><em class="fa fa-cog"></em></th>
                   </tr>
                 </thead>
@@ -393,6 +395,8 @@
                       <td>${item["ID"]}</td>
                       <td>${item["date"]}</td>
                       <td>${item["userID"]}</td>
+                      <td>${item["store"]}</td>
+                      <td>${item["content"]}</td>
                       <td>
                           <button class="btn btn-danger"  onclick="del(${item["ID"]})" >Xóa</button>
                       </td>

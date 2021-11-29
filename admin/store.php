@@ -2,7 +2,6 @@
 <?php
   include 'header.php';
 ?>
-
 <?php 
     $check_login = Session::get('user_login');
     if($check_login){
@@ -18,68 +17,31 @@
       header('Location: ../index.php');
     }
 ?>
-<?php 
-    if(isset($_POST["logout"])) {
-      session_destroy();
-    }
-    if(isset($_POST["submit"])) {
-      if ($_POST["postName"]==""){
-        echo '<script>alert("Type Name");</script>';
-      }else if($_POST["postDesc"]==""){
-        echo "<script type='text/javascript'>alert('Type Description');</script>";
-      }else if($_POST["postContent"]==""){
-        echo "<script type='text/javascript'>alert('Type Content');</script>";
-      }else{
-        $post = new post();
-        $post->insert_post($_POST,$_FILES);
-        header('Location: news.php');
-      }
-      
-    }
-    if(isset($_POST["submit1"])) {
-      if ($_POST["postID"]==""){
-        echo "<script type='text/javascript'>alert('Choose Id to update');</script>";
-      }else if ($_POST["postName"]==""){
-        echo "<script type='text/javascript'>alert('Type Name');</script>";
-      }else if($_POST["postDesc"]==""){
-        echo "<script type='text/javascript'>alert('Type Description');</script>";
-      }else if($_POST["postContent"]==""){
-        echo "<script type='text/javascript'>alert('Type Content');</script>";
-      }else{
-        $post = new post();
-        $post->update_post($_POST,$_FILES);
-        header('Location: news.php');
-      }
-    }
-?>
+
+
 <?php
-  function getimg(){
-    $type='post';
-    $image = new image();
-    $image_list = $image->get_images_by_type($type);
-    $images = [];
-    while ($each_brand = mysqli_fetch_array($image_list)){
-      array_push($images,$each_brand);
+  if(isset($_POST["logout"])) {
+    session_destroy();
+  }
+  if(isset($_POST["submit1"])) {
+    if ($_POST["storePhone"]==""){
+      echo "<script type='text/javascript'>alert('Type Phone number');</script>";
+    }else if ($_POST["storeEmail"]==""){
+      echo "<script type='text/javascript'>alert('Type Email');</script>";
+    }else{
+      $store = new store();
+      $store->update_store_($_POST);
+      header('Location: store.php');
     }
-    return $images;
-  }
-  
-  if(isset($_POST["iden"])) {
-    delete_post($_POST["iden"]);
-  }
-  
-  function delete_post($id){
-    $post = new post();
-    $post->delete_post($id);
   }
   function get_all_products(){
-    $post = new post();
-    $post_list = $post->show_post();
-    $posts = [];
-    while ($each_brand = mysqli_fetch_array($post_list)){
-      array_push($posts,$each_brand);
+    $store = new store();
+    $store_list = $store->show_store();
+    $stores = [];
+    while ($each_brand = mysqli_fetch_array($store_list)){
+      array_push($stores,$each_brand);
     }
-    return $posts;
+    return $stores;
   }
 ?>
 <html lang="en">
@@ -219,55 +181,61 @@
               <div class="row">
                 <div class="col-md-6">
                   <h3 class="text-left text-primary font-weight-bold">
-                    Danh sách tin tức
+                    Thông tin cửa hàng
                   </h3>
                 </div>
                 <div class="col-md-6 text-right">
                   <button
                     class="btn btn-primary"
-                    id="btnAddNews"
+                    id="btnAddBrand"
                     data-toggle="modal"
                     data-target="#myModal"
                   >
-                    Thêm, sửa tin
+                    Sửa thông tin cửa hàng
                   </button>
                 </div>
+                <!-- <div class="col-md-6 text-right">
+                  <button
+                    class="btn btn-primary"
+                    id="btnThem"
+                    data-toggle="modal"
+                    data-target="#myModal"
+                  >
+                    
+                  </button>
+                </div> -->
               </div>
             </div>
             <!-- End Header -->
 
             <!-- Start Body -->
+            
             <div class="card-body">
               <div class="row mb-3">
                 <div class="col">
                   <div class="input-group">
-                    <input
+                    <!-- <input
                       type="text"
                       class="form-control"
-                      placeholder="Tên tin tức"
+                      placeholder="Tên nhân viên"
                       id="searchName"
                     />
                     <div class="input-group-prepend">
-                      <span class="input-group-text" id="btnTimTt"
-                        ><i class="fa fa-search" onclick="search()"></i
+                      <span class="input-group-text" id="btnTimNV"
+                        ><i class="fa fa-search"></i
                       ></span>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
               <table class="table table-bordered table-hover myTable">
                 <thead class="text-primary">
                   <tr>
-                    <th class="nowrap">
-                      <span class="mr-1">Mã Số</span>
-                      <!-- <i class="fa fa-arrow-up" id="SapXepTang"></i>
-                      <i class="fa fa-arrow-down" id="SapXepGiam"></i> -->
-                    </th>
+                    <th>Địa chỉ</th>
                     <th>Tên</th>
-                    <th>Mô tả</th>
-                    <th>Nội dung</th>
-                    <th>Ảnh</th>
-                    <th><em class="fa fa-cog"></em></th>
+                    <th>Số điện thoại</th>
+                    <th>Email</th>
+                    <!-- <th><em class="fa fa-cog"></em></th> -->
                   </tr>
                 </thead>
                 <tbody id="tableDanhSach"></tbody>
@@ -289,8 +257,7 @@
         </div>
       </div>
     </div>
-
-    <!-- The Modal -->
+                <!-- The Modal -->
     <div class="modal fade" id="myModal">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -298,100 +265,50 @@
             <h2 id="header-title">Edit</h2>
           </header>
 
+          <!-- Modal Header -->
+          <!-- 	<div class="modal-header">
+					<h4 class="modal-title" id="modal-title">Modal Heading</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div> -->
+
           <!-- Modal body -->
           <div class="modal-body">
-          <form role="form" method = "post" enctype = "multipart/form-data"  id="formTt">
-              
+            <form role="form" method = "post" enctype = "multipart/form-data" id="formH">
             <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"
-                      ><i class="fa fa-user"></i
+                      ><i class="fa fa-phone"></i
                     ></span>
                   </div>
                   <input
-                    type="text"
-                    name="postID"
-                    id="postID"
+                    type="number"
+                    name="storePhone"
+                    id="storePhone"
                     class="form-control input-sm"
-                    placeholder="Mã số"
+                    placeholder="Điện thoại"
                   />
                 </div>
-                <span class="sp-thongbao" id="tbpostID"></span>
+                <span class="sp-thongbao" id="tbUserPhone"></span>
               </div>
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"
-                      ><i class="fa fa-address-book"></i
+                      ><i class="fa fa-envelope"></i
                     ></span>
                   </div>
                   <input
-                    type="text"
-                    name="postName"
-                    id="postName"
+                    type="email"
+                    name="storeEmail"
+                    id="storeEmail"
                     class="form-control input-sm"
-                    placeholder="Tên"
+                    placeholder="Email"
                   />
                 </div>
-                <span class="sp-thongbao" id="tbpostName"></span>
+                <span class="sp-thongbao" id="tbUserEmail"></span>
               </div>
 
-              <div class="form-group">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><i class="fa fa-address-book"></i
-                    ></span>
-                  </div>
-                  <input
-                    type="text"
-                    name="postDesc"
-                    id="postDesc"
-                    class="form-control input-sm"
-                    placeholder="Mô tả"
-                  />
-                </div>
-                <span class="sp-thongbao" id="tbpostDesc"></span>
-              </div>
-
-              <div class="form-group">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><i class="fa fa-address-book"></i
-                    ></span>
-                  </div>
-                  <input
-                    type="text"
-                    name="postContent"
-                    id="postContent"
-                    class="form-control input-sm"
-                    placeholder="Nội dung"
-                  />
-                </div>
-                <span class="sp-thongbao" id="tbpostContent"></span>
-              </div>
-
-              <div class="form-group">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"
-                      ><i class="fa fa-address-book"></i
-                    ></span>
-                  </div>
-                  <input
-                    type="file"
-                    name="myImages[]"
-                    id="newsImage"
-                    class="form-control input-sm"
-                    placeholder="Ảnh"
-                    multiple=""
-                  />
-                </div>
-                <span class="sp-thongbao" id="tbNewsImage"></span>
-              </div>
-            <input type="submit" name="submit" value = "Thêm" class="btn btn-success">
             <input type="submit" name="submit1" value = "Sửa" class="btn btn-success">
             <button
               id="btnDong"
@@ -410,73 +327,24 @@
       </div>
     </div>
 
-
-
-
-
-    
     <!-- Bootstrap -->
     <script src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/jquery.easing.min.js"></script>
     <script type="text/javascript" src="js/popper.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    
+
 
     <script>
+      
 
-      function get_all_posts(){
-        var posts=<?php echo json_encode(get_all_products());?>;
-        taoBang(posts);
+      function get_all_stores(){
+        var show_store=<?php echo json_encode(get_all_products());?>;
+        taoBang(show_store);
       }
       function getELE(id) {
         return document.getElementById(id);
       }
-      function del(id) {
-        $.ajax({
-            type: "POST",
-            url: 'news.php',
-            data:{"iden":id},
-            success:function(result) {
-              // get_all_posts();
-              location.reload();
-            }
-
-        });
-        
-      }
-      function search(){
-        get_all_posts();
-      }
-      function update(){
-        var postID = parseInt(getELE("postID").value);
-        var postName = getELE("postName").value;
-        var postDesc = getELE("postDesc").value;
-        var postContent = getELE("postContent").value;
-
-        var data = [];
-        $.ajax({
-            type: "POST",
-            url: 'news.php',
-            data:{"u_post": 1,"postID":postID,"postName":postName,"postDesc":postDesc,"postContent":postContent},
-            success:function(result) {
-              location.reload();
-            }
-
-        });
-      }
-
-      function getimg(){
-        var imgs=<?php echo json_encode(getimg());?>;
-        imgs.map(function (item, index) {
-          // key = 'post';
-          id = 'imglist'.concat(item["typeID"]);
-          if(getELE(id)&&item["name"]!=""){
-            getELE(id).innerHTML += `<img style="width:50px;height:40px;" src="../img/post/${item["typeID"]}${item["name"]}"/>`;
-          }
-        });
-      }
       function taoBang(mang) {
-        var search = getELE("searchName").value;
         var tbody = getELE("tableDanhSach");
         // content chứa các thẻ tr(mỗi tr chứa thông tin 1 nd)
         var content = "";
@@ -488,57 +356,30 @@
           //item đại diện cho 1 phần tử trong mảng
           //item chính là 1 nd
           // content = `tr mới` + content(chứa các tr trước đó)
-          if(item["postName"].toLowerCase().includes(search.toLowerCase())){
-            var inside = item["postDesc"];
-            var show = inside;
-            var ids = "desc"+item['postID'];
-            if(inside.length>100){
-              show = inside.substr(0,99);
-            }
-            var inside2 = item["postContent"];
-            var show2 = inside2;
-            var ids2 = "cont"+item['postID'];
-            if(inside.length>100){
-              show2 = inside2.substr(0,99);
-            }
-            content += `
-                  <tr>
-                      <td>${item["postID"]}</td>
-                      <td>${item["postName"]}</td>
-                      <td id="${ids}">${show}
-                        <span style = "color:blue;" onclick="change(\``+inside+`\`,\``+ids+`\`)";>Xem thêm</span>
-                      </td>
-                      <td id="${ids2}">${show2}
-                        <span style = "color:blue;" onclick="change(\``+inside2+`\`,\``+ids2+`\`)";>Xem thêm</span>
-                      </td>
-                      <td> 
-                        <div id="imglist${item["postID"]}">
-                        </div>
-                      </td>
-                      <td>
-                          <button class="btn btn-danger"  onclick="del(${item["postID"]})" >Xóa</button>
-                      </td>
-                  </tr>
-              `;
-        }
-          }
+          
+          
+          content += `
+                    <tr>
+                        <td>${item["storeAddress"]}</td>
+                        <td>${item["storeName"]}</td>
+                        <td>${item["storePhone"]}</td>
+                        <td>${item["storeEmail"]}</td>
+                    </tr>`;}
           );
         tbody.innerHTML = content;
-        getimg();
+        // console.log(content);
       }
-      function change(content,id){
-        var t = getELE(id);
-        t.innerHTML = content;
-      }
-      get_all_posts();
+
+      get_all_stores();
     </script>
+
 
 
     <!-- Date Picker -->
     <!-- <script src="js/jquery-ui.min.js"></script> -->
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="js/datepicker.js"></script>
-
+    
     <!-- <script src="js/modal.js"></script> -->
 
     <!-- <script type="text/javascript">
@@ -548,13 +389,11 @@
         });
       });
     </script> -->
-      
+
     <script src="./js/main/Data.js"></script>
     <script src="./js/main/DataList.js"></script>
     <script src="./js/main/Validation.js"></script>
 
-    <!-- <script src="./js/main/mainNews.js"></script> -->
-    
+    <script src="./js/main/main.js"></script>
   </body>
-  
 </html>

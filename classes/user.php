@@ -39,7 +39,11 @@
             $password = mysqli_real_escape_string($this->db->link, md5($data['userPassword']));
             $userAddress = mysqli_real_escape_string($this->db->link, $data['userAddress']);
             $userRole = mysqli_real_escape_string($this->db->link, $data['userRole']);
-            
+            $query = "SELECT * FROM user WHERE userEmail = '$userEmail'";
+            $result = $this->db->select($query);
+            if($result){
+                return;
+            }
             $query ="INSERT INTO user(userName,userEmail,userPhone,userPassword, userAddress, userRole) VALUES('$userName','$userEmail','$userPhone','$password','$userAddress','$userRole')"; 
             $result = $this->db->insert($query);
             if($result){
@@ -154,6 +158,8 @@
             $query = "DELETE FROM user WHERE userID = '$id'";
             $result = $this->db->delete($query);
             $query = "DELETE FROM appointment WHERE userID = '$id'";
+            $result = $this->db->delete($query);
+            $query = "DELETE FROM contact WHERE userID = '$id'";
             $result = $this->db->delete($query);
             $query = "DELETE FROM image WHERE typeID = '$id' AND type = 'user'";
             $result = $this->db->delete($query);

@@ -174,7 +174,7 @@
               <div class="row">
                 <div class="col-md-6">
                   <h3 class="text-left text-primary font-weight-bold">
-                    Danh sách bình luận
+                    Danh sách liên hệ
                   </h3>
                 </div>
                 <!-- <div class="col-md-6 text-right">

@@ -58,7 +58,11 @@
             $result = $this->db->select($query);
             return $result;
         }
-        
+        public function show_all_appointment (){
+            $query = "SELECT * FROM appointment  order by ID desc";
+            $result = $this->db->select($query);
+            return $result;
+        }
         public function update_appointment_admin($data){
             $id = $data['id'];
             $state = mysqli_real_escape_string($this->db->link, $data['state']);

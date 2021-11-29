@@ -82,6 +82,10 @@
             }
         }
         public function delete_post($id){
+            $query = "DELETE FROM image WHERE typeID = $id AND type = 'post'";
+            $result = $this->db->delete($query);
+            $query = "DELETE FROM comment WHERE commentPostID = '$id'";
+            $result = $this->db->delete($query);
             $query = "DELETE FROM post WHERE postID='$id' ";
             $result = $this->db->delete($query);
             if($result){
