@@ -491,13 +491,13 @@
           if(item["postName"].toLowerCase().includes(search.toLowerCase())){
             var inside = item["postDesc"];
             var show = inside;
-            var ids = "desc"+item['modelID'];
+            var ids = "desc"+item['postID'];
             if(inside.length>100){
               show = inside.substr(0,99);
             }
             var inside2 = item["postContent"];
             var show2 = inside2;
-            var ids2 = "cont"+item['modelID'];
+            var ids2 = "cont"+item['postID'];
             if(inside.length>100){
               show2 = inside2.substr(0,99);
             }
