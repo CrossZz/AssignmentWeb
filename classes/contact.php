@@ -32,7 +32,7 @@
             	return $alert;
             }
             else{
-                $state = "new";
+                $state = "Chưa xem";
             	$query ="INSERT INTO contact(userID, content, email, state) VALUES('$userID','$content','$email','$state')"; 
             	$result = $this->db->insert($query);
                 if($result){

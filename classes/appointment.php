@@ -22,7 +22,6 @@
     	}
     	public function create_appointment($userID,$data)
     	{
-           
             $content = mysqli_real_escape_string($this->db->link, $data['content']);
             $date = mysqli_real_escape_string($this->db->link, $data['time']);
             $store = mysqli_real_escape_string($this->db->link, $data['store']);
@@ -32,8 +31,14 @@
             	return $alert;
             }
             else{
-                $state = "new";
-            	$query ="INSERT INTO appointment (userID,content,store,date,state) VALUES('$userID','$content','$store','$date','$state')"; 
+                $query_check = "SELECT * FROM appointment WHERE userID ='$userID' limit 1";
+                $result_check = $this->db->select($query_check);
+                if($result_check){
+                    $query = "DELETE FROM appointment  WHERE userID='$userID' ";
+                    $result = $this->db->delete($query);
+                }
+                // $state = "new";
+            	$query ="INSERT INTO appointment (userID,content,store,date) VALUES('$userID','$content','$store','$date')"; 
             	$result = $this->db->insert($query);
                 if($result){
                     $alert="<span class ='success'> Add appointment  completion</span>";
@@ -45,15 +50,10 @@
                 }
             }
     	}
-        public function get_comment($id){
-            $query = "SELECT * FROM appointment WHERE ID ='$id' limit 1";
-            //lấy các phần tử trong bảng rồi sắp xếp theo catID
-            $result = $this->db->select($query);
-            return $result;
-        }
 
-        public function show_all_appointment (){
-            $query = "SELECT * FROM appointment  order by ID desc";
+        public function show_appointment (){
+            $userid=Session::get('user_id');
+            $query = "SELECT * FROM appointment  WHERE userID = $userid limit 1";
             //lấy các phần tử trong bảng rồi sắp xếp theo catID
             $result = $this->db->select($query);
             return $result;
@@ -92,7 +92,6 @@
         }
         public function del_appointment ($id){
             $query = "DELETE FROM appointment  WHERE ID='$id' ";
-            //chọn phần tử trong bảng với đk appointment ID= id 
             $result = $this->db->delete($query);
             if($result){
                 $alert= "<span class='success' > Delete completion</span>";

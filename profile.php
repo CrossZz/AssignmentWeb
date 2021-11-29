@@ -331,35 +331,36 @@
                         <h2 class="title">Reminders</h2>
                         <form class="form-horizontal">
                             <fieldset class="fieldset">
+                            		<?php
+                            			$get_appointment = $appointment->show_appointment();
+                            			if($get_appointment){
+                            				$result = $get_appointment->fetch_assoc();
 
-
+                            		?>
                                 <div class="form-group">
                                     <label class="col-md-2 col-sm-3 col-xs-12 control-label">Time</label>
                                     <div class="col-md-10 col-sm-9 col-xs-12">
-                                        <input type="text" class="form-control" value="7:00 AM, 8/10/2021" disabled>
+                                        <input type="text" class="form-control" value="<?php echo $result['date']?>" disabled>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="col-md-2 col-sm-3 col-xs-12 control-label">Address</label>
                                     <div class="col-md-10 col-sm-9 col-xs-12">
-                                        <input type="text" class="form-control" value="123 Q1" disabled>
+                                        <input type="text" class="form-control" value="<?php echo $result['store']?>" disabled>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="col-md-2 col-sm-3 col-xs-12 control-label">Store</label>
+                                    <label class="col-md-2 col-sm-3 col-xs-12 control-label">Content</label>
                                     <div class="col-md-10 col-sm-9 col-xs-12">
-                                        <input type="text" class="form-control" value="123 Q1" disabled>
+                                        <input type="text" class="form-control" value="<?php echo $result['content']?>" disabled>
                                     </div>
                                 </div>
 
-                                <!-- <div class="form-group">
-                                    <label class="col-md-2 col-sm-3 col-xs-12 control-label">Confirm Password</label>
-                                    <div class="col-md-10 col-sm-9 col-xs-12">
-                                        <input type="password" class="form-control" value="">
-                                    </div>
-                                </div> -->
+                                <?php 
+		                            }
+                                 ?>
 
                             </fieldset>
 
