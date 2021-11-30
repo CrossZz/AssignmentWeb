@@ -72,7 +72,7 @@
         </div>
 
         <ul class="list-unstyled components">
-          <li class="active">
+          <li>
             <a href="./user.php">
               <i class="fa fa-user"></i>
               Người dùng
@@ -96,7 +96,7 @@
               Lịch hẹn
             </a>
           </li>
-          <li>
+          <li class="active">
             <a href="./comment.php">
               <i class="fa fa-comment"></i>
               Bình luận
@@ -120,6 +120,12 @@
               Liên hệ
             </a>
           </li>
+          <li>
+            <a href="./store.php">
+              <i class="fa fa-building"></i>
+              Cửa hàng
+            </a>
+          </li>
         </ul>
       </nav>
 
@@ -136,6 +142,20 @@
               >
                 Hide
               </button> -->
+              <button
+                type="button"
+                class="btn btn-info navbar-btn"
+                id="mainpage-btn"
+                onclick="mainpage()"
+              >
+                Trang chủ
+              </button>
+              <script>
+                var btn = document.getElementById('mainpage-btn');
+                btn.addEventListener('click', function() {
+                  document.location.href = '../index.php';
+                });
+              </script>
               <button
                 type="button"
                 class="btn btn-info navbar-btn"

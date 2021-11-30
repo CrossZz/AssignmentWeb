@@ -220,6 +220,23 @@
                                 </li>
                                 <li id="password"><a href="#info"><span class="fa fa-cog"></span> Password</a></li>
                                 <li id="reminders"><a href="#info"><span class="fa fa-clock-o"></span> Reminders</a></li>
+                                <li>
+                                <button
+                                    type="button"
+                                    class="btn btn-info navbar-btn"
+                                    id="admin-btn"
+                                    style="margin-left:30px"
+                                >
+                                    Admin
+                                </button>
+                                <script>
+                                    var btn = document.getElementById('admin-btn');
+                                    btn.addEventListener('click', function() {
+                                    document.location.href = 'admin/user.php';
+                                    });
+                                </script>
+                                </li>
+                                
                             </ul>
                         </nav>
                     </div>
